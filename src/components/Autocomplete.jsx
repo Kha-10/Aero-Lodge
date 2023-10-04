@@ -6,9 +6,9 @@ import PlacesAutocomplete, {
   } from 'react-places-autocomplete';
   import PropTypes from 'prop-types';
 
-const Autocomplete = ({setCoordinates} ) => {
-    const [address, setAddress] = useState("");
+  const Autocomplete = ({setCoordinates} ) => {
 
+    const [address, setAddress] = useState("");
 
     const handleAddressChange = (newAddress) => {
         setAddress(newAddress)
