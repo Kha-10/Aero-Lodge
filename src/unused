@@ -1,0 +1,107 @@
+// const getCoordinates = () => {
+  //   const apiKey = 'AIzaSyCWeP_bYPe-sFrc8KW3cui-ewKk3442YRk';
+  //   const geocodeApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`;
+    
+  //   axios.get(geocodeApiUrl)
+  //     .then((response) => {
+  //       const result = response.data.results[0];
+  //       console.log(result)
+  //       if (result) {
+  //         const { lat, lng } = result.geometry.location;
+  //         setCoordinates({ latitude: lat, longitude: lng });
+  //       } else {
+  //         setCoordinates({ latitude: null, longitude: null });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching coordinates:', error);
+  //     });
+  // };
+
+  // const handleLocationChange = (event) => {
+  //   setLocation(event.target.value);
+  // };
+
+  {/* <div className=''>
+          <h1>Location Coordinates Finder</h1>
+          <div className="relative w-[300px] h-[60px] p-3 border border-gray-400 flex items-center rounded-lg">
+            <div className="absolute left-1 flex items-center pl-3 pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+              </svg>
+
+            </div>
+            <input
+                className='w-full h-[40px] pl-11  flex px-8 items-center rounded-md text-black placeholder-black'
+                  type="text"
+                  placeholder="Enter your destination"
+                  value={location}
+                  onChange={handleLocationChange}
+                />
+              
+      
+            <button onClick={getCoordinates}>Get Coordinates</button>
+          </div>
+          {coordinates.latitude && coordinates.longitude ? (
+          <div>
+            <p>Latitude: {coordinates.latitude}</p>
+            <p>Longitude: {coordinates.longitude}</p>
+          </div>
+        ) : (
+          <p>Coordinates not found for this location.</p>
+        )}
+        </div> */}
+
+        // if (children>0) {
+        //   try{
+        //     const response = await axios.get('https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates',{
+        //       params: {
+        //         units: 'metric',
+        //         room_number: '1',
+        //         longitude: longitude,
+        //         latitude: latitude,
+        //         filter_by_currency: 'AED',
+        //         order_by: 'popularity',
+        //         locale: 'en-gb',
+        //         checkout_date: formattedCheckoutDate,
+        //         adults_number: '2',
+        //         checkin_date: formattedCheckinDate,
+        //         children_number: children,
+        //     },
+        //     headers: {
+        //       'X-RapidAPI-Key': '41fe300d32msh3792baa011564d6p153a1bjsn0eb8d15f8eb0',
+        //       'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
+        //     }
+        //   })
+        //   console.log(response)
+        //   }
+        //   catch (error) {
+        //     console.log('error', error.message)
+        //   }
+        // }
+        // else {
+        //   try{
+        //     const response = await axios.get('https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates',{
+        //       params: {
+        //         units: 'metric',
+        //         room_number: '1',
+        //         longitude: longitude,
+        //         latitude: latitude,
+        //         filter_by_currency: 'AED',
+        //         order_by: 'popularity',
+        //         locale: 'en-gb',
+        //         checkout_date: formattedCheckoutDate,
+        //         adults_number: '2',
+        //         checkin_date: formattedCheckinDate,
+        //     },
+        //     headers: {
+        //       'X-RapidAPI-Key': '41fe300d32msh3792baa011564d6p153a1bjsn0eb8d15f8eb0',
+        //       'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
+        //     }
+        //   })
+        //   console.log(response)
+        //   }
+        //   catch (error) {
+        //     console.log('error', error.message)
+        //   }
+        // }
