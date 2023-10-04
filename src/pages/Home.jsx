@@ -47,6 +47,7 @@ const checkOutDay = checkoutDate.getDate().toString().padStart(2,0);
 
 const formattedCheckoutDate = `${checkOutYear}-${checkOutMonth}-${checkOutDay}`;
 
+
 const addHandler = () => {
     if (children < 10) {
       setChildren( prevChildren => prevChildren +1);
@@ -189,11 +190,13 @@ const addHandler = () => {
           const {data :{result}} = await axios.get ('https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates',{
             params : params ,
             headers: {
-              'X-RapidAPI-Key': 'f5d6e53d36msh7f177c6bbb4569ep1b2407jsn24136a67509e',
+              'X-RapidAPI-Key': process.env.REACT_APP_BOOKING_API_KEY ,
               'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
             }
+            
           })
         console.log(result);
+
       } 
       catch (error) {
           // Something else went wrong
