@@ -55,7 +55,7 @@ const Navbar = () => {
                     <span className='text-sm font-medium'>
                         USD
                     </span>
-                    <button className='text-blue-400 border border-blue-500 rounded px-4 py-2 text-sm font-medium hover:bg-blue-500 hover:text-white'>
+                    <button className='text-blue-500 border border-blue-500 rounded px-4 py-2 text-sm font-medium hover:bg-blue-500 hover:text-white'>
                         Sign in
                     </button>
                 </li>
