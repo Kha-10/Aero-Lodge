@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const Child = ({removeHandler,child,addHandler,array,handleChange,selectedOption,options}) => {
   
+  const{t} = useTranslation();
+
   return (
     <div className='flex items-center gap-5'>
             <div className='w-full'>
               <div className='flex items-center gap-5 justify-between'>
-                <div>Children</div>
+                <div>{t('children',{count : child})}</div>
                 <div className='flex items-center gap-6 border border-b px-4 py-2 border-gray-400 rounded-md'>
                   <button onClick={removeHandler} className={child === 0? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full "}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -26,9 +29,9 @@ const Child = ({removeHandler,child,addHandler,array,handleChange,selectedOption
                 {!!array && array.map((a,i)=>(
                     <div key={i} className='mt-3'>
                         <div className='relative border border-gray-400 rounded-lg px-1 py-1 w-[130px] flex items-center'>
-                          <select onChange={(event) => handleChange(event, i)}  value={selectedOption[i] || ""}  id="ageSelect" className='w-full px-2 text-sm appearance-none focus:outline-none  text-gray-900 rounded-lg py-2'>
-                            <option value="">Age needed</option>
-                              {options.map((option) => (
+                          <select onChange={(event) => handleChange(event, i)}  value={selectedOption[i] || ""}  id="ageSelect" className='w-[85%] px-2 truncate text-sm appearance-none focus:outline-none  text-gray-900 rounded-lg py-2'>
+                            <option value="" >{t('age.ageNeeded')}</option>
+                              {!!options && options.map((option) => (
                                 <option key={option.value} value={option.value}>
                                   {option.label}
                                 </option>

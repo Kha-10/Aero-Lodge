@@ -1,0 +1,28 @@
+{
+    "nav" : {
+        "signIn" : "Sign in"
+    },
+    "autocomplete" : {
+        "input" : "Enter your destination"
+    },
+    "daterange" : {
+        "startDate" : "{{date, DATE_SHORT}}",
+        "endDate": "{{date, DATE_SHORT}}"
+    },
+    "adult_one": "adult",
+    "adult_other": "adults",
+    "children_zero" : "children",
+    "children_one" : "child",
+    "children_other" : "children",
+    "room_one": "room",
+    "room_other": "rooms",
+    "button" : {
+        "search" : "search"
+    },
+   "age" :{
+        "ageNeeded" : "Age needed",
+        "label" : "{{count}} years old"
+   }
+
+}
+    

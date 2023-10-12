@@ -8,56 +8,33 @@ import Guests from '../components/Guests';
 import Adult from '../components/Adult';
 import Child from '../components/Child';
 import Room from '../components/Room';
+import { useTranslation } from 'react-i18next';
+import useApp from '../hooks/useApp';
+
 
 function Home() {
   const [coordinates, setCoordinates] = useState(null);
-  const [children, setChildren] = useState(0);
-  const [array,setArray] = useState([]);
-  const [adult, setAdult] = useState(1);
-  const [selectedOption, setSelectedOption] = useState([]);
-  const [room, setRoom] = useState(1);
   const [popup, setPopup] = useState(false);
   const [newPopup , setNewPopup] = useState (false);
   const popRef = useRef(null);
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-      key: 'selection'
-    }
-  ]);
+  
+  const {t} = useTranslation();
 
-const checkinDate = new Date (date[0].startDate) ;
-
-const checkInYear = checkinDate.getFullYear();
-
-const checkInMonth = (checkinDate.getMonth()+1).toString().padStart(2,0);
-
-const checkInDay = checkinDate.getDate().toString().padStart(2,0)
-
-const formattedCheckinDate = `${checkInYear}-${checkInMonth}-${checkInDay}`;
-
-const checkoutDate = new Date (date[0].endDate);
-
-const checkOutYear = checkoutDate.getFullYear();
-
-const checkOutMonth = (checkoutDate.getMonth()+1).toString().padStart(2,0);
-
-const checkOutDay = checkoutDate.getDate().toString().padStart(2,0);
-
-const formattedCheckoutDate = `${checkOutYear}-${checkOutMonth}-${checkOutDay}`;
+  const {adult,setAdult,child,setChild,selectedOption,setSelectedOption,room,setRoom,
+  options,array,setArray,date,setDate,formattedCheckinDate,formattedCheckoutDate} = useApp();
 
 
-const addHandler = () => {
-    if (children < 10) {
-      setChildren( prevChildren => prevChildren +1);
-      setArray(prevArray => [...prevArray, children]);
+
+  const addHandler = () => {
+    if (child < 10) {
+      setChild( prevChild => prevChild +1);
+      setArray(prevArray => [...prevArray, child]);
     }
   };
  
   const removeHandler = () => {
-    if (children > 0) {
-      setChildren ( prevChildren => prevChildren - 1);
+    if (child > 0) {
+      setChild ( prevChild => prevChild - 1);
       const arr = array ;
       arr.pop()
       setArray (arr)
@@ -93,7 +70,6 @@ const addHandler = () => {
   }
   
  const handleChange = (event, index) => {
-    // You can log the index here
     console.log("Index:", index);
     console.log(event.target.value)
   // Update the selectedOption array
@@ -183,14 +159,14 @@ const addHandler = () => {
             checkin_date: formattedCheckinDate,
             include_adjacency: 'true',
           }
-          if (children>0) {
-            params.children_number = children;
+          if (child >0) {
+            params.children_number = child;
             params.children_ages=childrenAges;
           }
           const {data :{result}} = await axios.get ('https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates',{
             params : params ,
             headers: {
-              'X-RapidAPI-Key': process.env.REACT_APP_BOOKING_API_KEY ,
+              'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_BOOKING_API_KEY,
               'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
             }
             
@@ -205,26 +181,34 @@ const addHandler = () => {
    
   };
 
-  const options = [
-    { value: '0', label: '0 years old' },
-    { value: '1', label: '1 years old' },
-    { value: '2', label: '2 years old' },
-    { value: '3', label: '3 years old' },
-    { value: '4', label: '4 years old' },
-    { value: '5', label: '5 years old' },
-    { value: '6', label: '6 years old' },
-    { value: '7', label: '7 years old' },
-    { value: '8', label: '8 years old' },
-    { value: '9', label: '9 years old' },
-    { value: '10', label: '10 years old' },
-    { value: '11', label: '11 years old' },
-    { value: '12', label: '12 years old' },
-    { value: '13', label: '13 years old' },
-    { value: '14', label: '14 years old' },
-    { value: '15', label: '15 years old' },
-    { value: '16', label: '16 years old' },
-    { value: '17', label: '17 years old' },
-  ];
+  // const options =[];
+  // for (let i = 0; i < 18; i++) {
+  //    options.push({
+  //     value : `${i}`,
+  //     label : t('age.label',{count:i})
+  //   }) 
+  // }
+
+  // const options = [
+  //   { value: '0', label: `0 ${t('option.label')}` },
+  //   { value: '1', label: '1 years old' },
+  //   { value: '2', label: '2 years old' },
+  //   { value: '3', label: '3 years old' },
+  //   { value: '4', label: '4 years old' },
+  //   { value: '5', label: '5 years old' },
+  //   { value: '6', label: '6 years old' },
+  //   { value: '7', label: '7 years old' },
+  //   { value: '8', label: '8 years old' },
+  //   { value: '9', label: '9 years old' },
+  //   { value: '10', label: '10 years old' },
+  //   { value: '11', label: '11 years old' },
+  //   { value: '12', label: '12 years old' },
+  //   { value: '13', label: '13 years old' },
+  //   { value: '14', label: '14 years old' },
+  //   { value: '15', label: '15 years old' },
+  //   { value: '16', label: '16 years old' },
+  //   { value: '17', label: '17 years old' },
+  // ];
 
   
   
@@ -237,24 +221,25 @@ const addHandler = () => {
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
         newPopup={newPopup} setDate={setDate} date={date} />
 
+
         <div ref={popRef}  className='group'>
           <div onClick={handlePopup} className='relative w-[300px] h-[60px] p-3  border border-gray-400 flex justify-between items-center rounded-lg group-hover:border-blue-500' >
-            <Guests adult={adult} child={children} room={room}/>
+            <Guests adult={adult} child={child} room={room}/>
           </div>
         
         {!!popup && <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[70%] right-[15%] flex flex-col space-y-5 p-6 '>
           
           <Adult removeNewHandler={removeNewHandler} adult={adult} addNewHandler={addNewHandler}/>
           
-          <Child  removeHandler={removeHandler} child={children} addHandler={addHandler} array={array} handleChange={handleChange}
+          <Child  removeHandler={removeHandler} child={child} addHandler={addHandler} array={array} handleChange={handleChange}
           selectedOption={selectedOption} options={options}/>
           
           <Room room={room} removeRoom={removeRoom} addRoom={addRoom}/>
           
-          <button className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>Done</button>
+          <button type='' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>Done</button>
           </div>}
         </div>
-        <button type='button' onClick={getData} className='bg-blue-500 text-white text-lg font-semibold rounded-lg h-[60px] w-[120px] hover:bg-blue-400'>Search</button>
+        <button type='button' onClick={getData} className='bg-blue-500 text-white text-lg font-semibold rounded-lg h-[60px] w-[120px] hover:bg-blue-400'>{t('button.search')}</button>
       </div>
     </div>
   );

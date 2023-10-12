@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next';
 
 const Guests = ({adult,child,room}) => {
  
+  const {t} = useTranslation();
+
   return (
     <>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -10,13 +13,13 @@ const Guests = ({adult,child,room}) => {
             </svg>
             <div className='flex gap-1'>
               <div>
-                {adult} adult,
+               {adult} {t('adult',{count : adult})}
               </div>
               <div>
-                {child} children,
+                {child} {t('children',{count : child})}
               </div>
               <div>
-                {room} room
+                {room} {t('room',{count : room})}
               </div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black mr-3">

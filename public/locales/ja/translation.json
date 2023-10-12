@@ -1,0 +1,26 @@
+{
+    "nav" : {
+        "signIn" : "メンバー登録（無料）"
+    },
+    "autocomplete" : {
+        "input" : "目的地を入力してください"
+    },
+    "daterange" : {
+        "startDate" : "{{date, DATE_SHORT}}",
+        "endDate": "{{date, DATE_SHORT}}"
+    },
+    "adult_one": "アダルト",
+    "adult_other": "大人",
+    "children_zero" : "子供たち",
+    "children_one" : "子供",
+    "children_other" : "子供たち",
+    "room_one": "部屋",
+    "room_other": "部屋",
+    "button" : {
+        "search" : "検索"
+    },
+    "age" :{
+        "ageNeeded" : "年齢（必須）",
+        "label" : "{{count}} 歳"
+   }
+}

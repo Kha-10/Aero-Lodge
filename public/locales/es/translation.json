@@ -1,0 +1,26 @@
+{
+    "nav" : {
+        "signIn" : "Crear cuenta"
+    },
+    "autocomplete" : {
+        "input" : "Ingresa tu destino"
+    },
+    "daterange" : {
+        "startDate" : "{{date, DATE_SHORT}}",
+        "endDate": "{{date, DATE_SHORT}}"
+    },
+    "adult_one": "adulta",
+    "adult_other": "adultas",
+    "children_zero" : "niñas",
+    "children_one" : "niña",
+    "children_other" : "niñas",
+    "room_one": "habitación",
+    "room_other": "habitaciones",
+    "button" : {
+        "search" : "buscar"
+    },
+    "age" :{
+        "ageNeeded" : "Edad (obligatorio)",
+        "label" : "{{count}} años"
+   }
+}

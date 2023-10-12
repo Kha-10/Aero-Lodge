@@ -1,0 +1,27 @@
+{
+    "nav" : {
+        "signIn" : "สร้างบัญชีผู้ใช้"
+    },
+    "autocomplete" : {
+        "input" : "ป้อนจุดหมายปลายทางของคุณ"
+    },
+    "daterange" : {
+        "startDate" : "{{date, DATE_SHORT}}",
+        "endDate": "{{date, DATE_SHORT}}"
+    },
+    "adult_one": "ผู้ใหญ่",
+    "adult_other": "ผู้ใหญ่",
+    "children_zero" : "เด็ก",
+    "children_one" : "เด็ก",
+    "children_other" : "เด็ก",
+    "room_one": "ห้อง",
+    "room_other": "ห้องพัก",
+    "button" : {
+        "search" : "ค้นหา"
+    },
+    "age" :{
+        "ageNeeded" : "ต้องระบุอายุ",
+        "label" : "{{count}} ปี"
+   }
+    
+}

@@ -5,12 +5,16 @@ import PlacesAutocomplete, {
     getLatLng,
   } from 'react-places-autocomplete';
   import PropTypes from 'prop-types';
+  import { useTranslation } from 'react-i18next';
+import useApp from '../hooks/useApp';
 
   const Autocomplete = ({setCoordinates} ) => {
 
-    const [address, setAddress] = useState("");
+    // const [address, setAddress] = useState("");
+    const {address,setAddress} = useApp();
+    const {t} = useTranslation();
 
-    const handleAddressChange = (newAddress) => {
+  const handleAddressChange = (newAddress) => {
         setAddress(newAddress)
     }
     
@@ -48,7 +52,7 @@ import PlacesAutocomplete, {
                 </div>
                 <input 
                   {...getInputProps({
-                    placeholder: 'Enter your destination',
+                    placeholder: t('autocomplete.input'),
                     className: 'w-full h-[40px] pl-11 flex px-8 items-center flex rounded-md mt-0 text-black placeholder-black',
                   })}
                 />
