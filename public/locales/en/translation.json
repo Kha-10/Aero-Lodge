@@ -17,12 +17,40 @@
     "room_one": "room",
     "room_other": "rooms",
     "button" : {
-        "search" : "search"
+        "search" : "search",
+        "done" : "Done"
     },
    "age" :{
         "ageNeeded" : "Age needed",
         "label" : "{{count}} years old"
+   },
+   "cities": {
+        "New York": {"city": "New York", "country": "United States of America"},
+        "Tokyo": {"city": "Tokyo", "country": "Japan"},
+        "Barcelona": {"city": "Barcelona", "country": "Spain"},
+        "Bagan": {"city": "Bagan", "country": "Myanmar"},
+        "Kuala Lumpur": {"city": "Kuala Lumpur", "country": "Malaysia"},
+        "Bangkok": {"city": "Bangkok", "country": "Thailand"},
+        "Fira":{"city":"Fira","country":"Greece"},
+        "Bali":{"city":"Bali","country":"Indonesia"},
+        "Singapore":{"city":"Singapore","country":"Singapore"},
+        "Dubai":{"city":"Dubai","country":"United Arab Emirates"},
+        "Palawan":{"city":"Palawan","country":"Philippines"},
+        "Rome":{"city":"Rome","country":"Italy"}
+    },
+    "section":{
+        "ad":"Sign in for an exclusive VIP experience, where you can effortlessly save favorites, explore a world of unique profiles, and seamlessly breeze through the checkout process because your journey deserves the royal treatment."
+   },
+   "recent":{
+    "person" : "person",
+    "people" : "people",
+    "search" : "Your recent searches"
+   },
+   "popularStays" : {
+    "header" : "Discover popular stays around the world"
    }
+  
+  
 
 }
     

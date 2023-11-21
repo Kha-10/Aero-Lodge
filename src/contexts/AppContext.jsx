@@ -1,4 +1,4 @@
-import { createContext , useState } from "react";
+import { createContext , useState, useRef} from "react";
 import { useTranslation } from "react-i18next";
 
 const AppContext = createContext();
@@ -26,7 +26,9 @@ const AppContextProvider = ({children}) => {
     }
   ]);
 
+  
 const checkinDate = new Date (date[0].startDate) ;
+console.log(checkinDate)
 
 const checkInYear = checkinDate.getFullYear();
 
@@ -46,11 +48,35 @@ const checkOutDay = checkoutDate.getDate().toString().padStart(2,0);
 
 const formattedCheckoutDate = `${checkOutYear}-${checkOutMonth}-${checkOutDay}`;
 
+const [currency, setCurrency] = useState("USD");
+
+const [updatedCurrency, setUpdatedCurrency] = useState([
+  {fullName : "US Dollar",shortName : "USD"},
+  {fullName : "Euro",shortName : "EUR"},
+  {fullName : "Baht",shortName : "THB"},
+  {fullName : "Yen",shortName : "JPY"},
+]);   
+
+const person = adult+child;
+
+const [latitude,setLatitude] = useState(null);
+const [longitude,setLongitude] = useState(null);
+
+const [location, setLocation] = useState('');
+
+const [imageurl,setImageurl] = useState('');
+
+const [history, setHistory] = useState({
+  recent :[]
+});
+
+const toggle = useRef(false);
+
 
     return(
         <AppContext.Provider value={{adult,setAdult,child,setChild,selectedOption,setSelectedOption,
         room,setRoom,options,array,setArray,address,setAddress,
-        formattedCheckinDate,formattedCheckoutDate,date,setDate}}>
+        formattedCheckinDate,formattedCheckoutDate,date,setDate,currency,setCurrency,updatedCurrency,person,latitude,setLatitude,longitude,setLongitude,location,setLocation,imageurl,setImageurl,history,setHistory,toggle}}>
             {children}
         </AppContext.Provider>
     )

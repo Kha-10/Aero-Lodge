@@ -10,7 +10,7 @@ const Room = ({removeRoom,room,addRoom}) => {
     <div>
         <div className='w-full'>
             <div className='flex items-center justify-between'>
-              <div>{t('room',{count : room})}</div>
+              <div className="cursor-default">{t('room',{count : room})}</div>
               <div className='flex items-center gap-6 border border-b px-4 py-2 border-gray-400 rounded-md'>
                 <button onClick={removeRoom} className={room === 1? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">

@@ -8,17 +8,13 @@
     z-index: 1000;
     max-width: 300px;
     min-width: 300px;
-  }
-  
-  /* .suggestion-item {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-    .suggestion-item--active {
-    background-color: #fafafa;
-    } */
+    border-radius: 8px;
+}
 
 
-  
-  
+.slick-slide > div {
+  margin: 0 10px;
+}
+.slick-list {
+  margin: 0 -10px;
+}

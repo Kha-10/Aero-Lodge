@@ -17,10 +17,36 @@
     "room_one": "habitación",
     "room_other": "habitaciones",
     "button" : {
-        "search" : "buscar"
+        "search" : "buscar",
+        "done" : "Listo"
     },
     "age" :{
         "ageNeeded" : "Edad (obligatorio)",
         "label" : "{{count}} años"
-   }
+   },
+   "cities": {
+    "New York": {"city": "Nueva York", "country": "Estados Unidos"},
+    "Tokyo": {"city": "Tokio", "country": "Japón"},
+    "Barcelona": {"city": "Barcelona", "country": "España"},
+    "Bagan": {"city": "Bagan", "country": "Myanmar"},
+    "Kuala Lumpur": {"city": "Kuala Lumpur", "country": "Malasia"},
+    "Bangkok": {"city": "Bangkok", "country": "Tailandia"},
+    "Fira":{"city":"Fira","country":"Grecia"},
+    "Bali":{"city":"Bali","country":"Indonesia"},
+    "Singapore":{"city":"Singapur","country":"Singapur"},
+    "Dubai":{"city":"Dubái","country":"Emiratos Árabes Unidos"},
+    "Palawan":{"city":"Palawan","country":"Filipinas"},
+    "Rome":{"city":"Roma","country":"Italia"}
+   },
+   "section":{
+    "ad":"Regístrese para disfrutar de una experiencia VIP exclusiva, donde podrá guardar favoritos sin esfuerzo, explorar un mundo de perfiles únicos y realizar el proceso de pago sin problemas porque su viaje merece un trato real."
+    },
+    "recent":{
+        "person" : "persona",
+        "people" : "personas",
+        "search" : "Tus búsquedas recientes"
+    },
+    "popularStays" : {
+        "header" : "Descubra estancias populares en todo el mundo"
+    }
 }

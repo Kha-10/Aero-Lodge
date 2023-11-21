@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import useApp from '../hooks/useApp';
 import Modal from './modal/Modal';
+import logo from '../assets/logo.png'
 
 
 const Navbar = () => {
@@ -22,22 +23,12 @@ const Navbar = () => {
         th : {title : 'ภาษาไทย',img : thai,},
         ja : {title : '日本語',img : japan,},
     };
-    
-    const [currency, setCurrency] = useState("USD");
 
-    const [updatedCurrency, setUpdatedCurrency] = useState([
-        {fullName : "US Dollar",shortName : "USD"},
-        {fullName : "Euro",shortName : "EUR"},
-        {fullName : "Baht",shortName : "THB"},
-        {fullName : "Yen",shortName : "JPY"},
-    ]);
-
-   
     const changeCurrency = (shortName) => {
         setCurrency(shortName)
     };
 
-    const {setAdult,setChild,setSelectedOption,setArray,setRoom,setAddress,setDate} = useApp();
+    const {setAdult,setChild,setSelectedOption,setArray,setRoom,setAddress,setDate,currency,setCurrency,updatedCurrency} = useApp();
 
     const changeLanguagePopup = () => {
         setLanguagePopup(!languagePopup)
@@ -71,8 +62,10 @@ const Navbar = () => {
   return (
     <>
      <nav>
-            <ul className='flex justify-between items-center px-10 py-3 border border-b-gray-200'>
-                <li>Logo</li>
+            <ul className='flex justify-between items-center px-10 py-3 border-b border-gray-200 '>
+                <li className='w-20 -ml-5'> 
+                    <img src={logo} alt="logo"/>
+                </li>
                 <li className='flex items-center gap-10'>
                     <div ref={popupRef} onClick={changeLanguagePopup} className='cursor-pointer'>
                         <img src={
@@ -93,7 +86,7 @@ const Navbar = () => {
                             <div className='mt-4'>
                                     {Object.keys(locales).map((local) => (
                                     <div key={local}>
-                                        <button type='submit' className={`w-full mt-4 px-[140px] h-10 flex items-center gap-2 text-sm ${ i18n.resolvedLanguage === local ? 'bg-blue-400 text-white rounded-md' : "hover:bg-blue-50 hover:text-blue-500 rounded-md " }`}
+                                        <button className={`w-full mt-4 px-[140px] h-10 flex items-center gap-2 text-sm ${ i18n.resolvedLanguage === local ? 'bg-blue-400 text-white rounded-md' : "hover:bg-blue-50 hover:text-blue-500 rounded-md " }`}
                                          onClick={() => {i18n.changeLanguage(local);setAdult(1);setChild(0);setSelectedOption([]);
                                          setArray([]);setRoom(1);setAddress('');setDate([
                                             {
@@ -112,7 +105,7 @@ const Navbar = () => {
                         }
                     </div>
                    <div ref={popupCurrRef} onClick={()=>setCurrencyPopup(!currencyPopup)} className='cursor-pointer'>
-                        <span className='text-sm font-light'>
+                        <span className='text-sm font-light hover:underline hover:text-blue-500'>
                             {currency}
                         </span> 
                         {!!currencyPopup && 
@@ -124,7 +117,7 @@ const Navbar = () => {
                             </div>
                             <div className='mt-4'>
                                     {!!updatedCurrency && updatedCurrency.map((cur,i) =>(
-                                        <button key={i} className={`flex items-center justify-center w-[360px] mt-4  h-10 gap-2 text-sm rounded-md ${currency === cur.shortName?'bg-blue-400 text-white rounded-md':'hover:bg-blue-50 hover:text-blue-500'} `} onClick={()=>changeCurrency(cur.shortName)}>
+                                        <button key={i} className={`flex items-center justify-center w-[360px] mt-4 h-10 gap-2 text-sm rounded-md ${currency === cur.shortName?'bg-blue-400 text-white rounded-md':'hover:bg-blue-50 hover:text-blue-500'} `} onClick={()=>changeCurrency(cur.shortName)}>
                                             <div className='w-full gap-2 flex justify-center items-center'>
                                                 <span className='font-bold'>{cur.shortName}</span>
                                                 <span>{cur.fullName}</span>
@@ -135,7 +128,7 @@ const Navbar = () => {
                         </Modal>
                         }
                     </div>
-                    <button className='text-blue-500 border border-blue-500 rounded px-4 py-2 text-sm font-medium hover:bg-blue-400 hover:text-white'>
+                    <button className='text-blue-500 border border-blue-500 rounded px-4 py-2 text-sm font-medium hover:bg-blue-400 hover:text-white hover:border-transparent'>
                         {t('nav.signIn')}
                     </button>
                 </li>

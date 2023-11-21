@@ -17,10 +17,36 @@
     "room_one": "部屋",
     "room_other": "部屋",
     "button" : {
-        "search" : "検索"
+        "search" : "検索",
+        "done" : "完了"
     },
     "age" :{
         "ageNeeded" : "年齢（必須）",
         "label" : "{{count}} 歳"
-   }
+   },
+   "cities": {
+    "New York": {"city": "ニューヨーク", "country": "アメリカ"},
+    "Tokyo": {"city": "東京", "country": "日本"},
+    "Barcelona": {"city": "バルセロナ", "country": "スペイン"},
+    "Bagan": {"city": "バガン", "country": "ミャンマー"},
+    "Kuala Lumpur": {"city": "クアラルンプール", "country": "マレーシア"},
+    "Bangkok": {"city": "バンコク", "country": "タイ"},
+    "Fira":{"city":"フィラ","country":"ギリシャ"},
+    "Bali":{"city":"バリ島","country":"インドネシア"},
+    "Singapore":{"city":"シンガポール","country":"シンガポール"},
+    "Dubai":{"city":"ドバイ","country":"アラブ首長国連邦"},
+    "Palawan":{"city":"パラワン島","country":"フィリピン"},
+    "Rome":{"city":"ローマ","country":"イタリア"}
+   },
+   "section":{
+    "ad":"特別な VIP エクスペリエンスにサインインすると、お気に入りを簡単に保存し、ユニークなプロフィールの世界を探索し、スムーズにチェックアウト プロセスを進めることができます。これは、あなたの旅が高貴な扱いを受けるに値するものであるためです。"
+   },
+   "recent":{
+    "person" : "名",
+    "people" : "名",
+    "search" : "検索履歴"
+    },
+    "popularStays" : {
+        "header": "世界中で人気の滞在を発見"
+    }
 }
