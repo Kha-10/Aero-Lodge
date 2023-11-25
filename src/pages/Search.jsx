@@ -12,28 +12,40 @@ import Autocomplete from '../components/Autocomplete';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
 import { DateRange } from 'react-date-range';
+import axios from 'axios';
+import useApp from '../hooks/useApp';
 
 
 const Search = () => {
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
+    const locations = useLocation();
+    const params = new URLSearchParams(locations.search);
     const city= params.get('city');
+    console.log(city)
     const lat = params.get('latitude');
-    console.log(typeof lat)
     const lng = params.get('longitude');
     const roomCount = parseInt(params.get('room'));
     const adultCount = parseInt(params.get('adult'));
     const childCount = parseInt(params.get('children'));
     const children_age = params.get('children_ages')
     const childrenQuantity = params.get('children_quantity');
-    const arr = childrenQuantity.split(',');
-    const arr_ay = children_age.split(',');
+    let arr_ay;
+    if(children_age) {
+       arr_ay = children_age.split(',');
+    }else arr_ay =[]
+    let arr;
+    if(childrenQuantity) {
+       arr = childrenQuantity.split(',');
+    }else arr = []
+   
     const locale = params.get('locale')
+    const cur = params.get('currency')
+    const {location,setLocation,toggle,latitude,longitude,imageurl} = useApp();
   
     const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
 
     const checkinDate = params.get('checkindate');
+    console.log(checkinDate)
     const inputCheckinDate = new Date(checkinDate);
     const opts = {
     weekday: 'short',
@@ -45,7 +57,8 @@ const Search = () => {
     second: 'numeric',
     timeZoneName: 'short',
     };
-    const formattedCheckinDate = inputCheckinDate.toLocaleString('en-US', opts);
+    const weekdayCheckinDate = inputCheckinDate.toLocaleString('en-US', opts);
+    
 
     const checkoutDate = params.get('checkoutdate');
     const inputCheckoutDate = new Date(checkoutDate);
@@ -59,9 +72,37 @@ const Search = () => {
     second: 'numeric',
     timeZoneName: 'short',
     };
-    const formattedCheckoutDate = inputCheckoutDate.toLocaleString('en-US', opt);
+    const weekdayCheckoutDate = inputCheckoutDate.toLocaleString('en-US', opt);
 
-    const [coordinates, setCoordinates] = useState({latitude:lat,longitude:lng});
+    const [date, setDate] = useState([
+      {
+        startDate: new Date(weekdayCheckinDate),
+        endDate: new Date(weekdayCheckoutDate),
+        key: 'selection'
+      }
+    ]);
+  
+    const checkInDate = new Date (date[0].startDate) ;
+  
+    const checkInYear = checkInDate.getFullYear();
+  
+    const checkInMonth = (checkInDate.getMonth()+1).toString().padStart(2,0);
+  
+    const checkInDay = checkInDate.getDate().toString().padStart(2,0)
+  
+    const formattedCheckinDate = `${checkInYear}-${checkInMonth}-${checkInDay}`;
+  
+    const checkOutDate = new Date (date[0].endDate);
+  
+    const checkOutYear = checkOutDate.getFullYear();
+  
+    const checkOutMonth = (checkOutDate.getMonth()+1).toString().padStart(2,0);
+  
+    const checkOutDay = checkOutDate.getDate().toString().padStart(2,0);
+  
+    const formattedCheckoutDate = `${checkOutYear}-${checkOutMonth}-${checkOutDay}`;
+  
+
     const [popup, setPopup] = useState(false);
     const [newPopup , setNewPopup] = useState (false);
     const popRef = useRef(null);
@@ -75,47 +116,26 @@ const Search = () => {
       label : t('age.label',{count:i})
     }) 
   }
-  const [array,setArray] = useState(arr);
+
+  const [arrayy,setArrayy] = useState(arr);
   const [address, setAddress] = useState(city);
   const newPopRef = useRef(null);
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(formattedCheckinDate),
-      endDate: new Date(formattedCheckoutDate),
-      key: 'selection'
-    }
-  ]);
-    
-   
-    
-  const handleAddressChange = (newAddress) => {
-    setAddress(newAddress)
-    }
-    
-    const handleSelect = async newAddress => {
-    const results = await geocodeByAddress(newAddress);
-    const {lat,lng}= await getLatLng(results[0])
-    setAddress(newAddress)
-    setCoordinates({latitude:lat,longitude:lng})
-  }
-
-    const removex = () => {
-        setAddress("")
-    }
+  const [data, setData] = useState([]);
+  
 
     const addHandler = () => {
         if (child < 10) {
           setChild( prevChild => prevChild +1);
-          setArray(prevArray => [...prevArray, child]);
+          setArrayy(prevArrayy => [...prevArrayy, child]);
         }
       };
      
       const removeHandler = () => {
         if (child > 0) {
           setChild ( prevChild => prevChild - 1);
-          const arr = array ;
+          const arr = arrayy ;
           arr.pop()
-          setArray (arr)
+          setArrayy (arr)
           const aar = selectedOption;
           aar.pop()
           setSelectedOption(aar)
@@ -206,8 +226,63 @@ const Search = () => {
       useEffect(() => {
         i18n.changeLanguage(locale)
       }, [locale])
-      
 
+      useEffect(()=> {
+        const getData = async () => {
+          let lang = ''; 
+          if(locale ==='en') {
+             lang = locale+'-gb'
+          }
+          try {
+            const params = {
+                  units: 'metric',
+                  room_number: roomCount,
+                  longitude : lng,
+                  latitude :lat,
+                  filter_by_currency:cur,
+                  locale:lang,
+                  order_by: 'popularity',
+                  checkout_date: checkoutDate,
+                  adults_number :adultCount,
+                  checkin_date :checkinDate,
+                  include_adjacency: 'true',
+                  page_number: '0',
+                }
+                if (childCount > 0) {
+                  params.children_number = childCount;
+                  params.children_ages = children_age;
+                }
+                const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
+                  params : params,
+                })
+              console.log(result);
+              setData(result)
+      
+            } 
+            catch (error) {
+              if (error.response) {
+                console.error('Data:', error.response.data);
+                console.error('Status:', error.response.status);
+                console.error('Headers:', error.response.headers);
+            } else if (error.request) {
+                console.error('Request made but no response received:', error.request);
+            } else {
+                console.error('Error:', error.message);
+            }
+                // Something else went wrong
+                console.error('Error:', error.message);
+            }
+         
+        };
+        getData()
+      },[])
+      
+      useEffect(()=>{
+        setLocation(address)
+        toggle.current=true;
+      },[address])
+
+      const searchLink = `/search?city=${location}&room=${room}&latitude=${latitude}&longitude=${longitude}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_quantity=${arrayy}&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
 
 
   return (
@@ -245,7 +320,7 @@ const Search = () => {
             
             <Adult removeNewHandler={removeNewHandler} adult={adult} addNewHandler={addNewHandler}/>
             
-            <Child  removeHandler={removeHandler} child={child} addHandler={addHandler} array={array} handleChange={handleChange}
+            <Child  removeHandler={removeHandler} child={child} addHandler={addHandler} array={arrayy} handleChange={handleChange}
             selectedOption={selectedOption} options={options}/>
             
             <Room room={room} removeRoom={removeRoom} addRoom={addRoom}/>
@@ -253,9 +328,12 @@ const Search = () => {
             <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>Done</button>
             </div>}
             </div>
-            <Link  className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400' target='_blank'>{t('button.search')
+            <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400' target='_blank'>{t('button.search')
             }
             </Link>
+            <div className='w-full'>
+
+            </div>
       </div>
     </div>
   )

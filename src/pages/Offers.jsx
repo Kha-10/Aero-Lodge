@@ -67,12 +67,8 @@ const Offers = () => {
             if (children >0) {
               params.children_number = children;
             }
-            const {data:{result} } = await axios.get ('https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates',{
+            const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
               params : params,
-              headers: {
-                'X-RapidAPI-Key': 'b49de35924mshab2af0dbb1a3725p1b5c58jsn4d30457a9e06',
-                'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
-              }
               
             })
          setHotles(result)
@@ -88,8 +84,6 @@ const Offers = () => {
         } else {
             console.error('Error:', error.message);
         }
-            // Something else went wrong
-            console.error('Error:', error.message);
         }
         setLoading(false)
     };

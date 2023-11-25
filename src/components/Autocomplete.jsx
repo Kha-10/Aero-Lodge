@@ -14,12 +14,16 @@ const Autocomplete = () => {
   console.log(suggestions)
   const popRef = useRef(null);
   
-    
+  
 
   const {setLatitude,setLongitude,setLocation,location,setImageurl,history,toggle} = useApp();
     
+    // useEffect(()=>{
+    //   setLocation(gg)
+    //   toggle.current=true;
+    // },[])
     
-  console.log(location)
+    console.log(location)
 
 
   const handleOnChange = (e) => {
