@@ -64,6 +64,33 @@ app.get('/datas', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  app.get('/locations', async (req, res) => {
+    console.log('Request received:', req.query)
+    const city = req.query.name;
+  
+    
+    const options = {
+        method: 'GET',
+        url: 'https://booking-com.p.rapidapi.com/v1/hotels/locations',
+        params: {
+          name: city,
+          locale: 'en-gb'
+        },
+        headers: {
+        'X-RapidAPI-Key': process.env.VITE_REACT_APP_BOOKING_API_KEY,
+        'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
+      },
+    };
+    try{
+    const response = await axios.request(options);
+    res.json(response.data)
+    }
+    catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
   
 
 

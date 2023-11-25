@@ -71,6 +71,7 @@ const Offers = () => {
               params : params,
               
             })
+        console.log(result)
          setHotles(result)
   
         } 

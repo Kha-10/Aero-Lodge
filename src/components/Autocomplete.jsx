@@ -34,14 +34,10 @@ const Autocomplete = () => {
         if(location.length > 2 && !toggle.current) {
             const getLocation = async () => {
                 try{
-                    const {data} = await axios.get('https://booking-com.p.rapidapi.com/v1/hotels/locations',{
+                    const {data} = await axios.get('http://localhost:8000/locations',{
                         params: {
                             name: location,
                             locale: 'en-gb'
-                          },
-                          headers: {
-                            'X-RapidAPI-Key': '088806afd3msh6157e5398448f31p1e157bjsn9d1e0c46853b',
-                            'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
                           }
                     });
                     setSuggestions(data)
