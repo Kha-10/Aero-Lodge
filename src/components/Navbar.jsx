@@ -117,9 +117,9 @@ const Navbar = () => {
                             </div>
                             <div className='mt-4'>
                                     {!!updatedCurrency && updatedCurrency.map((cur,i) =>(
-                                        <button key={i} className={`flex items-center justify-center w-[360px] mt-4 h-10 gap-2 text-sm rounded-md ${currency === cur.shortName?'bg-blue-400 text-white rounded-md':'hover:bg-blue-50 hover:text-blue-500'} `} onClick={()=>changeCurrency(cur.shortName)}>
+                                        <button key={i} className={`flex items-center justify-center w-[360px] mt-4 h-10 gap-2 text-sm rounded-md ${currency === cur.shortName?'bg-blue-100 font-normal rounded-md':'hover:bg-blue-50 hover:text-blue-500'} `} onClick={()=>changeCurrency(cur.shortName)}>
                                             <div className='w-full gap-2 flex justify-center items-center'>
-                                                <span className='font-bold'>{cur.shortName}</span>
+                                                <span className='font-normal text-blue-400'>{cur.shortName}</span>
                                                 <span>{cur.fullName}</span>
                                             </div>
                                         </button>

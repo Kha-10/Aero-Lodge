@@ -52,9 +52,9 @@ const [currency, setCurrency] = useState("USD");
 
 const [updatedCurrency, setUpdatedCurrency] = useState([
   {fullName : "US Dollar",shortName : "USD"},
-  {fullName : "Euro",shortName : "EUR"},
-  {fullName : "Baht",shortName : "THB"},
-  {fullName : "Yen",shortName : "JPY"},
+  {fullName : "Euro",shortName : " €"},
+  {fullName : "Baht",shortName : "฿"},
+  {fullName : "Yen",shortName : "¥"},
 ]);   
 
 const person = adult+child;
