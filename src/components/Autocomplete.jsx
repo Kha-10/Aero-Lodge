@@ -1,17 +1,12 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
-
-
-// Autocomplete.propTypes = {
-//     setCoordinates: PropTypes.func.isRequired,
-// };
 import axios from 'axios';
 import { useRef } from 'react';
 import useApp from '../hooks/useApp';
 
 const Autocomplete = () => {
   const [suggestions,setSuggestions] = useState(null);
-  console.log(suggestions)
+  // console.log(suggestions)
   const popRef = useRef(null);
   
   
@@ -23,7 +18,7 @@ const Autocomplete = () => {
     //   toggle.current=true;
     // },[])
     
-    console.log(location)
+    // console.log(location)
 
 
   const handleOnChange = (e) => {

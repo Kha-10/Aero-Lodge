@@ -1,4 +1,5 @@
 import {
+  Navigate,
     createBrowserRouter,
   } from "react-router-dom";
 import Layout from "../pages/layout/Layout.jsx";
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
             path:"",
             element: <Home/>
         },
+      //   {
+      //     path:":locale",
+      //     element: <Home/>
+      // },
         {
             path:"/city/:title",
             element: <City/>

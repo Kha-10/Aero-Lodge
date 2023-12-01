@@ -12,7 +12,7 @@ i18n
   .use(initReactI18next)
 
   .init({
-    lng: 'en', // Default language
+    lng: localStorage.getItem('i18nextLng') || 'en' , // Default language
     fallbackLng: 'en', // Fallback language
     debug: true, // Enable debug mode for development
     interpolation: {

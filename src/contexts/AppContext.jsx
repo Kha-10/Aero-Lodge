@@ -28,7 +28,7 @@ const AppContextProvider = ({children}) => {
 
   
 const checkinDate = new Date (date[0].startDate) ;
-console.log(checkinDate)
+// console.log(checkinDate)
 
 const checkInYear = checkinDate.getFullYear();
 
@@ -48,13 +48,13 @@ const checkOutDay = checkoutDate.getDate().toString().padStart(2,0);
 
 const formattedCheckoutDate = `${checkOutYear}-${checkOutMonth}-${checkOutDay}`;
 
-const [currency, setCurrency] = useState("USD");
+const [currency, setCurrency] = useState(localStorage.getItem('cur') || 'USD');
 
 const [updatedCurrency, setUpdatedCurrency] = useState([
   {fullName : "US Dollar",shortName : "USD"},
-  {fullName : "Euro",shortName : " €"},
-  {fullName : "Baht",shortName : "฿"},
-  {fullName : "Yen",shortName : "¥"},
+  {fullName : "Euro",shortName : "EUR"},
+  {fullName : "Baht",shortName : "THB"},
+  {fullName : "Yen",shortName : "JPY"},
 ]);   
 
 const person = adult+child;

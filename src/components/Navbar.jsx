@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import useApp from '../hooks/useApp';
 import Modal from './modal/Modal';
 import logo from '../assets/logo.png'
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
@@ -29,6 +30,74 @@ const Navbar = () => {
     };
 
     const {setAdult,setChild,setSelectedOption,setArray,setRoom,setAddress,setDate,currency,setCurrency,updatedCurrency} = useApp();
+
+    const location = useLocation();
+    console.log(location)
+    console.log(location.search)
+    console.log(location.key)
+    const navigate = useNavigate ();
+
+    useEffect(()=>{
+        if(
+        location.pathname === '/' 
+        // location.pathname === '/locale=en' || 
+        // location.pathname === '/locale=es'|| 
+        // location.pathname ==='/locale=th' || 
+        // location.pathname === '/locale=ja'
+        ) {
+            const search = location.search;
+            const par_ams = new URLSearchParams(search);
+            const localeValue = par_ams.get('locale')
+            i18n.changeLanguage(localeValue)
+        }else{
+            const newParams = new URLSearchParams(location.search)
+            const language = newParams.get('locale');
+            i18n.changeLanguage(language)
+        }
+        console.log('I DID FUCKING CHANGE')
+    },[location.key])
+
+    const handleSwitchLanguage = (locales) => {
+        i18n.changeLanguage(locales)
+
+        if(
+            location.pathname === '/' 
+            // location.pathname === '/?locale=en'||
+            // location.pathname === '/?locale=es'|| 
+            // location.pathname ==='/?locale=th' || 
+            // location.pathname === '/?locale=ja'
+            ) {
+            navigate(`/?locale=${locales}&cur=${localStorage.getItem('cur')}`);
+        }else if (location.pathname.startsWith('/search')) {
+            const params = new URLSearchParams(location.search);
+            params.set('locale', locales);
+            const newUrl = `/search?${params.toString()}`;
+            console.log('newurl:', newUrl);
+            navigate(newUrl);
+          }
+        
+    }
+
+    const handleSwitchCurrency = (curShort) => {
+        changeCurrency(curShort)
+        localStorage.setItem('cur',curShort)
+        if(
+            location.pathname == '/' 
+            // location.pathname === '/locale=en' || 
+            // location.pathname === '/locale=es'|| 
+            // location.pathname ==='/locale=th' || 
+            // location.pathname === '/locale=ja'
+            ) {
+            navigate(`/?locale=${localStorage.getItem('i18nextLng')}&cur=${curShort}`)
+        }else if (location.pathname.startsWith('/search')) {
+            const params = new URLSearchParams(location.search);
+            params.set('locale', locales);
+            const newUrl = `/search?${params.toString()}`;
+            console.log('newurl:', newUrl);
+            navigate(newUrl);
+          }
+        
+    }
 
     const changeLanguagePopup = () => {
         setLanguagePopup(!languagePopup)
@@ -86,18 +155,18 @@ const Navbar = () => {
                             <div className='mt-4'>
                                     {Object.keys(locales).map((local) => (
                                     <div key={local}>
-                                        <button className={`w-full mt-4 px-[140px] h-10 flex items-center gap-2 text-sm ${ i18n.resolvedLanguage === local ? 'bg-blue-400 text-white rounded-md' : "hover:bg-blue-50 hover:text-blue-500 rounded-md " }`}
-                                         onClick={() => {i18n.changeLanguage(local);setAdult(1);setChild(0);setSelectedOption([]);
-                                         setArray([]);setRoom(1);setAddress('');setDate([
-                                            {
-                                              startDate: new Date(),
-                                              endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-                                              key: 'selection',
-                                            },
-                                          ]);}}>
-                                            <img src={locales[local].img} className='w-5' alt="" />
-                                            <span>{locales[local].title}</span>
-                                        </button>
+                                            <button className={`w-full mt-4 px-[140px] h-10 flex items-center gap-2 text-sm ${ i18n.resolvedLanguage === local ? 'bg-blue-100 rounded-md' : "hover:bg-blue-50 hover:text-blue-500 rounded-md " }`}
+                                            onClick={() => {handleSwitchLanguage(local);setAdult(1);setChild(0);setSelectedOption([]);
+                                            setArray([]);setRoom(1);setAddress('');setDate([
+                                                {
+                                                startDate: new Date(),
+                                                endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+                                                key: 'selection',
+                                                },
+                                            ]);}}>
+                                                <img src={locales[local].img} className='w-5' alt="" />
+                                                <span>{locales[local].title}</span>
+                                            </button>
                                     </div>
                                     ))}
                             </div>      
@@ -117,7 +186,7 @@ const Navbar = () => {
                             </div>
                             <div className='mt-4'>
                                     {!!updatedCurrency && updatedCurrency.map((cur,i) =>(
-                                        <button key={i} className={`flex items-center justify-center w-[360px] mt-4 h-10 gap-2 text-sm rounded-md ${currency === cur.shortName?'bg-blue-100 font-normal rounded-md':'hover:bg-blue-50 hover:text-blue-500'} `} onClick={()=>changeCurrency(cur.shortName)}>
+                                        <button key={i} className={`flex items-center justify-center w-[360px] mt-4 h-10 gap-2 text-sm rounded-md ${currency === cur.shortName?'bg-blue-100 font-normal rounded-md':'hover:bg-blue-50 hover:text-blue-500'} `} onClick={()=>handleSwitchCurrency(cur.shortName)}>
                                             <div className='w-full gap-2 flex justify-center items-center'>
                                                 <span className='font-normal text-blue-400'>{cur.shortName}</span>
                                                 <span>{cur.fullName}</span>

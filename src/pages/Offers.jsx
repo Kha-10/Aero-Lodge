@@ -42,12 +42,16 @@ const Offers = () => {
     const children = params.get('children_number');
     // console.log(children)
     
-    
+    const langauge  = localStorage.getItem('i18nextLng');
+    console.log('localStorage language :',langauge);
+
     const getData = async () => {
       let lang = ''; 
-      if(locale==='en') {
-         lang = locale+'-gb'
-      }
+      if(langauge ==='en') {
+        lang = langauge +'-gb'
+        }else {
+       lang = langauge
+     }
       setLoading(true)
       try {
         const params = {
@@ -90,8 +94,10 @@ const Offers = () => {
     };
   
     useEffect(() => {
-      getData()
-    }, [])
+        if(langauge){
+        getData()
+        }
+    }, [langauge])
 
     useEffect(()=>{
         window.scrollTo(0,0)

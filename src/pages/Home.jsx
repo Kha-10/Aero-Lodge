@@ -16,7 +16,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Recent from '../components/Recent';
 import Random from '../components/Random';
 import percentageoff from '../assets/percentoff.jpg';
@@ -25,19 +25,18 @@ import limitedtime from '../assets/limitedtime.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
 
 
-
-
-
 function Home() {
   const [popup, setPopup] = useState(false);
   const [newPopup , setNewPopup] = useState (false);
   const popRef = useRef(null);
   const [datas, setDatas] = useState([]);
   
-
-  // console.log(history.recent[0].city)
   const {t} = useTranslation();
 
+
+  const { locale } = useParams();
+
+  
 
  
 
@@ -46,7 +45,6 @@ function Home() {
   currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle} = useApp();
 
   
-
   console.log(child)
   console.log(history.recent[0])
 
@@ -251,13 +249,14 @@ function Home() {
 
   const offerlink = `/offers?city=${datas[0]?.title}&room_number=${room}&latitude=${datas[0]?.coordinates._lat}&longitude=${datas[0]?.coordinates._long}&filter_by_currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkout_date=${formattedCheckoutDate}&adults=${adult}&checkin_date=${formattedCheckinDate}&children_number=${child}`;
 
- 
+  console.log('Selected Language:', localStorage.getItem('i18nextLng'));
+
 
 
   return (
     <div className='relative w-full h-screen'>
       <Herosection/>
-      <div  className='absolute bg-white flex gap-5 inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] border border-b border-gray-300 rounded-2xl top-[300px] z-50'>
+      <div  className='absolute bg-white flex justify-center items-center gap-5 inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] border border-b border-gray-300 rounded-2xl top-[300px] z-50'>
         
         <Autocomplete />
         

@@ -20,7 +20,6 @@ const Search = () => {
     const locations = useLocation();
     const params = new URLSearchParams(locations.search);
     const city= params.get('city');
-    console.log(city)
     const lat = params.get('latitude');
     const lng = params.get('longitude');
     const roomCount = parseInt(params.get('room'));
@@ -36,8 +35,11 @@ const Search = () => {
     if(childrenQuantity) {
        arr = childrenQuantity.split(',');
     }else arr = []
+
+    // const locale = params.get('locale');
+    // console.log(locale)
    
-    const locale = params.get('locale')
+   
     const cur = params.get('currency')
     const {location,setLocation,toggle,latitude,longitude,imageurl} = useApp();
   
@@ -45,7 +47,6 @@ const Search = () => {
     const [child, setChild] = useState(childCount);
 
     const checkinDate = params.get('checkindate');
-    console.log(checkinDate)
     const inputCheckinDate = new Date(checkinDate);
     const opts = {
     weekday: 'short',
@@ -223,15 +224,16 @@ const Search = () => {
         };
       }, [newPopup]);
 
-      useEffect(() => {
-        i18n.changeLanguage(locale)
-      }, [locale])
+      const langauge  = localStorage.getItem('i18nextLng');
+      // console.log('localStorage language :',langauge);
 
       useEffect(()=> {
         const getData = async () => {
           let lang = ''; 
-          if(locale ==='en') {
-             lang = locale+'-gb'
+          if(langauge ==='en') {
+             lang = langauge +'-gb'
+          }else {
+            lang = langauge
           }
           try {
             const params = {
@@ -255,7 +257,7 @@ const Search = () => {
                 const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
                   params : params,
                 })
-              console.log(result);
+              // console.log(result);
               setData(result)
       
             } 
@@ -275,7 +277,7 @@ const Search = () => {
          
         };
         getData()
-      },[])
+      },[langauge])
       
       useEffect(()=>{
         setLocation(address)
@@ -283,9 +285,8 @@ const Search = () => {
       },[address])
 
       const searchLink = `/search?city=${location}&room=${room}&latitude=${latitude}&longitude=${longitude}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_quantity=${arrayy}&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
-
-
-  return (
+    
+    return (
     <div className='w-full h-screen bg-gray-100'>
         <div  className='absolute  inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center justify-between top-[50px]'>
         
