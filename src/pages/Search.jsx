@@ -227,6 +227,8 @@ const Search = () => {
       const langauge  = localStorage.getItem('i18nextLng');
       // console.log('localStorage language :',langauge);
 
+      const currency= localStorage.getItem('cur');
+
       useEffect(()=> {
         const getData = async () => {
           let lang = ''; 
@@ -241,7 +243,7 @@ const Search = () => {
                   room_number: roomCount,
                   longitude : lng,
                   latitude :lat,
-                  filter_by_currency:cur,
+                  filter_by_currency:currency,
                   locale:lang,
                   order_by: 'popularity',
                   checkout_date: checkoutDate,
@@ -257,7 +259,7 @@ const Search = () => {
                 const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
                   params : params,
                 })
-              // console.log(result);
+              console.log(result);
               setData(result)
       
             } 

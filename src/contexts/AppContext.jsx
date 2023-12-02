@@ -48,7 +48,7 @@ const checkOutDay = checkoutDate.getDate().toString().padStart(2,0);
 
 const formattedCheckoutDate = `${checkOutYear}-${checkOutMonth}-${checkOutDay}`;
 
-const [currency, setCurrency] = useState(localStorage.getItem('cur') || 'USD');
+const [currency, setCurrency] = useState('USD');
 
 const [updatedCurrency, setUpdatedCurrency] = useState([
   {fullName : "US Dollar",shortName : "USD"},

@@ -35,6 +35,7 @@ const Navbar = () => {
     console.log(location)
     console.log(location.search)
     console.log(location.key)
+    console.log('currenvy:',currency)
     const navigate = useNavigate ();
 
     useEffect(()=>{
@@ -49,10 +50,22 @@ const Navbar = () => {
             const par_ams = new URLSearchParams(search);
             const localeValue = par_ams.get('locale')
             i18n.changeLanguage(localeValue)
+            const curValue = par_ams.get('cur');
+            if(curValue === null){
+                const localStorageCur = localStorage.getItem('cur')
+                changeCurrency(localStorageCur)
+            }else {
+            localStorage.setItem('cur',curValue);
+            changeCurrency(curValue)
+            }
         }else{
             const newParams = new URLSearchParams(location.search)
             const language = newParams.get('locale');
             i18n.changeLanguage(language)
+            const curr = newParams.get('currency');
+            localStorage.setItem('cur',curr);
+            changeCurrency(curr)
+
         }
         console.log('I DID FUCKING CHANGE')
     },[location.key])
@@ -91,10 +104,11 @@ const Navbar = () => {
             navigate(`/?locale=${localStorage.getItem('i18nextLng')}&cur=${curShort}`)
         }else if (location.pathname.startsWith('/search')) {
             const params = new URLSearchParams(location.search);
-            params.set('locale', locales);
+            params.set('currency', curShort);
             const newUrl = `/search?${params.toString()}`;
             console.log('newurl:', newUrl);
             navigate(newUrl);
+            
           }
         
     }
