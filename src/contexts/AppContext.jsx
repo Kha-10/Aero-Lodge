@@ -72,11 +72,15 @@ const [history, setHistory] = useState({
 
 const toggle = useRef(false);
 
+const [destType,setDestType] = useState('');
+
+const [destid,setDestid] = useState('');
+
 
     return(
         <AppContext.Provider value={{adult,setAdult,child,setChild,selectedOption,setSelectedOption,
         room,setRoom,options,array,setArray,address,setAddress,
-        formattedCheckinDate,formattedCheckoutDate,date,setDate,currency,setCurrency,updatedCurrency,person,latitude,setLatitude,longitude,setLongitude,location,setLocation,imageurl,setImageurl,history,setHistory,toggle}}>
+        formattedCheckinDate,formattedCheckoutDate,date,setDate,currency,setCurrency,updatedCurrency,person,latitude,setLatitude,longitude,setLongitude,location,setLocation,imageurl,setImageurl,history,setHistory,toggle,destType,setDestType,destid,setDestid}}>
             {children}
         </AppContext.Provider>
     )
