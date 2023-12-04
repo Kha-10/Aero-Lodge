@@ -6,7 +6,7 @@ import useApp from '../hooks/useApp';
 
 const Autocomplete = () => {
   const [suggestions,setSuggestions] = useState(null);
-  // console.log(suggestions)
+  console.log(suggestions)
   const popRef = useRef(null);
   
   

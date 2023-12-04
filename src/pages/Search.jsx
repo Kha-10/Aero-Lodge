@@ -229,57 +229,57 @@ const Search = () => {
 
       const currency= localStorage.getItem('cur');
 
-      useEffect(()=> {
-        const getData = async () => {
-          let lang = ''; 
-          if(langauge ==='en') {
-             lang = langauge +'-gb'
-          }else {
-            lang = langauge
-          }
-          try {
-            const params = {
-                  units: 'metric',
-                  room_number: roomCount,
-                  longitude : lng,
-                  latitude :lat,
-                  filter_by_currency:currency,
-                  locale:lang,
-                  order_by: 'popularity',
-                  checkout_date: checkoutDate,
-                  adults_number :adultCount,
-                  checkin_date :checkinDate,
-                  include_adjacency: 'true',
-                  page_number: '0',
-                }
-                if (childCount > 0) {
-                  params.children_number = childCount;
-                  params.children_ages = children_age;
-                }
-                const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
-                  params : params,
-                })
-              console.log(result);
-              setData(result)
+      // useEffect(()=> {
+      //   const getData = async () => {
+      //     let lang = ''; 
+      //     if(langauge ==='en') {
+      //        lang = langauge +'-gb'
+      //     }else {
+      //       lang = langauge
+      //     }
+      //     try {
+      //       const params = {
+      //             units: 'metric',
+      //             room_number: roomCount,
+      //             longitude : lng,
+      //             latitude :lat,
+      //             filter_by_currency:currency,
+      //             locale:lang,
+      //             order_by: 'popularity',
+      //             checkout_date: checkoutDate,
+      //             adults_number :adultCount,
+      //             checkin_date :checkinDate,
+      //             include_adjacency: 'true',
+      //             page_number: '0',
+      //           }
+      //           if (childCount > 0) {
+      //             params.children_number = childCount;
+      //             params.children_ages = children_age;
+      //           }
+      //           const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
+      //             params : params,
+      //           })
+      //         console.log(result);
+      //         setData(result)
       
-            } 
-            catch (error) {
-              if (error.response) {
-                console.error('Data:', error.response.data);
-                console.error('Status:', error.response.status);
-                console.error('Headers:', error.response.headers);
-            } else if (error.request) {
-                console.error('Request made but no response received:', error.request);
-            } else {
-                console.error('Error:', error.message);
-            }
-                // Something else went wrong
-                console.error('Error:', error.message);
-            }
+      //       } 
+      //       catch (error) {
+      //         if (error.response) {
+      //           console.error('Data:', error.response.data);
+      //           console.error('Status:', error.response.status);
+      //           console.error('Headers:', error.response.headers);
+      //       } else if (error.request) {
+      //           console.error('Request made but no response received:', error.request);
+      //       } else {
+      //           console.error('Error:', error.message);
+      //       }
+      //           // Something else went wrong
+      //           console.error('Error:', error.message);
+      //       }
          
-        };
-        getData()
-      },[langauge])
+      //   };
+      //   getData()
+      // },[langauge,currency])
       
       useEffect(()=>{
         setLocation(address)
@@ -287,10 +287,14 @@ const Search = () => {
       },[address])
 
       const searchLink = `/search?city=${location}&room=${room}&latitude=${latitude}&longitude=${longitude}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_quantity=${arrayy}&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
+
+      useEffect(()=>{
+        window.scrollTo(0,0)
+    },[])
     
     return (
     <div className='w-full h-screen bg-gray-100'>
-        <div  className='absolute  inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center justify-between top-[50px]'>
+      <div  className='absolute  inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
         
            <Autocomplete/>
             <div ref={newPopRef} className='cursor-pointer group'>
@@ -337,6 +341,12 @@ const Search = () => {
             <div className='w-full'>
 
             </div>
+      </div>
+      <div className='w-[250px] absolute bg-white rounded-lg ml-[170px] p-3 flex flex-col items-start gap-4 justify-between mt-[120px] border border-gray-400'>
+        <span className='font-semibold border-gray-400'>Filter by:</span>
+      </div>
+      <div className='w-[250px] absolute bg-white rounded-lg ml-[170px] p-3 flex flex-col items-start gap-4 justify-between mt-[170px] border border-gray-400'>
+        <span>Popular Filters</span>
       </div>
     </div>
   )

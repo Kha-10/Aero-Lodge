@@ -52,15 +52,16 @@ const Navbar = () => {
             i18n.changeLanguage(localeValue)
             const curValue = par_ams.get('cur');
             const localStorageCur = localStorage.getItem('cur')
-            console.log(curValue)
-            console.log(localStorageCur)
             if(curValue === null && localStorageCur === null){
                 localStorage.setItem('cur',currency);
+                console.log('if 1')
             }else if (curValue) {
                 localStorage.setItem('cur',curValue)
+                console.log('if 2')
                 changeCurrency(curValue)
             }else if(localStorageCur) {
                 changeCurrency(localStorageCur)
+                console.log('if 3')
             }
         }else{
             const newParams = new URLSearchParams(location.search)
@@ -75,7 +76,8 @@ const Navbar = () => {
     },[location.key])
 
     const handleSwitchLanguage = (locales) => {
-        i18n.changeLanguage(locales)
+        i18n.changeLanguage(locales);
+
 
         if(
             location.pathname === '/' 
