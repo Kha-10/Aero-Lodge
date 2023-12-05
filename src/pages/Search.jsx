@@ -15,7 +15,6 @@ import { DateRange } from 'react-date-range';
 import axios from 'axios';
 import useApp from '../hooks/useApp';
 
-
 const Search = () => {
     const locations = useLocation();
     const params = new URLSearchParams(locations.search);
@@ -36,13 +35,14 @@ const Search = () => {
        arr = childrenQuantity.split(',');
     }else arr = []
 
-    // const locale = params.get('locale');
-    // console.log(locale)
    
    
     const cur = params.get('currency')
-    const {location,setLocation,toggle,latitude,longitude,imageurl} = useApp();
-  
+    const {location,setLocation,toggle,latitude,longitude,imageurl,destType,destid} = useApp();
+
+    console.log(destType)
+    console.log(destid)
+
     const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
 
@@ -294,7 +294,7 @@ const Search = () => {
     
     return (
     <div className='w-full h-screen bg-gray-100'>
-      <div  className='absolute  inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
+      <div  className='  inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
         
            <Autocomplete/>
             <div ref={newPopRef} className='cursor-pointer group'>
@@ -342,11 +342,36 @@ const Search = () => {
 
             </div>
       </div>
-      <div className='w-[250px] absolute bg-white rounded-lg ml-[170px] p-3 flex flex-col items-start gap-4 justify-between mt-[120px] border border-gray-400'>
-        <span className='font-semibold border-gray-400'>Filter by:</span>
-      </div>
-      <div className='w-[250px] absolute bg-white rounded-lg ml-[170px] p-3 flex flex-col items-start gap-4 justify-between mt-[170px] border border-gray-400'>
-        <span>Popular Filters</span>
+      <div className='font-semibold text-lg absolute ml-[170px] mt-[110px]'>Filter by</div>
+        <div className=' w-[250px] ml-[170px] mt-[160px] flex flex-col gap-[90px]'>
+          <div>
+            <label className=' font-semibold text-sm '>Price range</label>
+            <div className='w-[200px] absolute bg-white rounded-lg mt-2 p-3 border border-gray-400'>
+              <select className='w-[170px] text-sm focus:outline-none'>
+                <option value="">Your budget(per night)</option>
+                <option value="0-200">$0 - $200</option>
+                <option value="200-400">$200 - $400</option>
+                <option value="400-600">$400 - $600</option>
+                <option value="600-800">$600 - $800</option>
+              </select>
+            </div>
+          </div>
+          <label className='font-semibold text-sm'>Star rating</label>
+          <div className='flex gap-4 items-center'>
+            <div className='flex items-center gap-1'>
+              1 
+              <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+            </svg>
+          </div>
+            <span>2 star</span>
+            <span>3 star</span>
+            <span>4 star</span>
+          </div>
+
+
+
+
       </div>
     </div>
   )
