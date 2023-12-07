@@ -82,12 +82,12 @@ const Autocomplete = () => {
         toggle.current=false
     }
 
-    const handler = (city,lat,lng,img,type,id) => {
+    const handler = (city,lat,lng,img,id,type) => {
       setLocation(city);
       setLatitude(lat);
       setLongitude(lng);
-      setDestType(type);
       setDestid(id);
+      setDestType(type);
       toggle.current=true;
       setSuggestions(null);
       setImageurl(img);

@@ -38,10 +38,13 @@ const Search = () => {
    
    
     const cur = params.get('currency')
-    const {location,setLocation,toggle,latitude,longitude,imageurl,destType,destid} = useApp();
+    const destType = params.get('dest_type');
 
-    console.log(destType)
-    console.log(destid)
+    const destid = params.get('dest_id');
+ 
+    const {location,setLocation,toggle,latitude,longitude,imageurl} = useApp();
+
+
 
     const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
@@ -121,7 +124,12 @@ const Search = () => {
   const [arrayy,setArrayy] = useState(arr);
   const [address, setAddress] = useState(city);
   const newPopRef = useRef(null);
+
   const [data, setData] = useState([]);
+  const [price,setPrice] = useState (null);
+  const [popularFilters,setPopularFilters] = useState(null);
+
+  
   
 
     const addHandler = () => {
@@ -280,6 +288,62 @@ const Search = () => {
       //   };
       //   getData()
       // },[langauge,currency])
+
+      useEffect(()=> {
+        const getData = async () => {
+          let lang = ''; 
+          if(langauge ==='en') {
+             lang = langauge +'-gb'
+          }else {
+            lang = langauge
+          }
+          try {
+            const params = {
+                  adults_number :adultCount,
+                  filter_by_currency:currency,
+                  checkin_date :checkinDate,
+                  dest_id: destid,
+                  dest_type: destType,
+                  checkout_date: checkoutDate,
+                  units: 'metric',
+                  room_number: roomCount,
+                  order_by: 'popularity',
+                  locale:lang,
+                  // categories_filter_ids: 'class::2,class::4,free_cancellation::1',
+                  // include_adjacency: 'true',
+                  page_number: '0',
+                }
+                if (childCount > 0) {
+                  params.children_number = childCount;
+                  params.children_ages = children_age;
+                }
+                const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
+                  params : params,
+                },
+                )
+              
+              console.log(filter);
+              setPrice(filter[1]);
+              setPopularFilters(filter[2])
+      
+            } 
+            catch (error) {
+              if (error.response) {
+                console.error('Data:', error.response.data);
+                console.error('Status:', error.response.status);
+                console.error('Headers:', error.response.headers);
+            } else if (error.request) {
+                console.error('Request made but no response received:', error.request);
+            } else {
+                console.error('Error:', error.message);
+            }
+                // Something else went wrong
+                console.error('Error:', error.message);
+            }
+         
+        };
+        getData()
+      },[langauge,currency,destid,destType])
       
       useEffect(()=>{
         setLocation(address)
@@ -291,10 +355,73 @@ const Search = () => {
       useEffect(()=>{
         window.scrollTo(0,0)
     },[])
+
+    const icon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 text-yellow-400 fill-current">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+    </svg>;
+
+    const ratings = [
+      {star:1 ,icon},
+      {star:2 ,icon},
+      {star:3 ,icon},
+      {star:4 ,icon},
+      {star:5 ,icon}
+    ];
+
+    const svg = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>;
+
+    // const popularFilters = [
+    //   {title :'Breakfast included',svg },
+    //   {title : 'Very good: 8+',svg},
+    //   {title : 'Swimming Pool',svg},
+    //   {title : 'Hotels',svg},
+    //   {title :'Apartments',svg },
+    //   {title : 'Air conditioning',svg},
+    //   {title : 'Private bathroom',svg},
+    //   {title : 'Free WiFi',svg},
+
+    // ];
+
+    const [selectedTitle,setselectedTitle] = useState ('');
     
-    return (
+    const changeHandler = (e)=> {
+      setselectedTitle(e)
+    }
+
+
+    const [click, setClick] = useState(Array(!!popularFilters?.categories?.length).fill(false));
+
+    const clickHandler = (selected,index) => {
+      setClick((prevClick) => {
+      const newClick = [...prevClick];
+      newClick[index] = !newClick[index];
+      return newClick;
+      });
+      
+      // console.log(index)
+      // const gg= selected += 1;
+      // popularFilters.categories[index].selected = gg;
+      
+      // setPopularFilters((prevFilters) => {
+      //   // Create a copy of the previous state to avoid mutating it directly
+      //   const newFilters = { ...prevFilters };
+        
+      //   // Create a copy of the categories array to avoid mutating it directly
+      //   newFilters.categories = [...prevFilters.categories];
+    
+      //   // Update the selected property in the copied categories array
+      //   newFilters.categories[index].selected = gg;
+    
+      //   return newFilters;
+      // });
+      
+    };
+
+   return (
     <div className='w-full h-screen bg-gray-100'>
-      <div  className='  inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
+      <div  className='inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
         
            <Autocomplete/>
             <div ref={newPopRef} className='cursor-pointer group'>
@@ -342,37 +469,53 @@ const Search = () => {
 
             </div>
       </div>
-      <div className='font-semibold text-lg absolute ml-[170px] mt-[110px]'>Filter by</div>
-        <div className=' w-[250px] ml-[170px] mt-[160px] flex flex-col gap-[90px]'>
-          <div>
-            <label className=' font-semibold text-sm '>Price range</label>
-            <div className='w-[200px] absolute bg-white rounded-lg mt-2 p-3 border border-gray-400'>
-              <select className='w-[170px] text-sm focus:outline-none'>
-                <option value="">Your budget(per night)</option>
-                <option value="0-200">$0 - $200</option>
-                <option value="200-400">$200 - $400</option>
-                <option value="400-600">$400 - $600</option>
-                <option value="600-800">$600 - $800</option>
-              </select>
+      <div className='font-semibold text-lg absolute ml-[170px] -mt-5'>Filter by</div>
+        <div className=' w-[200px] ml-[170px] mt-10 flex flex-col gap-[30px]'>
+          {!!price && 
+            <div className='w-full'>
+              <div className='font-semibold text-sm '>{price.title}</div>
+              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-400 '>
+                <select className='w-[170px] text-sm focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
+                  <option value="">{price.title}</option>
+                  {!!price && price.categories && price.categories.map((category)=>(
+                    <option key={category.id} value={category.name}>{category.name}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-          <label className='font-semibold text-sm'>Star rating</label>
-          <div className='flex gap-4 items-center'>
-            <div className='flex items-center gap-1'>
-              1 
-              <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-            </svg>
-          </div>
-            <span>2 star</span>
-            <span>3 star</span>
-            <span>4 star</span>
-          </div>
+          }
+          {/* <div className='w-full'>
+            <div className='font-semibold text-sm'>Star rating</div>
+            <div className='flex items-center gap-3'>
+              <div className='flex items-center gap-1 mt-2 flex-wrap'>
+                  {ratings.map((rating,i) => (
+                    <div key={i} className='flex items-center gap-1 border border-gray-400 bg-white p-2 rounded-lg text-sm hover:bg-blue-50 cursor-pointer'>
+                      {rating.star} {rating.icon}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div> */}
 
 
-
-
-      </div>
+          {!!popularFilters &&
+            <div className='w-full'>
+              <div className='font-semibold text-sm'> 
+                {popularFilters.title}
+              </div>
+              <div className='mt-2'>
+                {!!popularFilters && popularFilters.categories && popularFilters.categories.map((filter,i)=> (
+                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(popularFilters.categories[i].selected,i)}>
+                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                      {click[i] && svg}
+                    </div>
+                    <span className='text-sm group-hover:text-blue-400'>{filter.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          }
+        </div>
     </div>
   )
 }

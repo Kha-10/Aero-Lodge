@@ -91,6 +91,59 @@ app.get('/datas', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  app.get('/filters', async (req, res) => {
+    console.log('Request received:', req.query)
+    const type = req.query.dest_type;
+    const id = req.query.dest_id;
+    const rooms = req.query.room_number;
+    const currencies = req.query.filter_by_currency;
+    const locales = req.query.locale;
+    const orders = req.query.order_by;
+    const checkoutdates = req.query.checkout_date;
+    const checkindates = req.query.checkin_date;
+    const adults = req.query.adults_number;
+    
+    const params = {
+        adults_number: adults,
+        filter_by_currency: currencies,
+        checkin_date: checkindates,
+        dest_id: id,
+        dest_type: type,
+        checkout_date: checkoutdates,
+        units: 'metric',
+        room_number: rooms,
+        order_by: orders,
+        locale: locales,
+        // categories_filter_ids: 'class::2,class::4,free_cancellation::1',
+        page_number: '0',
+        // include_adjacency: 'true'
+      };
+    
+      // // Combine conditions in a single block
+      if (req.query.children_number && req.query.children_ages) {
+        params.children_number = req.query.children_number;
+        params.children_ages = req.query.children_ages;
+      }
+    
+    const options = {
+        method: 'GET',
+        url: 'https://booking-com.p.rapidapi.com/v1/hotels/search-filters',
+        params: params,
+        headers: {
+        'X-RapidAPI-Key': process.env.VITE_REACT_APP_BOOKING_API_KEY,
+        'X-RapidAPI-Host': 'booking-com.p.rapidapi.com',
+      },
+    };
+    try{
+    const response = await axios.request(options);
+    res.json(response.data)
+    }
+    catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
   
 
 
