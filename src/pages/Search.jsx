@@ -317,9 +317,10 @@ const Search = () => {
                   // include_adjacency: 'true',
                   page_number: '0',
                 }
-                if (childCount > 0) {
+                if (childCount > 0 && !!categoriesFilter) {
                   params.children_number = childCount;
                   params.children_ages = children_age;
+                  params.categories_filter_ids = categoriesFilter;
                 }
                 const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
                   params : params,
@@ -347,7 +348,7 @@ const Search = () => {
          
         };
         getData()
-      },[langauge,currency,destid,destType])
+      },[langauge,currency,destid,destType,categoriesFilter])
       
       useEffect(()=>{
         setLocation(address)
@@ -403,15 +404,14 @@ const Search = () => {
       newClick[index] = !newClick[index];
       return newClick;
       });
-      const bb = [];
+      const category = [];
       if( id !== categoriesFilter[categoriesFilter.length-1]) {
-        
-        bb.push(id);
-        setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...bb])
+        category.push(id);
+        setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
       }else{
-       const gg = [...categoriesFilter];
-       gg.pop();
-       setCategoriesFilter(gg)
+       const newCategoriesFilter = [...categoriesFilter];
+       newCategoriesFilter.pop();
+       setCategoriesFilter(newCategoriesFilter)
       }
       
       // console.log(index)

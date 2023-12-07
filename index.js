@@ -121,9 +121,11 @@ app.get('/datas', async (req, res) => {
       };
     
       // // Combine conditions in a single block
-      if (req.query.children_number && req.query.children_ages) {
+      if (req.query.children_number && req.query.children_ages && req.categories_filter_ids) {
         params.children_number = req.query.children_number;
         params.children_ages = req.query.children_ages;
+        params.categories_filter_ids = req.categories_filter_ids
+        console.log(params.children_number)
       }
     
     const options = {
