@@ -128,6 +128,7 @@ const Search = () => {
   const [data, setData] = useState([]);
   const [price,setPrice] = useState (null);
   const [popularFilters,setPopularFilters] = useState(null);
+  const [categoriesFilter,setCategoriesFilter] = useState([]);
 
   
   
@@ -289,6 +290,9 @@ const Search = () => {
       //   getData()
       // },[langauge,currency])
 
+      
+     
+
       useEffect(()=> {
         const getData = async () => {
           let lang = ''; 
@@ -393,12 +397,22 @@ const Search = () => {
 
     const [click, setClick] = useState(Array(!!popularFilters?.categories?.length).fill(false));
 
-    const clickHandler = (selected,index) => {
+    const clickHandler = (index,id) => {
       setClick((prevClick) => {
       const newClick = [...prevClick];
       newClick[index] = !newClick[index];
       return newClick;
       });
+      const bb = [];
+      if( id !== categoriesFilter[categoriesFilter.length-1]) {
+        
+        bb.push(id);
+        setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...bb])
+      }else{
+       const gg = [...categoriesFilter];
+       gg.pop();
+       setCategoriesFilter(gg)
+      }
       
       // console.log(index)
       // const gg= selected += 1;
@@ -418,6 +432,8 @@ const Search = () => {
       // });
       
     };
+
+    console.log(categoriesFilter)
 
    return (
     <div className='w-full h-screen bg-gray-100'>
@@ -440,7 +456,7 @@ const Search = () => {
             onChange={item => setDate([item.selection])}
             moveRangeOnFirstSelection={false}
             ranges={date}
-            className='shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] absolute top-[70%] text-sm z-10'
+            className='shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] absolute top-[25%] text-sm z-10'
           />}
             </div>
             
@@ -450,7 +466,7 @@ const Search = () => {
             </div>
             
             {!!popup && 
-            <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[70%] right-[15%] flex flex-col space-y-5 p-6 '>
+            <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[25%] right-[21%] flex flex-col space-y-5 p-6 '>
             
             <Adult removeNewHandler={removeNewHandler} adult={adult} addNewHandler={addNewHandler}/>
             
@@ -465,12 +481,9 @@ const Search = () => {
             <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400' target='_blank'>{t('button.search')
             }
             </Link>
-            <div className='w-full'>
-
-            </div>
       </div>
       <div className='font-semibold text-lg absolute ml-[170px] -mt-5'>Filter by</div>
-        <div className=' w-[200px] ml-[170px] mt-10 flex flex-col gap-[30px]'>
+        <div className=' w-[200px] ml-[170px] mt-10 flex flex-col gap-[30px] '>
           {!!price && 
             <div className='w-full'>
               <div className='font-semibold text-sm '>{price.title}</div>
@@ -505,7 +518,7 @@ const Search = () => {
               </div>
               <div className='mt-2'>
                 {!!popularFilters && popularFilters.categories && popularFilters.categories.map((filter,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(popularFilters.categories[i].selected,i)}>
+                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,filter.id)}>
                     <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
                       {click[i] && svg}
                     </div>

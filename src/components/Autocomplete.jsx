@@ -121,7 +121,7 @@ const Autocomplete = () => {
         </button>}
         {!!suggestions && location.length !== 0 && suggestions.length > 0 && (
             <div className='relative group' >
-                <div className='bg-white shadow-[1px_1px_10px_rgb(0,0,0,0.1)] w-[300px] rounded-lg absolute top-[16%] mt-2 group-hover:border-blue-500'>
+                <div className='bg-white shadow-[1px_1px_10px_rgb(0,0,0,0.1)] w-[300px] rounded-lg absolute top-[16%] mt-2 group-hover:border-blue-500 z-50'>
                 <div className='space-y-2'ref={popRef}>
                     {suggestions.map((suggestion, i) => (
                     <div key={i} className='hover:bg-stone-100 cursor-pointer p-2 space-y-1 first:rounded-t-lg last:rounded-b-lg' onClick={() => handler (suggestion.city_name,suggestion.latitude,suggestion.longitude,suggestion.image_url,suggestion.dest_id,suggestion.dest_type)} >

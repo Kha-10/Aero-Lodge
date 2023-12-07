@@ -170,7 +170,9 @@ function Home() {
       children: child,
       children_array: array,
       children_ages: selectedOption,
-      img : imageurl || history.recent[0].img
+      img : imageurl || history.recent[0].img,
+      dest_type : destType || history.recent[0].dest_type,
+      dest_id : destid || history.recent[0].dest_id
     });
     // setHistory(updatedHistory);
     // console.log(updatedHistory.recent[0])
