@@ -129,7 +129,7 @@ const Search = () => {
   const [price,setPrice] = useState (null);
   const [popularFilters,setPopularFilters] = useState(null);
   const [categoriesFilter,setCategoriesFilter] = useState([]);
-  const [propertyType, setPropertyType] = useState(null);
+  const [fourthObj, setFourthObj] = useState(null);
   
   
 
@@ -336,7 +336,7 @@ const Search = () => {
               console.log(filter);
               setPrice(filter[1]);
               setPopularFilters(filter[2]);
-              setPropertyType(filter[7]);
+              setFourthObj(filter[7]);
             } 
             catch (error) {
               if (error.response) {
@@ -367,17 +367,29 @@ const Search = () => {
     }
 
 
-    const [click, setClick] = useState(Array(!!popularFilters?.categories?.length).fill(false));
+    const [click, setClick] = useState(Array(popularFilters?.categories?.length).fill(false));
 
-    const clickHandler = (index,id) => {
-      setClick((prevClick) => {
-      const newClick = [...prevClick];
-      newClick[index] = !newClick[index];
-      return newClick;
-      });
+    const [fourthObjClick,setFourthObjClick] = useState(Array(fourthObj?.categories?.length).fill(false));
+
+    const clickHandler = (index,obj) => {
+      console.log(obj)
+      if( obj.id === popularFilters.id ) {
+        setClick((prevClick) => {
+          const newClick = [...prevClick];
+          newClick[index] = !newClick[index];
+          return newClick;
+          });
+      }else if(obj.id === fourthObj.id) {
+        setFourthObjClick((prevFf)=> {
+          const newFf = [...prevFf];
+          newFf[index] = !newFf[index];
+          return newFf
+        })
+      }
+      
       const category = [];
-      if( id !== categoriesFilter[categoriesFilter.length-1]) {
-        category.push(id);
+      if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
+        category.push(obj.categories[index].id);
         setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
       }else{
        const newCategoriesFilter = [...categoriesFilter];
@@ -514,7 +526,7 @@ const Search = () => {
               </div>
               <div className='mt-2'>
                 {!!popularFilters && popularFilters.categories && popularFilters.categories.map((filter,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,filter.id)}>
+                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,popularFilters)} >
                     <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
                       {click[i] && svg}
                     </div>
@@ -524,18 +536,18 @@ const Search = () => {
               </div>
             </div>
           }
-          {!!propertyType && 
+          {!!fourthObj && 
             <div className='w-full'>
               <div className='font-semibold text-sm'> 
-                {propertyType.title}
+                {fourthObj.title}
               </div>
               <div className='mt-2'>
-                {!!propertyType && propertyType.categories && propertyType.categories.map((pType,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,pType.id)}>
+                {!!fourthObj && fourthObj.categories && fourthObj.categories.map((fourth,i)=> (
+                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,fourthObj)}>
                     <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                      {click[i] && svg}
+                      {fourthObjClick[i] && svg}
                     </div>
-                    <span className='text-sm group-hover:text-blue-400'>{pType.name}</span>
+                    <span className='text-sm group-hover:text-blue-400'>{fourth.name}</span>
                   </div>
                 ))}
               </div>
