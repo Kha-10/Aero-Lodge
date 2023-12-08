@@ -94,6 +94,7 @@ app.get('/datas', async (req, res) => {
 
   app.get('/filters', async (req, res) => {
     console.log('Request received:', req.query)
+    console.log('Request gg:', req.query.categories_filter_ids)
     const type = req.query.dest_type;
     const id = req.query.dest_id;
     const rooms = req.query.room_number;
@@ -103,6 +104,7 @@ app.get('/datas', async (req, res) => {
     const checkoutdates = req.query.checkout_date;
     const checkindates = req.query.checkin_date;
     const adults = req.query.adults_number;
+    
     
     const params = {
         adults_number: adults,
@@ -117,15 +119,14 @@ app.get('/datas', async (req, res) => {
         locale: locales,
         // categories_filter_ids: 'class::2,class::4,free_cancellation::1',
         page_number: '0',
-        // include_adjacency: 'true'
+        include_adjacency: 'true'
       };
     
       // // Combine conditions in a single block
-      if (req.query.children_number && req.query.children_ages && req.categories_filter_ids) {
+      if (req.query.children_number && req.query.children_ages && req.query.categories_filter_ids) {
         params.children_number = req.query.children_number;
         params.children_ages = req.query.children_ages;
-        params.categories_filter_ids = req.categories_filter_ids
-        console.log(params.children_number)
+        params.categories_filter_ids = req.query.categories_filter_ids
       }
     
     const options = {
