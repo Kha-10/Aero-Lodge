@@ -130,6 +130,7 @@ const Search = () => {
   const [popularFilters,setPopularFilters] = useState(null);
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [fourthObj, setFourthObj] = useState(null);
+  const [fifthObj,setFifthObj] = useState(null);
   
   
 
@@ -336,7 +337,8 @@ const Search = () => {
               console.log(filter);
               setPrice(filter[1]);
               setPopularFilters(filter[2]);
-              setFourthObj(filter[7]);
+              setFourthObj(filter[4]);
+              setFifthObj(filter[5]);
             } 
             catch (error) {
               if (error.response) {
@@ -368,8 +370,8 @@ const Search = () => {
 
 
     const [click, setClick] = useState(Array(popularFilters?.categories?.length).fill(false));
-
     const [fourthObjClick,setFourthObjClick] = useState(Array(fourthObj?.categories?.length).fill(false));
+    const [fifthObjClick,setFifthObjClick] = useState(Array(fourthObj?.categories?.length).fill(false));
 
     const clickHandler = (index,obj) => {
       console.log(obj)
@@ -380,10 +382,16 @@ const Search = () => {
           return newClick;
           });
       }else if(obj.id === fourthObj.id) {
-        setFourthObjClick((prevFf)=> {
-          const newFf = [...prevFf];
-          newFf[index] = !newFf[index];
-          return newFf
+        setFourthObjClick((prevFourth)=> {
+          const newFourth = [...prevFourth];
+          newFourth[index] = !newFourth[index];
+          return newFourth
+        })
+      }else if (obj.id === fifthObj.id) {
+        setFifthObjClick((prevFifth)=>{
+          const newFifth = [...prevFifth];
+          newFifth[index] = !newFifth[index]
+          return newFifth
         })
       }
       
@@ -444,7 +452,7 @@ const Search = () => {
 
     
    return (
-    <div className='w-full h-screen bg-gray-100'>
+    <div className='w-full h-[300vh] bg-gray-100'>
       <div  className='inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
         
            <Autocomplete/>
@@ -548,6 +556,23 @@ const Search = () => {
                       {fourthObjClick[i] && svg}
                     </div>
                     <span className='text-sm group-hover:text-blue-400'>{fourth.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          }
+           {!!fifthObj && 
+            <div className='w-full'>
+              <div className='font-semibold text-sm'> 
+                {fifthObj.title}
+              </div>
+              <div className='mt-2'>
+                {!!fifthObj && fifthObj.categories && fifthObj.categories.map((fifth,i)=> (
+                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,fifthObj)}>
+                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                      {fifthObjClick[i] && svg}
+                    </div>
+                    <span className='text-sm group-hover:text-blue-400'>{fifth.name}</span>
                   </div>
                 ))}
               </div>
