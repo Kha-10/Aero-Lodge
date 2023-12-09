@@ -13,15 +13,15 @@ i18n
 
   .init({
     lng: localStorage.getItem('i18nextLng') || 'en' , // Default language
-    fallbackLng: 'en', // Fallback language
-    debug: true, // Enable debug mode for development
+    fallbackLng: 'en', // Fallback lannpmguage
+    debug: true, 
     interpolation: {
-    escapeValue: false, // React already safely escapes values
+    escapeValue: false, 
     returnObjects: true,
     },
   });
 
-  i18n.services.formatter.add('DATE_SHORT', (value, lng, options) => {
+  i18n.services.formatter.add('DATE_SHORT', (value, lng) => {
     const customFormat = {
       month: 'short',
       day: 'numeric',

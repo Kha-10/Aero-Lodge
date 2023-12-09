@@ -28,7 +28,6 @@ const AppContextProvider = ({children}) => {
 
   
 const checkinDate = new Date (date[0].startDate) ;
-// console.log(checkinDate)
 
 const checkInYear = checkinDate.getFullYear();
 

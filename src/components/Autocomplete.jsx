@@ -9,7 +9,10 @@ const Autocomplete = () => {
   const [suggestions,setSuggestions] = useState(null);
   console.log(suggestions)
   const popRef = useRef(null);
-  
+  const loc = useLocation();
+    const path = loc.pathname;
+    console.log(path)
+
   
 
   const {setLatitude,setLongitude,setLocation,location,setImageurl,history,toggle,setDestType,setDestid} = useApp();
@@ -108,10 +111,7 @@ const Autocomplete = () => {
       }
     }, [history]);
 
-    const loc = useLocation();
-    const path = loc.pathname;
-    console.log(path)
-
+    
   return (
     <div>
         <input type="text" placeholder='Enter your destination' className='w-[300px] h-[60px] py-3 px-12 border bg-white border-gray-400  rounded-md placeholder-black hover:border-blue-500' value={location}

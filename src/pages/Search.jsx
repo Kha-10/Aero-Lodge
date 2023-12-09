@@ -43,7 +43,9 @@ const Search = () => {
 
     const destid = params.get('dest_id');
  
-    const {location,setLocation,toggle,latitude,longitude,imageurl} = useApp();
+    const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
+
+   
 
   
 
@@ -66,7 +68,7 @@ const Search = () => {
     };
     const weekdayCheckinDate = inputCheckinDate.toLocaleString('en-US', opts);
 
-    // console.log(weekdayCheckinDate)
+    console.log(weekdayCheckinDate)
     
 
     const checkoutDate = params.get('checkoutdate');
@@ -83,14 +85,22 @@ const Search = () => {
     };
     const weekdayCheckoutDate = inputCheckoutDate.toLocaleString('en-US', opt);
 
-    const [date, setDate] = useState([
-      {
-        startDate: new Date(weekdayCheckinDate),
-        endDate: new Date(weekdayCheckoutDate),
-        key: 'selection'
-      }
-    ]);
+    // const [date, setDate] = useState([
+    //   {
+    //     startDate: new Date(weekdayCheckinDate),
+    //     endDate: new Date(weekdayCheckoutDate),
+    //     key: 'selection'
+    //   }
+    // ]);
 
+    // useEffect(()=>{
+    //   const newDate = [...date];
+    //   newDate[0].startDate = weekdayCheckinDate;
+    //   newDate[0].endDate = weekdayCheckoutDate;
+      
+    //   setDate(newDate)
+
+    // },[weekdayCheckinDate,weekdayCheckoutDate])
    
    
     const checkInDate = new Date (date[0].startDate) ;
@@ -207,6 +217,22 @@ const Search = () => {
         setPopup(false)
        
       }
+      useEffect(() => {
+        function handleClickOutside(event) {
+          if (!newPopRef.current.contains(event.target)) {
+            setNewPopup(false);
+          }
+        }
+    
+        if (newPopup) {
+          document.addEventListener('click', handleClickOutside);
+        }
+    
+        return () => {
+          document.removeEventListener('click', handleClickOutside);
+        };
+      }, [newPopup]);
+      
 
       useEffect(() => {
         function handleClickOutside(event) {
@@ -225,22 +251,6 @@ const Search = () => {
         };
         
       },[popup]);
-
-      useEffect(() => {
-        function handleClickOutside(event) {
-          if (!newPopRef.current.contains(event.target)) {
-            setNewPopup(false);
-          }
-        }
-    
-        if (newPopup) {
-          document.addEventListener('click', handleClickOutside);
-        }
-    
-        return () => {
-          document.removeEventListener('click', handleClickOutside);
-        };
-      }, [newPopup]);
 
       const langauge  = localStorage.getItem('i18nextLng');
       // console.log('localStorage language :',langauge);
@@ -472,7 +482,7 @@ const Search = () => {
       <div  className='inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
         
            <Autocomplete/>
-            <div ref={newPopRef} className='cursor-pointer group'>
+            {/* <div ref={newPopRef} className='cursor-pointer group'>
                 <div onClick={handleNewPopup} className='relative bg-white w-[300px] h-[60px] border border-b rounded-lg border-gray-400 flex items-center justify-around group-hover:border-blue-500 p-3'>
                     <div className='absolute left-1 pl-3 pointer-events-none flex items-center gap-4 p-3' >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -490,8 +500,9 @@ const Search = () => {
             ranges={date}
             className='shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] absolute top-[25%] text-sm z-10'
           />}
-            </div>
-           
+            </div> */}
+            <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
+              newPopup={newPopup}  />
 
             
             <div ref={popRef}  className='group cursor-pointer'>

@@ -7,14 +7,18 @@ import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import useApp from '../hooks/useApp';
+import { useLocation } from 'react-router-dom';
 
 const Daterange = ({handleNewPopup,setNewPopup,newPopup}) => {
   
     const newPopRef = useRef(null);
     const {t} = useTranslation();
     const {date,setDate} = useApp();
-
-    // console.log(date)
+    const location = useLocation();
+    const path = location.pathname
+    
+    console.log(date)
+   
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -32,6 +36,23 @@ const Daterange = ({handleNewPopup,setNewPopup,newPopup}) => {
         };
       }, [newPopup]);
 
+
+    useEffect(() => {
+        // Parse checkindate and checkoutdate from URL params
+        const params = new URLSearchParams(location.search);
+        const checkinDateParam = params.get('checkindate');
+        const checkoutDateParam = params.get('checkoutdate');
+    
+        if (checkinDateParam && checkoutDateParam) {
+          // Update the date state based on the URL params
+          const startDate = new Date(checkinDateParam);
+          const endDate = new Date(checkoutDateParam);
+          setDate([{ startDate, endDate, key: 'selection' }]);
+        }
+      }, [location.search, setDate]);
+    
+      
+    
     
     return (
     <div>
@@ -51,7 +72,7 @@ const Daterange = ({handleNewPopup,setNewPopup,newPopup}) => {
             onChange={item => setDate([item.selection])}
             moveRangeOnFirstSelection={false}
             ranges={date}
-            className='shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] absolute top-[70%] text-sm z-10'
+            className={`shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] ${path === '/search' ? 'absolute top-[25%]' : 'absolute top-[70%]' } text-sm z-10`}
           />}
         </div>
     </div>
