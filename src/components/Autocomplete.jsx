@@ -26,14 +26,22 @@ const Autocomplete = () => {
         setLocation(e.target.value);
     }
 
+  const langauge = localStorage.getItem('i18nextLng');
+
    useEffect(() => {
         if(location.length > 2 && !toggle.current) {
             const getLocation = async () => {
+              let lang = ''; 
+                if(langauge ==='en') {
+                  lang = langauge +'-gb'
+                }else {
+                  lang = langauge;
+                }
                 try{
                     const {data} = await axios.get('http://localhost:8000/locations',{
                         params: {
                             name: location,
-                            locale: 'en-gb'
+                            locale: lang
                           }
                     });
                     setSuggestions(data)

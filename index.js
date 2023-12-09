@@ -68,6 +68,7 @@ app.get('/datas', async (req, res) => {
   app.get('/locations', async (req, res) => {
     console.log('Request received:', req.query)
     const city = req.query.name;
+    const lng = req.query.locale
   
     
     const options = {
@@ -75,7 +76,7 @@ app.get('/datas', async (req, res) => {
         url: 'https://booking-com.p.rapidapi.com/v1/hotels/locations',
         params: {
           name: city,
-          locale: 'en-gb'
+          locale: lng
         },
         headers: {
         'X-RapidAPI-Key': process.env.VITE_REACT_APP_BOOKING_API_KEY,

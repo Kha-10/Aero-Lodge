@@ -267,7 +267,7 @@ function Home() {
         
 
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
-        newPopup={newPopup} setDate={setDate} date={date} />
+        newPopup={newPopup}  />
 
 
         <div ref={popRef}  className='group cursor-pointer'>

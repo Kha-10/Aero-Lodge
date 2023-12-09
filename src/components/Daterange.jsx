@@ -6,11 +6,15 @@ import { DateRange } from 'react-date-range';
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import useApp from '../hooks/useApp';
 
-const Daterange = ({handleNewPopup,setNewPopup,newPopup,date,setDate}) => {
+const Daterange = ({handleNewPopup,setNewPopup,newPopup}) => {
   
     const newPopRef = useRef(null);
     const {t} = useTranslation();
+    const {date,setDate} = useApp();
+
+    // console.log(date)
 
     useEffect(() => {
         function handleClickOutside(event) {

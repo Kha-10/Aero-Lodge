@@ -14,6 +14,7 @@ import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
 import axios from 'axios';
 import useApp from '../hooks/useApp';
+import Daterange from '../components/Daterange';
 
 const Search = () => {
     const locations = useLocation();
@@ -44,6 +45,8 @@ const Search = () => {
  
     const {location,setLocation,toggle,latitude,longitude,imageurl} = useApp();
 
+  
+
 
 
     const [adult, setAdult] = useState(adultCount);
@@ -62,6 +65,8 @@ const Search = () => {
     timeZoneName: 'short',
     };
     const weekdayCheckinDate = inputCheckinDate.toLocaleString('en-US', opts);
+
+    // console.log(weekdayCheckinDate)
     
 
     const checkoutDate = params.get('checkoutdate');
@@ -85,7 +90,9 @@ const Search = () => {
         key: 'selection'
       }
     ]);
-  
+
+   
+   
     const checkInDate = new Date (date[0].startDate) ;
   
     const checkInYear = checkInDate.getFullYear();
@@ -131,6 +138,7 @@ const Search = () => {
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [fourthObj, setFourthObj] = useState(null);
   const [fifthObj,setFifthObj] = useState(null);
+  const [sixthObj,setSixthObj] = useState(null);
   
   
 
@@ -339,6 +347,7 @@ const Search = () => {
               setPopularFilters(filter[2]);
               setFourthObj(filter[4]);
               setFifthObj(filter[5]);
+              setSixthObj(filter[6]);
             } 
             catch (error) {
               if (error.response) {
@@ -371,7 +380,8 @@ const Search = () => {
 
     const [click, setClick] = useState(Array(popularFilters?.categories?.length).fill(false));
     const [fourthObjClick,setFourthObjClick] = useState(Array(fourthObj?.categories?.length).fill(false));
-    const [fifthObjClick,setFifthObjClick] = useState(Array(fourthObj?.categories?.length).fill(false));
+    const [fifthObjClick,setFifthObjClick] = useState(Array(fifthObj?.categories?.length).fill(false));
+    const [sixthObjClick,setSixthObjClick] = useState(Array(sixthObj?.categories?.length).fill(false));
 
     const clickHandler = (index,obj) => {
       console.log(obj)
@@ -392,6 +402,12 @@ const Search = () => {
           const newFifth = [...prevFifth];
           newFifth[index] = !newFifth[index]
           return newFifth
+        })
+      }else if (obj.id === sixthObj.id) {
+        setSixthObjClick((prevSixth)=>{
+          const newSixfth = [...prevSixth];
+          newSixfth[index] = !newSixfth[index]
+          return newSixfth
         })
       }
       
@@ -475,6 +491,8 @@ const Search = () => {
             className='shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] absolute top-[25%] text-sm z-10'
           />}
             </div>
+           
+
             
             <div ref={popRef}  className='group cursor-pointer'>
             <div onClick={handlePopup} className='relative w-[300px] bg-white h-[60px] p-3  border border-gray-400 flex justify-between items-center rounded-lg group-hover:border-blue-500' >
@@ -573,6 +591,23 @@ const Search = () => {
                       {fifthObjClick[i] && svg}
                     </div>
                     <span className='text-sm group-hover:text-blue-400'>{fifth.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          }
+          {!!sixthObj && 
+            <div className='w-full'>
+              <div className='font-semibold text-sm'> 
+                {sixthObj.title}
+              </div>
+              <div className='mt-2'>
+                {!!sixthObj && sixthObj.categories && sixthObj.categories.map((sixth,i)=> (
+                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,sixthObj)}>
+                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                      {sixthObjClick[i] && svg}
+                    </div>
+                    <span className='text-sm group-hover:text-blue-400'>{sixth.name}</span>
                   </div>
                 ))}
               </div>
