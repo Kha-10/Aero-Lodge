@@ -151,10 +151,8 @@ const Search = () => {
   const [fifthObj,setFifthObj] = useState(null);
   const [sixthObj,setSixthObj] = useState(null);
   const [seventhObj,setSeventhObj] = useState(null);
-  const [eighthObj,setEighthObj] = useState(null);
-  const [ninthObj,setNinthObj] = useState(null);
-
-  console.log(filter)
+  
+  
 
     const addHandler = () => {
         if (child < 10) {
@@ -364,8 +362,6 @@ const Search = () => {
               setFifthObj(filter[5]);
               setSixthObj(filter[6]);
               setSeventhObj(filter[7]);
-              setEighthObj(filter[8]);
-              setNinthObj(filter[9]);
             } 
             catch (error) {
               if (error.response) {
@@ -395,105 +391,67 @@ const Search = () => {
       setselectedTitle(e)
     }
 
-   
     const [clickStates, setClickStates] = useState({
       popular: Array(popularFilters?.categories?.length).fill(false),
       fourthObjClick: Array(fourthObj?.categories?.length).fill(false),
       fifthObjClick: Array(fifthObj?.categories?.length).fill(false),
       sixthObjClick: Array(sixthObj?.categories?.length).fill(false),
       seventhObjClick: Array(seventhObj?.categories?.length).fill(false),
-      eighthObjClick: Array(eighthObj?.categories?.length).fill(false),
-      ninthObjClick: Array(ninthObj?.categories?.length).fill(false),
     });
-
     
-  //   const clickHandler = (index, obj) => {
-  //     console.log(index)
-  //     console.log(obj);
-  //     const{id} = obj;
-
-
-  // setClickStates((prevStates) => {
-  //   const newState = { ...prevStates };
-
-  //   if (id === popularFilters.id) {
-  //     newState.popular[index] = !newState.popular[index];
-  //   } else if (id === fourthObj.id) {
-  //     newState.fourthObjClick[index] = !newState.fourthObjClick[index];
-  //   } else if (id === fifthObj.id) {
-  //     newState.fifthObjClick[index] = !newState.fifthObjClick[index];
-  //   } else if (id === sixthObj.id) {
-  //     newState.sixthObjClick[index] = !newState.sixthObjClick[index];
-  //   }else if (id === seventhObj.id) {
-  //     newState.seventhObjClick[index] = !newState.seventhObjClick[index];
-  //   }else if (id === eighthObj.id) {
-  //     newState.eighthObjClick[index] = !newState.eighthObjClick[index];
-  //   }else if (id === ninthObj.id) {
-  //     newState.ninthObjClick[index] = !newState.ninthObjClick[index];
-  //   }
-
-  //   return newState;
-  // });
-    
-  //   const category = [];
-  //     if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
-  //       category.push(obj.categories[index].id);
-  //       setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
-  //     }else{
-  //      const newCategoriesFilter = [...categoriesFilter];
-  //      newCategoriesFilter.pop();
-  //      setCategoriesFilter(newCategoriesFilter)
-  //     }
+    const clickHandler = (index, obj) => {
+      console.log(obj);
       
-  //   };
+      const { id } = obj;
 
-  //   console.log(categoriesFilter)
+  setClickStates((prevStates) => {
+    const newState = { ...prevStates };
 
-  // const [checkedItems, setCheckedItems] = useState([]);
+    if (id === popularFilters.id) {
+      newState.popular[index] = !newState.popular[index];
+    } else if (id === fourthObj.id) {
+      newState.fourthObjClick[index] = !newState.fourthObjClick[index];
+    } else if (id === fifthObj.id) {
+      newState.fifthObjClick[index] = !newState.fifthObjClick[index];
+    } else if (id === sixthObj.id) {
+      newState.sixthObjClick[index] = !newState.sixthObjClick[index];
+    }else if (id === seventhObj.id) {
+      newState.seventhObjClick[index] = !newState.seventhObjClick[index];
+    }
 
-
-  // const clickHandler = (index,newIndex,obj) => {
-  //   const name = obj[index]?.name;
-  //   if(name === filter[newIndex].categories[index].name) {
-  //     const newCheckedItems = Array(filter[newIndex].categories.length).fill(false);
-
-  //     // Toggle the clicked item
-  //     newCheckedItems[index] = true;
-
-  //     setCheckedItems(newCheckedItems);
-  //   }
-    
-  // };
-
-  const [checkedItems, setCheckedItems] = useState([]);
-
-  
-  const clickHandler = (index, newIndex, obj) => {
-  console.log(index)
-
-  const initialCheckedItems = Array(filter[newIndex].categories.length).fill(false);
-
-  // Using setCheckedItems to update the state
-  setCheckedItems((prevState) => {
-    const updatedCheckedItems = [...prevState];
-    updatedCheckedItems[index] = !updatedCheckedItems[index];
-    return updatedCheckedItems;
+    return newState;
   });
+    
+    const category = [];
+      if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
+        category.push(obj.categories[index].id);
+        setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
+      }else{
+       const newCategoriesFilter = [...categoriesFilter];
+       newCategoriesFilter.pop();
+       setCategoriesFilter(newCategoriesFilter)
+      }
+      
+      // console.log(index)
+      // const gg= selected += 1;
+      // popularFilters.categories[index].selected = gg;
+      
+      // setPopularFilters((prevFilters) => {
+      //   // Create a copy of the previous state to avoid mutating it directly
+      //   const newFilters = { ...prevFilters };
+        
+      //   // Create a copy of the categories array to avoid mutating it directly
+      //   newFilters.categories = [...prevFilters.categories];
+    
+      //   // Update the selected property in the copied categories array
+      //   newFilters.categories[index].selected = gg;
+    
+      //   return newFilters;
+      // });
+      
+    };
 
-
-  // const name = obj[index]?.name;
-
-  // // Create a copy of the current checkedItems state
-  // const newCheckedItems = [...checkedItems];
-
-  // // Toggle the clicked item
-  // newCheckedItems[index] = !newCheckedItems[index];
-
-  // // Update the state with the newCheckedItems array
-  // setCheckedItems(newCheckedItems);
-
-  // console.log('After Click - checkedItems:', newCheckedItems);
-};
+    console.log(categoriesFilter)
 
       
       useEffect(()=>{
@@ -518,8 +476,6 @@ const Search = () => {
     //   {star:4 ,icon},
     //   {star:5 ,icon}
     // ];
-
-    
 
     
    return (
@@ -611,14 +567,10 @@ const Search = () => {
               <div className='mt-2'>
                 {!!popularFilters && popularFilters.categories && popularFilters.categories.map((filter,i)=> (
                   <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,popularFilters)} >
-                   {!!filter.name &&(
-                      <>
-                        <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                        {clickStates.popular[i] && svg}
-                      </div>
-                      <span className='text-sm group-hover:text-blue-400'>{filter.name}</span>
-                      </>
-                    )}
+                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                      {clickStates.popular[i] && svg}
+                    </div>
+                    <span className='text-sm group-hover:text-blue-400'>{filter.name}</span>
                   </div>
                 ))}
               </div>
@@ -632,14 +584,10 @@ const Search = () => {
               <div className='mt-2'>
                 {!!fourthObj && fourthObj.categories && fourthObj.categories.map((fourth,i)=> (
                   <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,fourthObj)}>
-                   {!!fourth.name &&(
-                      <>
-                        <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                        {clickStates.fourthObjClick[i] && svg}
-                      </div>
-                      <span className='text-sm group-hover:text-blue-400'>{fourth.name}</span>
-                      </>
-                    )}
+                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                      {clickStates.fourthObjClick[i] && svg}
+                    </div>
+                    <span className='text-sm group-hover:text-blue-400'>{fourth.name}</span>
                   </div>
                 ))}
               </div>
@@ -653,14 +601,10 @@ const Search = () => {
               <div className='mt-2'>
                 {!!fifthObj && fifthObj.categories && fifthObj.categories.map((fifth,i)=> (
                   <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,fifthObj)}>
-                    {!!fifth.name &&(
-                      <>
-                        <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                        {clickStates.fifthObjClick[i] && svg}
-                      </div>
-                      <span className='text-sm group-hover:text-blue-400'>{fifth.name}</span>
-                      </>
-                    )}
+                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                      {clickStates.fifthObjClick[i] && svg}
+                    </div>
+                    <span className='text-sm group-hover:text-blue-400'>{fifth.name}</span>
                   </div>
                 ))}
               </div>
@@ -674,14 +618,10 @@ const Search = () => {
               <div className='mt-2'>
                 {!!sixthObj && sixthObj.categories && sixthObj.categories.map((sixth,i)=> (
                   <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,sixthObj)}>
-                    {!!sixth.name &&(
-                      <>
-                        <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                        {clickStates.sixthObjClick[i] && svg}
-                      </div>
-                      <span className='text-sm group-hover:text-blue-400'>{sixth.name}</span>
-                      </>
-                    )}
+                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                      {clickStates.sixthObjClick[i] && svg}
+                    </div>
+                    <span className='text-sm group-hover:text-blue-400'>{sixth.name}</span>
                   </div>
                 ))}
               </div>
@@ -695,101 +635,15 @@ const Search = () => {
               <div className='mt-2'>
                 {!!seventhObj && seventhObj.categories && seventhObj.categories.map((seventh,i)=> (
                   <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,seventhObj)}>
-                    {!!seventh.name &&(
-                      <>
-                        <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                        {clickStates.seventhObjClick[i] && svg}
-                      </div>
-                      <span className='text-sm group-hover:text-blue-400'>{seventh.name}</span>
-                      </>
-                    )}
+                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                      {clickStates.seventhObjClick[i] && svg}
+                    </div>
+                    <span className='text-sm group-hover:text-blue-400'>{seventh.name}</span>
                   </div>
                 ))}
               </div>
             </div>
           }
-          {!!eighthObj && 
-            <div className='w-full'>
-              <div className='font-semibold text-sm'> 
-                {eighthObj.title}
-              </div>
-              <div className='mt-2'>
-                {!!eighthObj && eighthObj.categories && eighthObj.categories.map((eighth,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,eighthObj)}>
-                    {!!eighth.name &&(
-                      <>
-                        <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                        {clickStates.eighthObjClick[i] && svg}
-                      </div>
-                      <span className='text-sm group-hover:text-blue-400'>{eighth.name}</span>
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
-          {!!ninthObj && 
-            <div className='w-full'>
-              <div className='font-semibold text-sm'> 
-                {ninthObj.title}
-              </div>
-              <div className='mt-2'>
-                {!!ninthObj && ninthObj.categories && ninthObj.categories.map((ninth,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,ninthObj)}>
-                    {!!ninth.name &&(
-                      <>
-                        <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                        {clickStates.ninthObjClick[i] && svg}
-                      </div>
-                      <span className='text-sm group-hover:text-blue-400'>{ninth.name}</span>
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          } */}
-
-          
-         {!!filter && filter.map((f, i) => (
-  <div key={i} className='text-lg'>
-    <div className='font-semibold text-lg mb-2'>{f.title}</div>
-    {f.title === "Your budget (for 1 night)" ? (
-      <div className='bg-white rounded-lg mt-2 p-3 border border-gray-400'>
-        <select
-          className='w-[170px] text-sm focus:outline-none'
-          value={selectedTitle || ''}
-          onChange={(e) => changeHandler(e.target.value)}
-        >
-          <option value="">{f.title}</option>
-          {!!f?.categories && f.categories.map((category) => (
-            <option key={category.id} value={category.name}>{category.name}</option>
-          ))}
-        </select>
-      </div>
-    ) : (
-      !!f?.categories && f.categories.map((category, j) => (
-        <div key={j} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={() => clickHandler(j,i,f.categories)}>
-          {!!category.name && (
-            <>
-              <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                  {checkedItems[j] ? svg : ''}
-                </div>
-
-              <span className='text-sm group-hover:text-blue-400'>{category.name}</span>
-            </>
-          )}
-        </div>
-      ))
-    )}
-  </div>
-))}
-     
-
-
-
-
         </div>
     </div>
   )
