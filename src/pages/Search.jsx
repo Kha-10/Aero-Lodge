@@ -143,14 +143,22 @@ const Search = () => {
   const newPopRef = useRef(null);
 
   const [data, setData] = useState([]);
-  const [filter,setFilter] = useState(null);
+  // const [filter,setFilter] = useState(null);
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
-  const [popularFilters,setPopularFilters] = useState(null);
-  const [fourthObj, setFourthObj] = useState(null);
-  const [fifthObj,setFifthObj] = useState(null);
-  const [sixthObj,setSixthObj] = useState(null);
-  const [seventhObj,setSeventhObj] = useState(null);
+  // const [popularFilters,setPopularFilters] = useState(null);
+  // const [fourthObj, setFourthObj] = useState(null);
+  // const [fifthObj,setFifthObj] = useState(null);
+  // const [sixthObj,setSixthObj] = useState(null);
+  // const [seventhObj,setSeventhObj] = useState(null);
+  const [filterData, setFilterData] = useState({
+    price: null,
+    popularFilters: null,
+    fourthObj: null,
+    fifthObj: null,
+    sixthObj: null,
+    seventhObj: null,
+  });
   
   
 
@@ -355,13 +363,20 @@ const Search = () => {
                 )
               
               // console.log(filter);
-              setFilter(filter);
+              // setFilter(filter);
               setPrice(filter[1]);
-              setPopularFilters(filter[2]);
-              setFourthObj(filter[4]);
-              setFifthObj(filter[5]);
-              setSixthObj(filter[6]);
-              setSeventhObj(filter[7]);
+              setFilterData({
+                popularFilters: filter[2],
+                fourthObj: filter[4],
+                fifthObj: filter[5],
+                sixthObj: filter[6],
+                seventhObj: filter[7],
+              });
+              // setPopularFilters(filter[2]);
+              // setFourthObj(filter[4]);
+              // setFifthObj(filter[5]);
+              // setSixthObj(filter[6]);
+              // setSeventhObj(filter[7]);
             } 
             catch (error) {
               if (error.response) {
@@ -391,67 +406,116 @@ const Search = () => {
       setselectedTitle(e)
     }
 
+    // const [clickStates, setClickStates] = useState({
+    //   popular: Array(popularFilters?.categories?.length).fill(false),
+    //   fourthObjClick: Array(fourthObj?.categories?.length).fill(false),
+    //   fifthObjClick: Array(fifthObj?.categories?.length).fill(false),
+    //   sixthObjClick: Array(sixthObj?.categories?.length).fill(false),
+    //   seventhObjClick: Array(seventhObj?.categories?.length).fill(false),
+    // });
+
     const [clickStates, setClickStates] = useState({
-      popular: Array(popularFilters?.categories?.length).fill(false),
-      fourthObjClick: Array(fourthObj?.categories?.length).fill(false),
-      fifthObjClick: Array(fifthObj?.categories?.length).fill(false),
-      sixthObjClick: Array(sixthObj?.categories?.length).fill(false),
-      seventhObjClick: Array(seventhObj?.categories?.length).fill(false),
+      popular: Array(filterData.popularFilters?.categories?.length).fill(false),
+      fourthObjClick: Array(filterData.fourthObj?.categories?.length).fill(false),
+      fifthObjClick: Array(filterData.fifthObj?.categories?.length).fill(false),
+      sixthObjClick: Array(filterData.sixthObj?.categories?.length).fill(false),
+      seventhObjClick: Array(filterData.seventhObj?.categories?.length).fill(false),
     });
     
-    const clickHandler = (index, obj) => {
-      console.log(obj);
-      
-      const { id } = obj;
-
-  setClickStates((prevStates) => {
-    const newState = { ...prevStates };
-
-    if (id === popularFilters.id) {
-      newState.popular[index] = !newState.popular[index];
-    } else if (id === fourthObj.id) {
-      newState.fourthObjClick[index] = !newState.fourthObjClick[index];
-    } else if (id === fifthObj.id) {
-      newState.fifthObjClick[index] = !newState.fifthObjClick[index];
-    } else if (id === sixthObj.id) {
-      newState.sixthObjClick[index] = !newState.sixthObjClick[index];
-    }else if (id === seventhObj.id) {
-      newState.seventhObjClick[index] = !newState.seventhObjClick[index];
-    }
-
-    return newState;
-  });
     
-    const category = [];
-      if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
-        category.push(obj.categories[index].id);
-        setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
-      }else{
-       const newCategoriesFilter = [...categoriesFilter];
-       newCategoriesFilter.pop();
-       setCategoriesFilter(newCategoriesFilter)
-      }
+  //   const clickHandler = (index, obj) => {
+  //     console.log(obj);
       
-      // console.log(index)
-      // const gg= selected += 1;
-      // popularFilters.categories[index].selected = gg;
+  //     const { id } = obj;
+
+  // setClickStates((prevStates) => {
+  //   const newState = { ...prevStates };
+
+  //   if (id === popularFilters.id) {
+  //     newState.popular[index] = !newState.popular[index];
+  //   } else if (id === fourthObj.id) {
+  //     newState.fourthObjClick[index] = !newState.fourthObjClick[index];
+  //   } else if (id === fifthObj.id) {
+  //     newState.fifthObjClick[index] = !newState.fifthObjClick[index];
+  //   } else if (id === sixthObj.id) {
+  //     newState.sixthObjClick[index] = !newState.sixthObjClick[index];
+  //   }else if (id === seventhObj.id) {
+  //     newState.seventhObjClick[index] = !newState.seventhObjClick[index];
+  //   }
+
+  //   return newState;
+  // });
+    
+  //   const category = [];
+  //     if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
+  //       category.push(obj.categories[index].id);
+  //       setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
+  //     }else{
+  //      const newCategoriesFilter = [...categoriesFilter];
+  //      newCategoriesFilter.pop();
+  //      setCategoriesFilter(newCategoriesFilter)
+  //     }
       
-      // setPopularFilters((prevFilters) => {
-      //   // Create a copy of the previous state to avoid mutating it directly
-      //   const newFilters = { ...prevFilters };
+  //     // console.log(index)
+  //     // const gg= selected += 1;
+  //     // popularFilters.categories[index].selected = gg;
+      
+  //     // setPopularFilters((prevFilters) => {
+  //     //   // Create a copy of the previous state to avoid mutating it directly
+  //     //   const newFilters = { ...prevFilters };
         
-      //   // Create a copy of the categories array to avoid mutating it directly
-      //   newFilters.categories = [...prevFilters.categories];
+  //     //   // Create a copy of the categories array to avoid mutating it directly
+  //     //   newFilters.categories = [...prevFilters.categories];
     
-      //   // Update the selected property in the copied categories array
-      //   newFilters.categories[index].selected = gg;
+  //     //   // Update the selected property in the copied categories array
+  //     //   newFilters.categories[index].selected = gg;
     
-      //   return newFilters;
-      // });
+  //     //   return newFilters;
+  //     // });
       
-    };
+  //   };
 
-    console.log(categoriesFilter)
+  //   console.log(categoriesFilter)
+
+  const clickHandler = (index, obj) => {
+    const { id } = obj;
+  
+    setClickStates((prevStates) => {
+      const newState = { ...prevStates };
+  
+      const handleClickState = (state, key) => {
+        if (id === filterData[key]?.id) {
+          state[index] = !state[index];
+        }
+      };
+  
+      handleClickState(newState.popular, 'popularFilters');
+      handleClickState(newState.fourthObjClick, 'fourthObj');
+      handleClickState(newState.fifthObjClick, 'fifthObj');
+      handleClickState(newState.sixthObjClick, 'sixthObj');
+      handleClickState(newState.seventhObjClick, 'seventhObj');
+  
+      return newState;
+    });
+  };
+  
+  const renderFilterSection = (filterObj, clickState, clickHandler) => (
+    filterObj && (
+      <div className='w-full'>
+        <div className='font-semibold text-sm'>{filterObj.title}</div>
+        <div className='mt-2'>
+          {filterObj.categories && filterObj.categories.map((filter, i) => (
+            <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={() => clickHandler(i, filterObj)}>
+              <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
+                {clickState[i] && svg}
+              </div>
+              <span className='text-sm group-hover:text-blue-400'>{filter.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  );
 
       
       useEffect(()=>{
@@ -530,7 +594,7 @@ const Search = () => {
       </div>
       <div className='font-semibold text-lg absolute ml-[170px] -mt-5'>Filter by</div>
         <div className=' w-[200px] ml-[170px] mt-10 flex flex-col gap-[30px] '>
-          {/* {!!price && 
+          {!!price && 
             <div className='w-full'>
               <div className='font-semibold text-sm '>{price.title}</div>
               <div className='bg-white rounded-lg mt-2 p-3 border border-gray-400 '>
@@ -542,7 +606,7 @@ const Search = () => {
                 </select>
               </div>
             </div>
-          } */}
+          }
 
           {/* stars */}
           {/* <div className='w-full'>
@@ -643,7 +707,12 @@ const Search = () => {
                 ))}
               </div>
             </div>
-          }
+          } */}
+           {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
+            {renderFilterSection(filterData.fourthObj, clickStates.fourthObjClick, clickHandler)}
+            {renderFilterSection(filterData.fifthObj, clickStates.fifthObjClick, clickHandler)}
+            {renderFilterSection(filterData.sixthObj, clickStates.sixthObjClick, clickHandler)}
+            {renderFilterSection(filterData.seventhObj, clickStates.seventhObjClick, clickHandler)}
         </div>
     </div>
   )
