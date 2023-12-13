@@ -154,12 +154,22 @@ const Search = () => {
   const [filterData, setFilterData] = useState({
     price: null,
     popularFilters: null,
-    fourthObj: null,
-    fifthObj: null,
-    sixthObj: null,
-    seventhObj: null,
+    freeCancellationFilters : null,
+    propertyRatingFilters: null,
+    propertyTypeFilters: null,
+    numberOfBedroomsFilters: null,
+    facilitiesFilters: null,
+    distanceFilters: null,
+    mealsFilters: null,
+    chainFilters: null,
+    reviewFilters: null,
+    RoomFacilitiesFilters: null,
+    bedPreferenceFilters: null,
+    districtFilters: null,
+    landmarksFilters:null
   });
   
+
   
 
     const addHandler = () => {
@@ -362,21 +372,26 @@ const Search = () => {
                 },
                 )
               
-              // console.log(filter);
+              console.log(filter);
               // setFilter(filter);
               setPrice(filter[1]);
               setFilterData({
                 popularFilters: filter[2],
-                fourthObj: filter[4],
-                fifthObj: filter[5],
-                sixthObj: filter[6],
-                seventhObj: filter[7],
+                freeCancellationFilters : filter[3],
+                propertyRatingFilters: filter[4],
+                propertyTypeFilters: filter[5],
+                numberOfBedroomsFilters: filter[6],
+                facilitiesFilters: filter[7],
+                distanceFilters: filter[8],
+                mealsFilters: filter[9],
+                chainFilters: filter[10],
+                reviewFilters: filter[11],
+                RoomFacilitiesFilters: filter[12],
+                bedPreferenceFilters: filter[13],
+                districtFilters: filter[14],
+                landmarksFilters: filter[15],
+
               });
-              // setPopularFilters(filter[2]);
-              // setFourthObj(filter[4]);
-              // setFifthObj(filter[5]);
-              // setSixthObj(filter[6]);
-              // setSeventhObj(filter[7]);
             } 
             catch (error) {
               if (error.response) {
@@ -406,76 +421,23 @@ const Search = () => {
       setselectedTitle(e)
     }
 
-    // const [clickStates, setClickStates] = useState({
-    //   popular: Array(popularFilters?.categories?.length).fill(false),
-    //   fourthObjClick: Array(fourthObj?.categories?.length).fill(false),
-    //   fifthObjClick: Array(fifthObj?.categories?.length).fill(false),
-    //   sixthObjClick: Array(sixthObj?.categories?.length).fill(false),
-    //   seventhObjClick: Array(seventhObj?.categories?.length).fill(false),
-    // });
-
     const [clickStates, setClickStates] = useState({
       popular: Array(filterData.popularFilters?.categories?.length).fill(false),
-      fourthObjClick: Array(filterData.fourthObj?.categories?.length).fill(false),
-      fifthObjClick: Array(filterData.fifthObj?.categories?.length).fill(false),
-      sixthObjClick: Array(filterData.sixthObj?.categories?.length).fill(false),
-      seventhObjClick: Array(filterData.seventhObj?.categories?.length).fill(false),
+      freeCancellation: Array(filterData.freeCancellationFilters?.categories?.length).fill(false),
+      propertyRating: Array(filterData.propertyRatingFilters?.categories?.length).fill(false),
+      propertyType: Array(filterData.propertyTypeFilters?.categories?.length).fill(false),
+      numberOfBedrooms: Array(filterData.numberOfBedroomsFilters?.categories?.length).fill(false),
+      facilities: Array(filterData.facilitiesFilters?.categories?.length).fill(false),
+      distance: Array(filterData.distanceFilters?.categories?.length).fill(false),
+      meals: Array(filterData.mealsFilters?.categories?.length).fill(false),
+      chain: Array(filterData.chainFilters?.categories?.length).fill(false),
+      review: Array(filterData.reviewFilters?.categories?.length).fill(false),
+      RoomFacilities: Array(filterData.RoomFacilitiesFilters?.categories?.length).fill(false),
+      bedPreference: Array(filterData.bedPreferenceFilters?.categories?.length).fill(false),
+      district: Array(filterData.districtFilters?.categories?.length).fill(false),
+      landmarks: Array(filterData.landmarksFilters?.categories?.length).fill(false)
     });
     
-    
-  //   const clickHandler = (index, obj) => {
-  //     console.log(obj);
-      
-  //     const { id } = obj;
-
-  // setClickStates((prevStates) => {
-  //   const newState = { ...prevStates };
-
-  //   if (id === popularFilters.id) {
-  //     newState.popular[index] = !newState.popular[index];
-  //   } else if (id === fourthObj.id) {
-  //     newState.fourthObjClick[index] = !newState.fourthObjClick[index];
-  //   } else if (id === fifthObj.id) {
-  //     newState.fifthObjClick[index] = !newState.fifthObjClick[index];
-  //   } else if (id === sixthObj.id) {
-  //     newState.sixthObjClick[index] = !newState.sixthObjClick[index];
-  //   }else if (id === seventhObj.id) {
-  //     newState.seventhObjClick[index] = !newState.seventhObjClick[index];
-  //   }
-
-  //   return newState;
-  // });
-    
-  //   const category = [];
-  //     if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
-  //       category.push(obj.categories[index].id);
-  //       setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
-  //     }else{
-  //      const newCategoriesFilter = [...categoriesFilter];
-  //      newCategoriesFilter.pop();
-  //      setCategoriesFilter(newCategoriesFilter)
-  //     }
-      
-  //     // console.log(index)
-  //     // const gg= selected += 1;
-  //     // popularFilters.categories[index].selected = gg;
-      
-  //     // setPopularFilters((prevFilters) => {
-  //     //   // Create a copy of the previous state to avoid mutating it directly
-  //     //   const newFilters = { ...prevFilters };
-        
-  //     //   // Create a copy of the categories array to avoid mutating it directly
-  //     //   newFilters.categories = [...prevFilters.categories];
-    
-  //     //   // Update the selected property in the copied categories array
-  //     //   newFilters.categories[index].selected = gg;
-    
-  //     //   return newFilters;
-  //     // });
-      
-  //   };
-
-  //   console.log(categoriesFilter)
 
   const clickHandler = (index, obj) => {
     const { id } = obj;
@@ -484,20 +446,41 @@ const Search = () => {
       const newState = { ...prevStates };
   
       const handleClickState = (state, key) => {
+        console.log(key)
+        console.log(state)
         if (id === filterData[key]?.id) {
           state[index] = !state[index];
         }
       };
   
       handleClickState(newState.popular, 'popularFilters');
-      handleClickState(newState.fourthObjClick, 'fourthObj');
-      handleClickState(newState.fifthObjClick, 'fifthObj');
-      handleClickState(newState.sixthObjClick, 'sixthObj');
-      handleClickState(newState.seventhObjClick, 'seventhObj');
+      handleClickState(newState.freeCancellation, 'freeCancellationFilters');
+      handleClickState(newState.propertyRating, 'propertyRatingFilters');
+      handleClickState(newState.propertyType, 'fifthObj');
+      handleClickState(newState.numberOfBedrooms, 'sixthObj');
+      handleClickState(newState.distance, 'seventhObj');
+      handleClickState(newState.meals, 'seventhObj');
+      handleClickState(newState.chain, 'seventhObj');
+      handleClickState(newState.review, 'seventhObj');
+      handleClickState(newState.RoomFacilities, 'seventhObj');
+      handleClickState(newState.bedPreference, 'seventhObj');
+      handleClickState(newState.district, 'seventhObj');
+      handleClickState(newState.landmarks, 'seventhObj');
   
       return newState;
     });
+    const category = [];
+      if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
+        category.push(obj.categories[index].id);
+        setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
+      }else{
+       const newCategoriesFilter = [...categoriesFilter];
+       newCategoriesFilter.pop();
+       setCategoriesFilter(newCategoriesFilter)
+      }
+      
   };
+  console.log(categoriesFilter)
   
   const renderFilterSection = (filterObj, clickState, clickHandler) => (
     filterObj && (
@@ -621,98 +604,20 @@ const Search = () => {
               </div>
             </div>
           </div> */}
-
-
-          {/* {!!popularFilters &&
-            <div className='w-full'>
-              <div className='font-semibold text-sm'> 
-                {popularFilters.title}
-              </div>
-              <div className='mt-2'>
-                {!!popularFilters && popularFilters.categories && popularFilters.categories.map((filter,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,popularFilters)} >
-                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                      {clickStates.popular[i] && svg}
-                    </div>
-                    <span className='text-sm group-hover:text-blue-400'>{filter.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
-          {!!fourthObj && 
-            <div className='w-full'>
-              <div className='font-semibold text-sm'> 
-                {fourthObj.title}
-              </div>
-              <div className='mt-2'>
-                {!!fourthObj && fourthObj.categories && fourthObj.categories.map((fourth,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,fourthObj)}>
-                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                      {clickStates.fourthObjClick[i] && svg}
-                    </div>
-                    <span className='text-sm group-hover:text-blue-400'>{fourth.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
-           {!!fifthObj && 
-            <div className='w-full'>
-              <div className='font-semibold text-sm'> 
-                {fifthObj.title}
-              </div>
-              <div className='mt-2'>
-                {!!fifthObj && fifthObj.categories && fifthObj.categories.map((fifth,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,fifthObj)}>
-                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                      {clickStates.fifthObjClick[i] && svg}
-                    </div>
-                    <span className='text-sm group-hover:text-blue-400'>{fifth.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
-          {!!sixthObj && 
-            <div className='w-full'>
-              <div className='font-semibold text-sm'> 
-                {sixthObj.title}
-              </div>
-              <div className='mt-2'>
-                {!!sixthObj && sixthObj.categories && sixthObj.categories.map((sixth,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,sixthObj)}>
-                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                      {clickStates.sixthObjClick[i] && svg}
-                    </div>
-                    <span className='text-sm group-hover:text-blue-400'>{sixth.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
-          {!!seventhObj && 
-            <div className='w-full'>
-              <div className='font-semibold text-sm'> 
-                {seventhObj.title}
-              </div>
-              <div className='mt-2'>
-                {!!seventhObj && seventhObj.categories && seventhObj.categories.map((seventh,i)=> (
-                  <div key={i} className='group flex items-center gap-2 cursor-pointer mt-3' onClick={()=> clickHandler(i,seventhObj)}>
-                    <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-4 h-4 flex items-center justify-center'>
-                      {clickStates.seventhObjClick[i] && svg}
-                    </div>
-                    <span className='text-sm group-hover:text-blue-400'>{seventh.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          } */}
-           {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
-            {renderFilterSection(filterData.fourthObj, clickStates.fourthObjClick, clickHandler)}
-            {renderFilterSection(filterData.fifthObj, clickStates.fifthObjClick, clickHandler)}
-            {renderFilterSection(filterData.sixthObj, clickStates.sixthObjClick, clickHandler)}
-            {renderFilterSection(filterData.seventhObj, clickStates.seventhObjClick, clickHandler)}
+          {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
+          {renderFilterSection(filterData.freeCancellationFilters, clickStates.freeCancellation, clickHandler)}
+          {renderFilterSection(filterData.propertyRatingFilters, clickStates.propertyRating, clickHandler)}
+          {renderFilterSection(filterData.propertyTypeFilters, clickStates.propertyType, clickHandler)}
+          {renderFilterSection(filterData.numberOfBedroomsFilters, clickStates.numberOfBedrooms, clickHandler)}
+          {renderFilterSection(filterData.facilitiesFilters, clickStates.facilities, clickHandler)}
+          {renderFilterSection(filterData.distanceFilters, clickStates.distance, clickHandler)}
+          {renderFilterSection(filterData.mealsFilters, clickStates.meals, clickHandler)}
+          {renderFilterSection(filterData.chainFilters, clickStates.chain, clickHandler)}
+          {renderFilterSection(filterData.reviewFilters, clickStates.review, clickHandler)}
+          {renderFilterSection(filterData.roomFacilitiesFilters, clickStates.roomFacilities, clickHandler)}
+          {renderFilterSection(filterData.bedPreferenceFilters, clickStates.bedPreference, clickHandler)}
+          {renderFilterSection(filterData.districtFilters, clickStates.district, clickHandler)}
+          {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)}
         </div>
     </div>
   )
