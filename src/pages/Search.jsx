@@ -299,10 +299,6 @@ const Search = () => {
                   include_adjacency: 'true',
                   page_number: '0',
                 }
-                // if (childCount > 0) {
-                //   params.children_number = childCount;
-                //   params.children_ages = children_age;
-                // }
                 if (childCount > 0 || categoriesFilter) {
                   params.children_number = childCount;
                   params.children_ages = children_age;
@@ -494,7 +490,7 @@ const Search = () => {
   
   const renderFilterSection = (filterObj, clickState, clickHandler) => (
     filterObj && (
-      <div className='w-full bg-white px-4 py-3 rounded-lg border'>
+      <div className='w-full bg-white px-4 py-3 rounded-lg border border-gray-300 '>
         <div className='font-semibold text-sm'>{filterObj.title}</div>
         <div className='mt-2'>
           {filterObj.categories && filterObj.categories.map((filter, i) => (
@@ -543,38 +539,18 @@ const Search = () => {
    return (
     <div className='w-full h-[800vh] bg-gray-100'>
       <div  className='inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
-        
-           <Autocomplete/>
-            {/* <div ref={newPopRef} className='cursor-pointer group'>
-                <div onClick={handleNewPopup} className='relative bg-white w-[300px] h-[60px] border border-b rounded-lg border-gray-400 flex items-center justify-around group-hover:border-blue-500 p-3'>
-                    <div className='absolute left-1 pl-3 pointer-events-none flex items-center gap-4 p-3' >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-                    </svg>
-                    <span>
-                        {`${t('daterange.startDate', { date: new Date(date[0]?.startDate) })} - ${t('daterange.endDate', { date: new Date(date[0]?.endDate) })}`}
-                    </span>
-                    </div>
-                </div> 
-            {!!newPopup && <DateRange
-            editableDateInputs={true}
-            onChange={item => setDate([item.selection])}
-            moveRangeOnFirstSelection={false}
-            ranges={date}
-            className='shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] absolute top-[25%] text-sm z-10'
-          />}
-            </div> */}
-            <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
-              newPopup={newPopup}  />
+        <Autocomplete/>
+        <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
+          newPopup={newPopup}  />
 
             
-            <div ref={popRef}  className='group cursor-pointer'>
-            <div onClick={handlePopup} className='relative w-[300px] bg-white h-[60px] p-3  border border-gray-400 flex justify-between items-center rounded-lg group-hover:border-blue-500' >
-                <Guests adult={adult} child={child} room={roomCount}/>
-            </div>
+        <div ref={popRef}  className='group cursor-pointer'>
+          <div onClick={handlePopup} className='relative w-[300px] bg-white h-[60px] p-3  border border-gray-400 flex justify-between items-center        rounded-lg group-hover:border-blue-500' >
+          <Guests adult={adult} child={child} room={roomCount}/>
+          </div>
             
-            {!!popup && 
-            <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[25%] right-[21%] flex flex-col space-y-5 p-6 '>
+          {!!popup && 
+          <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[25%] right-[21%] flex flex-col space-y-5 p-6 '>
             
             <Adult removeNewHandler={removeNewHandler} adult={adult} addNewHandler={addNewHandler}/>
             
@@ -585,18 +561,18 @@ const Search = () => {
             
             <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>Done</button>
             </div>}
-            </div>
-            <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400' target='_blank'>{t('button.search')
-            }
-            </Link>
+        </div>
+        <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400'target='_blank'>    
+          {t('button.search')}
+        </Link>  
       </div>
-      <div className='font-semibold text-lg absolute ml-[170px] -mt-5'>Filter by</div>
-        <div className=' w-[280px] ml-[170px] mt-10 flex flex-col gap-[20px] '>
+      <div className='font-semibold text-lg ml-[170px] -mt-5'>Filter by</div>
+        <div className='w-[280px] ml-[170px] mt-10 flex flex-col gap-[20px] '>
           {!!price && 
             <div className='w-full'>
               <div className='font-semibold text-sm '>{price.title}</div>
-              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-400 '>
-                <select className='w-[220px] text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
+              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300 '>
+                <select className='w-[250px] text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
                   <option value="">{price.title}</option>
                   {!!price && price.categories && price.categories.map((category)=>(
                     <option key={category.id} value={category.name}>{category.name}</option>
@@ -605,20 +581,6 @@ const Search = () => {
               </div>
             </div>
           }
-
-          {/* stars */}
-          {/* <div className='w-full'>
-            <div className='font-semibold text-sm'>Star rating</div>
-            <div className='flex items-center gap-3'>
-              <div className='flex items-center gap-1 mt-2 flex-wrap'>
-                  {ratings.map((rating,i) => (
-                    <div key={i} className='flex items-center gap-1 border border-gray-400 bg-white p-2 rounded-lg text-sm hover:bg-blue-50 cursor-pointer'>
-                      {rating.star} {rating.icon}
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div> */}
           {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
           {renderFilterSection(filterData.freeCancellationFilters, clickStates.freeCancellation, clickHandler)}
           {renderFilterSection(filterData.propertyRatingFilters, clickStates.propertyRating, clickHandler)}
