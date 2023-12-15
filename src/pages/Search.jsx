@@ -412,7 +412,7 @@ const Search = () => {
         filter()
       },[langauge,currency,destid,destType,categoriesFilter])
 
-      const svg = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500">
+      const svg = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-4 h-4 text-blue-500">
         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
       </svg>;
 
@@ -497,7 +497,7 @@ const Search = () => {
             <div key={i} className='group w-full flex items-center gap-2 cursor-pointer mt-3' onClick={() => clickHandler(i, filterObj)}>
               <div className='w-full flex items-center gap-2 '>
                 <div className='w-[10%] flex items-center justify-center'>
-                  <div className='border border-gray-400 group-hover:border-blue-400 bg-white rounded w-5 h-5 flex items-center justify-center'>
+                  <div className='border border-gray-300 group-hover:border-blue-400 bg-white rounded w-5 h-5 flex items-center justify-center'>
                     {clickState[i] && svg}
                   </div>
                 </div>
@@ -523,22 +523,10 @@ const Search = () => {
         window.scrollTo(0,0)
     },[])
 
-    const icon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-4 h-4 text-yellow-400 fill-current">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-    </svg>;
-
-    // const ratings = [
-    //   {star:1 ,icon},
-    //   {star:2 ,icon},
-    //   {star:3 ,icon},
-    //   {star:4 ,icon},
-    //   {star:5 ,icon}
-    // ];
-
     
    return (
     <div className='w-full h-[800vh] bg-gray-100'>
-      <div  className='inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
+      <div className='inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
           newPopup={newPopup}  />
@@ -567,7 +555,41 @@ const Search = () => {
         </Link>  
       </div>
       <div className='font-semibold text-lg ml-[170px] -mt-5'>Filter by</div>
-        <div className='w-[280px] ml-[170px] mt-10 flex flex-col gap-[20px] '>
+      <div className='max-w-6xl mx-auto flex items-center'>
+        <div className='w-[40%] px-8 py-6'> 
+          <div className='w-full flex flex-col gap-[20px] '>
+          {!!price && 
+            <div className='w-[210px]'>
+              <div className='font-semibold text-sm '>{price.title}</div>
+              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300 '>
+                <select className='w-[180px] text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
+                  <option value="">{price.title}</option>
+                  {!!price && price.categories && price.categories.map((category)=>(
+                    <option key={category.id} value={category.name}>{category.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          }
+          {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
+          {renderFilterSection(filterData.freeCancellationFilters, clickStates.freeCancellation, clickHandler)}
+          {renderFilterSection(filterData.propertyRatingFilters, clickStates.propertyRating, clickHandler)}
+          {renderFilterSection(filterData.propertyTypeFilters, clickStates.propertyType, clickHandler)}
+          {renderFilterSection(filterData.numberOfBedroomsFilters, clickStates.numberOfBedrooms, clickHandler)}
+          {renderFilterSection(filterData.facilitiesFilters, clickStates.facilities, clickHandler)}
+          {renderFilterSection(filterData.distanceFilters, clickStates.distance, clickHandler)}
+          {renderFilterSection(filterData.mealsFilters, clickStates.meals, clickHandler)}
+          {renderFilterSection(filterData.chainFilters, clickStates.chain, clickHandler)}
+          {renderFilterSection(filterData.reviewFilters, clickStates.review, clickHandler)}
+          {renderFilterSection(filterData.roomFacilitiesFilters, clickStates.roomFacilities, clickHandler)}
+          {renderFilterSection(filterData.bedPreferenceFilters, clickStates.bedPreference, clickHandler)}
+          {renderFilterSection(filterData.districtFilters, clickStates.district, clickHandler)}
+          {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)}
+          </div>
+        </div>
+        <div className='w-full'>wp</div>
+      </div>
+        {/* <div className='w-[280px] ml-[170px] mt-10 flex flex-col gap-[20px] '>
           {!!price && 
             <div className='w-full'>
               <div className='font-semibold text-sm '>{price.title}</div>
@@ -595,10 +617,7 @@ const Search = () => {
           {renderFilterSection(filterData.bedPreferenceFilters, clickStates.bedPreference, clickHandler)}
           {renderFilterSection(filterData.districtFilters, clickStates.district, clickHandler)}
           {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)}
-        </div>
-        <div>
-          ggwp
-        </div>
+        </div> */}
     </div>
   )
 }
