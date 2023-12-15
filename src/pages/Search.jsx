@@ -143,7 +143,6 @@ const Search = () => {
   const newPopRef = useRef(null);
 
   const [data, setData] = useState([]);
-  // const [filter,setFilter] = useState(null);
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
   // const [popularFilters,setPopularFilters] = useState(null);
@@ -163,7 +162,7 @@ const Search = () => {
     mealsFilters: null,
     chainFilters: null,
     reviewFilters: null,
-    RoomFacilitiesFilters: null,
+    roomFacilitiesFilters: null,
     bedPreferenceFilters: null,
     districtFilters: null,
     landmarksFilters:null
@@ -277,63 +276,70 @@ const Search = () => {
 
       const currency= localStorage.getItem('cur');
 
-      // useEffect(()=> {
-      //   const getData = async () => {
-      //     let lang = ''; 
-      //     if(langauge ==='en') {
-      //        lang = langauge +'-gb'
-      //     }else {
-      //       lang = langauge
-      //     }
-      //     try {
-      //       const params = {
-      //             units: 'metric',
-      //             room_number: roomCount,
-      //             longitude : lng,
-      //             latitude :lat,
-      //             filter_by_currency:currency,
-      //             locale:lang,
-      //             order_by: 'popularity',
-      //             checkout_date: checkoutDate,
-      //             adults_number :adultCount,
-      //             checkin_date :checkinDate,
-      //             include_adjacency: 'true',
-      //             page_number: '0',
-      //           }
-      //           if (childCount > 0) {
-      //             params.children_number = childCount;
-      //             params.children_ages = children_age;
-      //           }
-      //           const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
-      //             params : params,
-      //           })
-      //         console.log(result);
-      //         setData(result)
-      
-      //       } 
-      //       catch (error) {
-      //         if (error.response) {
-      //           console.error('Data:', error.response.data);
-      //           console.error('Status:', error.response.status);
-      //           console.error('Headers:', error.response.headers);
-      //       } else if (error.request) {
-      //           console.error('Request made but no response received:', error.request);
-      //       } else {
-      //           console.error('Error:', error.message);
-      //       }
-      //           // Something else went wrong
-      //           console.error('Error:', error.message);
-      //       }
-         
-      //   };
-      //   getData()
-      // },[langauge,currency])
-
-      
-     
-
       useEffect(()=> {
         const getData = async () => {
+          let lang = ''; 
+          if(langauge ==='en') {
+             lang = langauge +'-gb'
+          }else {
+            lang = langauge
+          }
+          try {
+            const params = {
+                  units: 'metric',
+                  room_number: roomCount,
+                  longitude : lng,
+                  latitude :lat,
+                  filter_by_currency:currency,
+                  locale:lang,
+                  order_by: 'popularity',
+                  checkout_date: checkoutDate,
+                  adults_number :adultCount,
+                  checkin_date :checkinDate,
+                  include_adjacency: 'true',
+                  page_number: '0',
+                }
+                // if (childCount > 0) {
+                //   params.children_number = childCount;
+                //   params.children_ages = children_age;
+                // }
+                if (childCount > 0 || categoriesFilter) {
+                  params.children_number = childCount;
+                  params.children_ages = children_age;
+                
+                  const combinedString = categoriesFilter.join(',');
+                  console.log('Combined String:', combinedString);
+                
+                  params.categories_filter_ids = combinedString;
+                } 
+
+                const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
+                  params : params,
+                })
+              console.log(result);
+              setData(result)
+      
+            } 
+            catch (error) {
+              if (error.response) {
+                console.error('Data:', error.response.data);
+                console.error('Status:', error.response.status);
+                console.error('Headers:', error.response.headers);
+            } else if (error.request) {
+                console.error('Request made but no response received:', error.request);
+            } else {
+                console.error('Error:', error.message);
+            }
+                // Something else went wrong
+                console.error('Error:', error.message);
+            }
+         
+        };
+        getData()
+      },[langauge,currency,destid,destType,categoriesFilter])
+
+      useEffect(()=> {
+        const filter = async () => {
           let lang = ''; 
           if(langauge ==='en') {
              lang = langauge +'-gb'
@@ -373,7 +379,6 @@ const Search = () => {
                 )
               
               console.log(filter);
-              // setFilter(filter);
               setPrice(filter[1]);
               setFilterData({
                 popularFilters: filter[2],
@@ -408,7 +413,7 @@ const Search = () => {
             }
          
         };
-        getData()
+        filter()
       },[langauge,currency,destid,destType,categoriesFilter])
 
       const svg = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500">
@@ -417,8 +422,15 @@ const Search = () => {
 
     const [selectedTitle,setselectedTitle] = useState ('');
     
-    const changeHandler = (e)=> {
-      setselectedTitle(e)
+    const changeHandler = (value)=> {
+      setselectedTitle(value)
+      const newArray = [];
+      newArray.push(value);
+      setCategoriesFilter((prevCategories) => {
+        const newCategoriesFilter = [...prevCategories,...newArray]
+        setCategoriesFilter(newCategoriesFilter)
+      })
+
     }
 
     const [clickStates, setClickStates] = useState({
@@ -432,7 +444,7 @@ const Search = () => {
       meals: Array(filterData.mealsFilters?.categories?.length).fill(false),
       chain: Array(filterData.chainFilters?.categories?.length).fill(false),
       review: Array(filterData.reviewFilters?.categories?.length).fill(false),
-      RoomFacilities: Array(filterData.RoomFacilitiesFilters?.categories?.length).fill(false),
+      roomFacilities: Array(filterData.roomFacilitiesFilters?.categories?.length).fill(false),
       bedPreference: Array(filterData.bedPreferenceFilters?.categories?.length).fill(false),
       district: Array(filterData.districtFilters?.categories?.length).fill(false),
       landmarks: Array(filterData.landmarksFilters?.categories?.length).fill(false)
@@ -446,8 +458,6 @@ const Search = () => {
       const newState = { ...prevStates };
   
       const handleClickState = (state, key) => {
-        console.log(key)
-        console.log(state)
         if (id === filterData[key]?.id) {
           state[index] = !state[index];
         }
@@ -456,16 +466,17 @@ const Search = () => {
       handleClickState(newState.popular, 'popularFilters');
       handleClickState(newState.freeCancellation, 'freeCancellationFilters');
       handleClickState(newState.propertyRating, 'propertyRatingFilters');
-      handleClickState(newState.propertyType, 'fifthObj');
-      handleClickState(newState.numberOfBedrooms, 'sixthObj');
-      handleClickState(newState.distance, 'seventhObj');
-      handleClickState(newState.meals, 'seventhObj');
-      handleClickState(newState.chain, 'seventhObj');
-      handleClickState(newState.review, 'seventhObj');
-      handleClickState(newState.RoomFacilities, 'seventhObj');
-      handleClickState(newState.bedPreference, 'seventhObj');
-      handleClickState(newState.district, 'seventhObj');
-      handleClickState(newState.landmarks, 'seventhObj');
+      handleClickState(newState.propertyType, 'propertyTypeFilters');
+      handleClickState(newState.numberOfBedrooms, 'numberOfBedroomsFilters');
+      handleClickState(newState.facilities, 'facilitiesFilters');
+      handleClickState(newState.distance, 'distanceFilters');
+      handleClickState(newState.meals, 'mealsFilters');
+      handleClickState(newState.chain, 'chainFilters');
+      handleClickState(newState.review, 'reviewFilters');
+      handleClickState(newState.roomFacilities, 'roomFacilitiesFilters');
+      handleClickState(newState.bedPreference, 'bedPreferenceFilters');
+      handleClickState(newState.district, 'districtFilters');
+      handleClickState(newState.landmarks, 'landmarksFilters');
   
       return newState;
     });
@@ -480,7 +491,6 @@ const Search = () => {
       }
       
   };
-  console.log(categoriesFilter)
   
   const renderFilterSection = (filterObj, clickState, clickHandler) => (
     filterObj && (
@@ -526,7 +536,7 @@ const Search = () => {
 
     
    return (
-    <div className='w-full h-[300vh] bg-gray-100'>
+    <div className='w-full h-[700vh] bg-gray-100'>
       <div  className='inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
         
            <Autocomplete/>

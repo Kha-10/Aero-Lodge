@@ -33,16 +33,17 @@ app.get('/datas', async (req, res) => {
       latitude: lat,
       order_by: order,
       units: 'metric',
-      categories_filter_ids: 'class::2,class::4,free_cancellation::1',
       include_adjacency: 'true',
       page_number: '0',
     };
   
     // // Combine conditions in a single block
-    if (req.query.children_number && req.query.children_ages) {
-      params.children_number = req.query.children_number;
-      params.children_ages = req.query.children_ages;
-    }
+    if (req.query.children_number && req.query.children_ages && req.query.categories_filter_ids) {
+        params.children_number = req.query.children_number;
+        params.children_ages = req.query.children_ages;
+        params.categories_filter_ids = req.query.categories_filter_ids
+      }
+    
   
     const options = {
       method: 'GET',
@@ -118,7 +119,6 @@ app.get('/datas', async (req, res) => {
         room_number: rooms,
         order_by: orders,
         locale: locales,
-        // categories_filter_ids: 'class::2,class::4,free_cancellation::1',
         page_number: '0',
         include_adjacency: 'true'
       };

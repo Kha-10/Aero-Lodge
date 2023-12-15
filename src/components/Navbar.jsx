@@ -51,8 +51,10 @@ const Navbar = () => {
             const localeValue = par_ams.get('locale')
             i18n.changeLanguage(localeValue)
             const curValue = par_ams.get('cur');
+            console.log('params cur', curValue)
             const localStorageCur = localStorage.getItem('cur')
-            if(curValue === null && localStorageCur === null){
+            console.log('local cur',localStorageCur)
+            if(curValue === null || localStorageCur === null){
                 localStorage.setItem('cur',currency);
                 console.log('if 1')
             }else if (curValue) {
