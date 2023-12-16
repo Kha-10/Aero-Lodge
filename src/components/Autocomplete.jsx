@@ -116,13 +116,13 @@ const Autocomplete = () => {
     <div>
         <input type="text" placeholder='Enter your destination' className='w-[300px] h-[60px] py-3 px-12 border bg-white border-gray-400  rounded-md placeholder-black hover:border-blue-500' value={location}
         onChange={handleOnChange} />
-        <div className={` ${path === '/search' ? 'absolute left-30 top-[146px] pl-3 pointer-events-none' : 'absolute left-30 top-[76px] pl-3 pointer-events-none'}`}>
+        <div className={` ${path === '/search' ? 'absolute left-30 top-[120px] pl-3 pointer-events-none' : 'absolute left-30 top-[76px] pl-3 pointer-events-none'}`}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 ">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
             </svg>
         </div>
-        {!!location && <button className={`${path === '/search'?'absolute left-[410px] top-[152px] pl-3' : 'absolute right-[840px] top-[78px] pl-3' }`} onClick={removeHandler}>
+        {!!location && <button className={`${path === '/search'?'absolute left-[410px] top-[125px] pl-3' : 'absolute right-[840px] top-[78px] pl-3' }`} onClick={removeHandler}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>

@@ -398,7 +398,7 @@ function Home() {
 
         </Slider>
       </div>
-      <Random/>
+      
     
     </div>
   );

@@ -522,14 +522,22 @@ const Search = () => {
         window.scrollTo(0,0)
     },[])
 
-<<<<<<< HEAD
+    const[sorted,setSorted] = useState('');
 
-=======
->>>>>>> parent of e25fcb3 (added order by filter feature)
+    const sortBy = (e) => {
+      setSorted(e)
+    }
+
     
+    const [newClick,setNewClick] = useState(false);
+    const [initialSort,setInitialSort] = useState(sorts[0]?.name);
+
+    const clickGg = () => {
+      setNewClick(!newClick)
+    }
    return (
     <div className='w-full h-[800vh] bg-gray-100'>
-      <div className='inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] flex items-center gap-4 justify-between top-[38px]'>
+      <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
           newPopup={newPopup}  />
@@ -557,15 +565,41 @@ const Search = () => {
           {t('button.search')}
         </Link>  
       </div>
-      <div className='font-semibold text-lg ml-[170px] -mt-5'>Filter by</div>
-      <div className='max-w-6xl mx-auto flex items-center'>
-        <div className='w-[40%] px-8 py-6'> 
+      <div className='max-w-6xl mx-auto px-[2%] py-[1%] flex items-center justify-between'>
+        <div className='font-semibold text-base'>Filter by</div>
+        <div className='flex items-center gap-1'>
+          <div className='font-light text-sm'>Sorted by</div>
+          <div className='text-sm font-semibold cursor-pointer' onClick={clickGg}>{!!sorts && sorts[0]?.name}</div>
+          {/* <div className='bg-transparent relative'>
+            <select className='w-[150px] font-semibold text-sm cursor-pointer bg-transparent truncate  focus:outline-none' value={sorted} onChange=   {(e) =>sortBy(e.target.value)}>
+              {!!sorts && sorts.map((sort,id)=>(
+                    <option key={id} value={sort.name}>
+                      {sort.name}
+                    </option>
+              ))}
+            </select>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black absolute right-2 top-2">
+                  <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
+            </svg>       
+          </div> */}
+        </div>
+        <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
+              {!!sorts &&
+                sorts.map((sort, id) => (
+                  <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3'>
+                    {sort.name}
+                  </div>
+                ))}
+        </div>
+      </div>
+      <div className='max-w-6xl mx-auto flex'>
+        <div className='w-[40%] px-8 py-4'> 
           <div className='w-full flex flex-col gap-[20px] '>
           {!!price && 
-            <div className='w-[210px]'>
-              <div className='font-semibold text-sm '>{price.title}</div>
-              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300 '>
-                <select className='w-[180px] text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
+            <div className='w-[210px] group'>
+              <div className='font-semibold text-sm'>{price.title}</div>
+              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300'>
+                <select className='w-[180px] group-hover:text-blue-400 text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
                   <option value="">{price.title}</option>
                   {!!price && price.categories && price.categories.map((category)=>(
                     <option key={category.id} value={category.name}>{category.name}</option>
@@ -590,50 +624,21 @@ const Search = () => {
           {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)}
           </div>
         </div>
-<<<<<<< HEAD
         <div className='w-full px-3 py-6'>
-          <div className='flex items-center justify-between'>
-            <div className='p-1 text-center'>Sort</div>
-            <div className='flex items-center space-x-1 p-2'>
-            {!!sorts && sorts.map((sort,id)=>(
-              <div key={id}>{sort.name}</div>
-            ))}
-            </div>
+          <div className='flex items-center justify-end space-x-1'>
+            {/* <div className='font-light'>Sorted by</div>
+            <div className='bg-transparent'>
+              <select className='w-[200px] group-hover:text-blue-400  font-semibold cursor-pointer bg-transparent appearance-none focus:outline-none' value={sorted} onChange={(e)=>sortBy(e.target.value)}>
+                {!!sorts && sorts.map((sort,id)=>(
+                  <option key={id} value={sort.name}>
+                    {sort.name}
+                  </option>
+                ))}
+              </select>
+            </div> */}
           </div>
         </div>
-=======
-        <div className='w-full'>wp</div>
->>>>>>> parent of e25fcb3 (added order by filter feature)
       </div>
-        {/* <div className='w-[280px] ml-[170px] mt-10 flex flex-col gap-[20px] '>
-          {!!price && 
-            <div className='w-full'>
-              <div className='font-semibold text-sm '>{price.title}</div>
-              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300 '>
-                <select className='w-[250px] text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
-                  <option value="">{price.title}</option>
-                  {!!price && price.categories && price.categories.map((category)=>(
-                    <option key={category.id} value={category.name}>{category.name}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          }
-          {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
-          {renderFilterSection(filterData.freeCancellationFilters, clickStates.freeCancellation, clickHandler)}
-          {renderFilterSection(filterData.propertyRatingFilters, clickStates.propertyRating, clickHandler)}
-          {renderFilterSection(filterData.propertyTypeFilters, clickStates.propertyType, clickHandler)}
-          {renderFilterSection(filterData.numberOfBedroomsFilters, clickStates.numberOfBedrooms, clickHandler)}
-          {renderFilterSection(filterData.facilitiesFilters, clickStates.facilities, clickHandler)}
-          {renderFilterSection(filterData.distanceFilters, clickStates.distance, clickHandler)}
-          {renderFilterSection(filterData.mealsFilters, clickStates.meals, clickHandler)}
-          {renderFilterSection(filterData.chainFilters, clickStates.chain, clickHandler)}
-          {renderFilterSection(filterData.reviewFilters, clickStates.review, clickHandler)}
-          {renderFilterSection(filterData.roomFacilitiesFilters, clickStates.roomFacilities, clickHandler)}
-          {renderFilterSection(filterData.bedPreferenceFilters, clickStates.bedPreference, clickHandler)}
-          {renderFilterSection(filterData.districtFilters, clickStates.district, clickHandler)}
-          {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)}
-        </div> */}
     </div>
   )
 }
