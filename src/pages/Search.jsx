@@ -15,6 +15,7 @@ import { DateRange } from 'react-date-range';
 import axios from 'axios';
 import useApp from '../hooks/useApp';
 import Daterange from '../components/Daterange';
+import './App.css';
 
 const Search = () => {
     const locations = useLocation();
@@ -142,14 +143,10 @@ const Search = () => {
   const [address, setAddress] = useState(city);
   const newPopRef = useRef(null);
 
+  const [sorts,setSorts] = useState([]);
   const [data, setData] = useState([]);
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
-  // const [popularFilters,setPopularFilters] = useState(null);
-  // const [fourthObj, setFourthObj] = useState(null);
-  // const [fifthObj,setFifthObj] = useState(null);
-  // const [sixthObj,setSixthObj] = useState(null);
-  // const [seventhObj,setSeventhObj] = useState(null);
   const [filterData, setFilterData] = useState({
     price: null,
     popularFilters: null,
@@ -309,11 +306,13 @@ const Search = () => {
                   params.categories_filter_ids = combinedString;
                 } 
 
-                const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
+                const {data:{result,sort} } = await axios.get ('http://localhost:8000/datas',{
                   params : params,
                 })
+              console.log(sort)
+              setSorts(sort)
               console.log(result);
-              setData(result)
+              // setData(result)
       
             } 
             catch (error) {
@@ -523,13 +522,6 @@ const Search = () => {
         window.scrollTo(0,0)
     },[])
 
-    const orderBy = ['Popularity','Class_ascending','Class_descending','Distance','Upsort_bh','Review_score','Price'];
-
-    const [orderByValue,setOrderByValue] = useState('');
-
-    const changeOrderBy = (orderValue) => {
-      setOrderByValue(orderValue)
-    }
 
     
    return (
@@ -596,13 +588,13 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6'>
-          <div className='flex items-center justify-end space-x-2'>
-            <div className='text-sm font-light '>Order by</div>
-            <select className='text-base font-semibold appearance-none bg-transparent focus:outline-none cursor-pointer' value={orderByValue || ''} onChange={(e)=>changeOrderBy(e.target.value)}>
-              {!!orderBy && orderBy.map((order,i)=>(
-                <option key={i} value={order}>{order}</option>
-              ))}
-            </select>
+          <div className='flex items-center justify-between'>
+            <div className='p-1 text-center'>Sort</div>
+            <div className='flex items-center space-x-1 p-2'>
+            {!!sorts && sorts.map((sort,id)=>(
+              <div key={id}>{sort.name}</div>
+            ))}
+            </div>
           </div>
         </div>
       </div>

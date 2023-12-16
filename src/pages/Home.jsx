@@ -18,7 +18,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Link, useParams } from 'react-router-dom';
 import Recent from '../components/Recent';
-import Random from '../components/Random';
 import percentageoff from '../assets/percentoff.jpg';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import limitedtime from '../assets/limitedtime.jpg';
