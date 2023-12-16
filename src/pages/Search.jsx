@@ -422,8 +422,7 @@ const Search = () => {
       const newArray = [];
       newArray.push(value);
       setCategoriesFilter((prevCategories) => {
-        const newCategoriesFilter = [...prevCategories,...newArray]
-        setCategoriesFilter(newCategoriesFilter)
+        return [...prevCategories, value];
       })
 
     }
@@ -522,17 +521,29 @@ const Search = () => {
         window.scrollTo(0,0)
     },[])
 
-    const[sorted,setSorted] = useState('');
-
-    const sortBy = (e) => {
-      setSorted(e)
-    }
 
     
     const [newClick,setNewClick] = useState(false);
-    const [initialSort,setInitialSort] = useState(sorts[0]?.name);
 
-    const clickGg = () => {
+    // useEffect(()=>{
+    //   if(sorts){
+    //     console.log(sorts)
+    //   }
+    // },[])
+    const [initialSort,setInitialSort] = useState('');
+    
+
+    const sortBy = (name,id) => {
+      setInitialSort(name)
+      const sortedArray = [];
+      sortedArray.push(id);
+      setCategoriesFilter((prevStates)=>{
+       return [...prevStates,...sortedArray]
+      })
+
+    }
+    
+    const sortToggle = () => {
       setNewClick(!newClick)
     }
    return (
@@ -569,24 +580,17 @@ const Search = () => {
         <div className='font-semibold text-base'>Filter by</div>
         <div className='flex items-center gap-1'>
           <div className='font-light text-sm'>Sorted by</div>
-          <div className='text-sm font-semibold cursor-pointer' onClick={clickGg}>{!!sorts && sorts[0]?.name}</div>
-          {/* <div className='bg-transparent relative'>
-            <select className='w-[150px] font-semibold text-sm cursor-pointer bg-transparent truncate  focus:outline-none' value={sorted} onChange=   {(e) =>sortBy(e.target.value)}>
-              {!!sorts && sorts.map((sort,id)=>(
-                    <option key={id} value={sort.name}>
-                      {sort.name}
-                    </option>
-              ))}
-            </select>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black absolute right-2 top-2">
-                  <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
-            </svg>       
-          </div> */}
+          <div className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
+            <div className='text-sm font-semibold'>{initialSort || sorts[0]?.name}</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black">
+              <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
+            </svg>  
+          </div>
         </div>
         <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
               {!!sorts &&
                 sorts.map((sort, id) => (
-                  <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3'>
+                  <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name,sort.id),setNewClick(false)}}>
                     {sort.name}
                   </div>
                 ))}
@@ -626,16 +630,6 @@ const Search = () => {
         </div>
         <div className='w-full px-3 py-6'>
           <div className='flex items-center justify-end space-x-1'>
-            {/* <div className='font-light'>Sorted by</div>
-            <div className='bg-transparent'>
-              <select className='w-[200px] group-hover:text-blue-400  font-semibold cursor-pointer bg-transparent appearance-none focus:outline-none' value={sorted} onChange={(e)=>sortBy(e.target.value)}>
-                {!!sorts && sorts.map((sort,id)=>(
-                  <option key={id} value={sort.name}>
-                    {sort.name}
-                  </option>
-                ))}
-              </select>
-            </div> */}
           </div>
         </div>
       </div>
