@@ -522,7 +522,10 @@ const Search = () => {
         window.scrollTo(0,0)
     },[])
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of e25fcb3 (added order by filter feature)
     
    return (
     <div className='w-full h-[800vh] bg-gray-100'>
@@ -555,14 +558,14 @@ const Search = () => {
         </Link>  
       </div>
       <div className='font-semibold text-lg ml-[170px] -mt-5'>Filter by</div>
-      <div className='max-w-6xl mx-auto flex'>
+      <div className='max-w-6xl mx-auto flex items-center'>
         <div className='w-[40%] px-8 py-6'> 
           <div className='w-full flex flex-col gap-[20px] '>
           {!!price && 
-            <div className='w-[210px] group'>
-              <div className='font-semibold text-sm'>{price.title}</div>
-              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300'>
-                <select className='w-[180px] group-hover:text-blue-400 text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
+            <div className='w-[210px]'>
+              <div className='font-semibold text-sm '>{price.title}</div>
+              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300 '>
+                <select className='w-[180px] text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
                   <option value="">{price.title}</option>
                   {!!price && price.categories && price.categories.map((category)=>(
                     <option key={category.id} value={category.name}>{category.name}</option>
@@ -587,6 +590,7 @@ const Search = () => {
           {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)}
           </div>
         </div>
+<<<<<<< HEAD
         <div className='w-full px-3 py-6'>
           <div className='flex items-center justify-between'>
             <div className='p-1 text-center'>Sort</div>
@@ -597,7 +601,39 @@ const Search = () => {
             </div>
           </div>
         </div>
+=======
+        <div className='w-full'>wp</div>
+>>>>>>> parent of e25fcb3 (added order by filter feature)
       </div>
+        {/* <div className='w-[280px] ml-[170px] mt-10 flex flex-col gap-[20px] '>
+          {!!price && 
+            <div className='w-full'>
+              <div className='font-semibold text-sm '>{price.title}</div>
+              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300 '>
+                <select className='w-[250px] text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
+                  <option value="">{price.title}</option>
+                  {!!price && price.categories && price.categories.map((category)=>(
+                    <option key={category.id} value={category.name}>{category.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          }
+          {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
+          {renderFilterSection(filterData.freeCancellationFilters, clickStates.freeCancellation, clickHandler)}
+          {renderFilterSection(filterData.propertyRatingFilters, clickStates.propertyRating, clickHandler)}
+          {renderFilterSection(filterData.propertyTypeFilters, clickStates.propertyType, clickHandler)}
+          {renderFilterSection(filterData.numberOfBedroomsFilters, clickStates.numberOfBedrooms, clickHandler)}
+          {renderFilterSection(filterData.facilitiesFilters, clickStates.facilities, clickHandler)}
+          {renderFilterSection(filterData.distanceFilters, clickStates.distance, clickHandler)}
+          {renderFilterSection(filterData.mealsFilters, clickStates.meals, clickHandler)}
+          {renderFilterSection(filterData.chainFilters, clickStates.chain, clickHandler)}
+          {renderFilterSection(filterData.reviewFilters, clickStates.review, clickHandler)}
+          {renderFilterSection(filterData.roomFacilitiesFilters, clickStates.roomFacilities, clickHandler)}
+          {renderFilterSection(filterData.bedPreferenceFilters, clickStates.bedPreference, clickHandler)}
+          {renderFilterSection(filterData.districtFilters, clickStates.district, clickHandler)}
+          {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)}
+        </div> */}
     </div>
   )
 }
