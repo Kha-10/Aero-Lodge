@@ -525,11 +525,7 @@ const Search = () => {
     
     const [newClick,setNewClick] = useState(false);
 
-    // useEffect(()=>{
-    //   if(sorts){
-    //     console.log(sorts)
-    //   }
-    // },[])
+  
     const [initialSort,setInitialSort] = useState('');
     
 
@@ -546,6 +542,25 @@ const Search = () => {
     const sortToggle = () => {
       setNewClick(!newClick)
     }
+    
+    const popUp = useRef(null);
+    console.log(popUp)
+
+    useEffect(()=>{
+      function handleClickOutside (event) {
+        console.log(event)
+        if(!popUp.current.contains(event.target)){
+            setNewClick(false)
+        }
+      }
+      document.addEventListener(onclick,handleClickOutside);
+      
+      return()=> {
+        document.removeEventListener(onclick,handleClickOutside);
+      };
+    },[newClick])
+
+
    return (
     <div className='w-full h-[800vh] bg-gray-100'>
       <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
@@ -587,7 +602,7 @@ const Search = () => {
             </svg>  
           </div>
         </div>
-        <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
+        <div ref={popUp}  className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
               {!!sorts &&
                 sorts.map((sort, id) => (
                   <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name,sort.id),setNewClick(false)}}>

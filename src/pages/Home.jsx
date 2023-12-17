@@ -117,9 +117,10 @@ function Home() {
    
   }
   
-
+  console.log(popRef)
    useEffect(() => {
     function handleClickOutside(event) {
+      console.log(event)
       if (!popRef.current.contains(event.target)) {
         setPopup(false)
        
