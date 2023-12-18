@@ -142,8 +142,9 @@ const Search = () => {
   const [arrayy,setArrayy] = useState(arr);
   const [address, setAddress] = useState(city);
   const newPopRef = useRef(null);
-
+  console.log('FIRST RENDER')
   const [sorts,setSorts] = useState([]);
+  console.log(sorts)
   const [data, setData] = useState([]);
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
@@ -164,11 +165,10 @@ const Search = () => {
     districtFilters: null,
     landmarksFilters:null
   });
-  
-
-  
-
-    const addHandler = () => {
+  const [newClick,setNewClick] = useState(false);
+  const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
+    
+  const addHandler = () => {
         if (child < 10) {
           setChild( prevChild => prevChild +1);
           setArrayy(prevArrayy => [...prevArrayy, child]);
@@ -289,20 +289,18 @@ const Search = () => {
                   latitude :lat,
                   filter_by_currency:currency,
                   locale:lang,
-                  order_by: 'popularity',
+                  order_by: initialSort.id,
                   checkout_date: checkoutDate,
                   adults_number :adultCount,
                   checkin_date :checkinDate,
                   include_adjacency: 'true',
                   page_number: '0',
                 }
-                if (childCount > 0 || categoriesFilter) {
+                if (childCount > 0 || categoriesFilter ) {
                   params.children_number = childCount;
                   params.children_ages = children_age;
                 
                   const combinedString = categoriesFilter.join(',');
-                  console.log('Combined String:', combinedString);
-                
                   params.categories_filter_ids = combinedString;
                 } 
 
@@ -351,7 +349,7 @@ const Search = () => {
                   checkout_date: checkoutDate,
                   units: 'metric',
                   room_number: roomCount,
-                  order_by: 'popularity',
+                  order_by: initialSort.id,
                   locale:lang,
                   include_adjacency: 'true',
                   page_number: '0',
@@ -519,18 +517,16 @@ const Search = () => {
 
       useEffect(()=>{
         window.scrollTo(0,0)
-    },[])
-
-
-    
-    const [newClick,setNewClick] = useState(false);
-
-  
-    const [initialSort,setInitialSort] = useState('');
+    },[]);
     
 
-    const sortBy = (name) => {
-      setInitialSort(name)
+    const sortBy = (name,id) => {
+      setInitialSort((prevInitialSort)=>{
+        const newInitialSort = {...prevInitialSort};
+        newInitialSort.name = name;
+        newInitialSort.id = id;
+       return newInitialSort
+      })
 
     }
     
@@ -539,11 +535,9 @@ const Search = () => {
     }
     
     const popUp = useRef(null);
-    console.log(popUp)
 
     useEffect(()=>{
       function handleClickoutside (event) {
-        console.log(event)
         if(!popUp.current.contains(event.target)){
             setNewClick(false)
         }
@@ -592,8 +586,8 @@ const Search = () => {
         <div className='font-semibold text-base'>Filter by</div>
         <div className='flex items-center gap-1'>
           <div className='font-light text-sm'>Sorted by</div>
-          <div ref={popUp}   className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
-            <div className='text-sm font-semibold'>{initialSort || sorts[0]?.name}</div>
+          <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
+            <div className='text-sm font-semibold'>{initialSort.name}</div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black">
               <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
             </svg>  
@@ -602,7 +596,7 @@ const Search = () => {
         <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
               {!!sorts &&
                 sorts.map((sort, id) => (
-                  <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name),setNewClick(false)}}>
+                  <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name,sort.id),setNewClick(false)}}>
                     {sort.name}
                   </div>
                 ))}
