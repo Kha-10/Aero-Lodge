@@ -547,16 +547,18 @@ const Search = () => {
     console.log(popUp)
 
     useEffect(()=>{
-      function handleClickOutside (event) {
+      function handleClickoutside (event) {
         console.log(event)
         if(!popUp.current.contains(event.target)){
             setNewClick(false)
         }
       }
-      document.addEventListener(onclick,handleClickOutside);
+     if(newClick) {
+      document.addEventListener('click',handleClickoutside);
+     }
       
       return()=> {
-        document.removeEventListener(onclick,handleClickOutside);
+        document.removeEventListener('click',handleClickoutside);
       };
     },[newClick])
 
@@ -595,14 +597,14 @@ const Search = () => {
         <div className='font-semibold text-base'>Filter by</div>
         <div className='flex items-center gap-1'>
           <div className='font-light text-sm'>Sorted by</div>
-          <div className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
+          <div ref={popUp}   className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
             <div className='text-sm font-semibold'>{initialSort || sorts[0]?.name}</div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black">
               <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
             </svg>  
           </div>
         </div>
-        <div ref={popUp}  className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
+        <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
               {!!sorts &&
                 sorts.map((sort, id) => (
                   <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name,sort.id),setNewClick(false)}}>
