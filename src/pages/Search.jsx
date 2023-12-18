@@ -529,13 +529,8 @@ const Search = () => {
     const [initialSort,setInitialSort] = useState('');
     
 
-    const sortBy = (name,id) => {
+    const sortBy = (name) => {
       setInitialSort(name)
-      const sortedArray = [];
-      sortedArray.push(id);
-      setCategoriesFilter((prevStates)=>{
-       return [...prevStates,...sortedArray]
-      })
 
     }
     
@@ -607,7 +602,7 @@ const Search = () => {
         <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
               {!!sorts &&
                 sorts.map((sort, id) => (
-                  <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name,sort.id),setNewClick(false)}}>
+                  <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name),setNewClick(false)}}>
                     {sort.name}
                   </div>
                 ))}
