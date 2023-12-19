@@ -563,6 +563,7 @@ const Search = () => {
       </div>
       <div className='max-w-6xl mx-auto px-[2%] py-[1%] flex items-center justify-between'>
         <div className='font-semibold text-base'>Filter by</div>
+        <h3 className='font-bold text-lg -ml-20'>{city} : {modifiedHotelsNumbers} hotels found</h3>
         <div className='flex items-center gap-1'>
           <div className='font-light text-sm'>Sorted by</div>
           <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
@@ -616,7 +617,7 @@ const Search = () => {
         </div>
         <div className='w-full px-3 py-6'>
           <div className='flex items-center space-x-1'>
-            <h3 className='font-bold text-xl'>{city} : {modifiedHotelsNumbers} hotels found</h3>
+            {/* <h3 className='font-bold text-xl'>{city} : {modifiedHotelsNumbers} hotels found</h3> */}
           </div>
         </div>
       </div>
