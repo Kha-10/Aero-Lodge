@@ -44,8 +44,8 @@ const Search = () => {
     const destType = params.get('dest_type');
 
     const destid = params.get('dest_id');
-    const hotels = params.get('hotels_numbers');
-    const modifiedHotels = parseInt(hotels).toLocaleString();
+    const hotelsNumbers = params.get('hotels_numbers');
+    const modifiedHotelsNumbers = parseInt(hotelsNumbers).toLocaleString();
  
     const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
 
@@ -616,7 +616,7 @@ const Search = () => {
         </div>
         <div className='w-full px-3 py-6'>
           <div className='flex items-center space-x-1'>
-            <h3 className='font-bold text-xl'>{city} : {modifiedHotels} hotels found</h3>
+            <h3 className='font-bold text-xl'>{city} : {modifiedHotelsNumbers} hotels found</h3>
           </div>
         </div>
       </div>
