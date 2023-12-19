@@ -16,6 +16,7 @@ import axios from 'axios';
 import useApp from '../hooks/useApp';
 import Daterange from '../components/Daterange';
 import './App.css';
+import FilterSection from '../components/FilterSection';
 
 const Search = () => {
     const locations = useLocation();
@@ -409,9 +410,9 @@ const Search = () => {
         filter()
       },[langauge,currency,destid,destType,categoriesFilter])
 
-      const svg = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-4 h-4 text-blue-500">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-      </svg>;
+      // const svg = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-4 h-4 text-blue-500">
+      //   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      // </svg>;
 
     const [selectedTitle,setselectedTitle] = useState ('');
     
@@ -449,27 +450,50 @@ const Search = () => {
     setClickStates((prevStates) => {
       const newState = { ...prevStates };
   
-      const handleClickState = (state, key) => {
-        if (id === filterData[key]?.id) {
-          state[index] = !state[index];
+      // const handleClickState = (state, key) => {
+      //   if (id === filterData[key]?.id) {
+      //     state[index] = !state[index];
+      //   }
+      // };
+      
+      // handleClickState(newState.popular, 'popularFilters');
+      // handleClickState(newState.freeCancellation, 'freeCancellationFilters');
+      // handleClickState(newState.propertyRating, 'propertyRatingFilters');
+      // handleClickState(newState.propertyType, 'propertyTypeFilters');
+      // handleClickState(newState.numberOfBedrooms, 'numberOfBedroomsFilters');
+      // handleClickState(newState.facilities, 'facilitiesFilters');
+      // handleClickState(newState.distance, 'distanceFilters');
+      // handleClickState(newState.meals, 'mealsFilters');
+      // handleClickState(newState.chain, 'chainFilters');
+      // handleClickState(newState.review, 'reviewFilters');
+      // handleClickState(newState.roomFacilities, 'roomFacilitiesFilters');
+      // handleClickState(newState.bedPreference, 'bedPreferenceFilters');
+      // handleClickState(newState.district, 'districtFilters');
+      // handleClickState(newState.landmarks, 'landmarksFilters');
+  
+      // return newState;
+
+      const filterKeys = [
+        'popular',
+        'freeCancellation',
+        'propertyRating',
+        'propertyType',
+        'numberOfBedrooms',
+        'facilities',
+        'distance',
+        'meals',
+        'chain',
+        'review',
+        'roomFacilities',
+        'bedPreference',
+        'district',
+        'landmarks',
+      ];
+      filterKeys.forEach((key)=>{
+        if(id === filterData[key+'Filters']?.id) {
+          newState[key][index] = ! newState[key][index];
         }
-      };
-  
-      handleClickState(newState.popular, 'popularFilters');
-      handleClickState(newState.freeCancellation, 'freeCancellationFilters');
-      handleClickState(newState.propertyRating, 'propertyRatingFilters');
-      handleClickState(newState.propertyType, 'propertyTypeFilters');
-      handleClickState(newState.numberOfBedrooms, 'numberOfBedroomsFilters');
-      handleClickState(newState.facilities, 'facilitiesFilters');
-      handleClickState(newState.distance, 'distanceFilters');
-      handleClickState(newState.meals, 'mealsFilters');
-      handleClickState(newState.chain, 'chainFilters');
-      handleClickState(newState.review, 'reviewFilters');
-      handleClickState(newState.roomFacilities, 'roomFacilitiesFilters');
-      handleClickState(newState.bedPreference, 'bedPreferenceFilters');
-      handleClickState(newState.district, 'districtFilters');
-      handleClickState(newState.landmarks, 'landmarksFilters');
-  
+      })
       return newState;
     });
     const category = [];
@@ -484,28 +508,28 @@ const Search = () => {
       
   };
   
-  const renderFilterSection = (filterObj, clickState, clickHandler) => (
-    filterObj && (
-      <div className='w-full bg-white px-4 py-3 rounded-lg border border-gray-300 '>
-        <div className='font-semibold text-sm'>{filterObj.title}</div>
-        <div className='mt-2'>
-          {filterObj.categories && filterObj.categories.map((filter, i) => (
-            <div key={i} className='group w-full flex items-center gap-2 cursor-pointer mt-3' onClick={() => clickHandler(i, filterObj)}>
-              <div className='w-full flex items-center gap-2 '>
-                <div className='w-[10%] flex items-center justify-center'>
-                  <div className='border border-gray-300 group-hover:border-blue-400 bg-white rounded w-5 h-5 flex items-center justify-center'>
-                    {clickState[i] && svg}
-                  </div>
-                </div>
-                <p className='text-[13px] group-hover:text-blue-400'>{filter.name}</p>
-              </div>
-              <p className='text-[13px] group-hover:text-blue-400'>{filter.count}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  );
+  // const renderFilterSection = (filterObj, clickState, clickHandler) => (
+  //   filterObj && (
+  //     <div className='w-full bg-white px-4 py-3 rounded-lg border border-gray-300 '>
+  //       <div className='font-semibold text-sm'>{filterObj.title}</div>
+  //       <div className='mt-2'>
+  //         {filterObj.categories && filterObj.categories.map((filter, i) => (
+  //           <div key={i} className='group w-full flex items-center gap-2 cursor-pointer mt-3' onClick={() => clickHandler(i, filterObj)}>
+  //             <div className='w-full flex items-center gap-2 '>
+  //               <div className='w-[10%] flex items-center justify-center'>
+  //                 <div className='border border-gray-300 group-hover:border-blue-400 bg-white rounded w-5 h-5 flex items-center justify-center'>
+  //                   {clickState[i] && svg}
+  //                 </div>
+  //               </div>
+  //               <p className='text-[13px] group-hover:text-blue-400'>{filter.name}</p>
+  //             </div>
+  //             <p className='text-[13px] group-hover:text-blue-400'>{filter.count}</p>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   )
+  // );
 
       
       useEffect(()=>{
@@ -618,7 +642,7 @@ const Search = () => {
               </div>
             </div>
           }
-          {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
+          {/* {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
           {renderFilterSection(filterData.freeCancellationFilters, clickStates.freeCancellation, clickHandler)}
           {renderFilterSection(filterData.propertyRatingFilters, clickStates.propertyRating, clickHandler)}
           {renderFilterSection(filterData.propertyTypeFilters, clickStates.propertyType, clickHandler)}
@@ -631,7 +655,22 @@ const Search = () => {
           {renderFilterSection(filterData.roomFacilitiesFilters, clickStates.roomFacilities, clickHandler)}
           {renderFilterSection(filterData.bedPreferenceFilters, clickStates.bedPreference, clickHandler)}
           {renderFilterSection(filterData.districtFilters, clickStates.district, clickHandler)}
-          {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)}
+          {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)} */}
+          <FilterSection filterObj={filterData.popularFilters} clickState={clickStates.popular} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.freeCancellationFilters} clickState={clickStates.freeCancellation} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.propertyRatingFilters} clickState={clickStates.propertyRating} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.propertyTypeFilters} clickState={clickStates.propertyType} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.numberOfBedroomsFilters} clickState={clickStates.numberOfBedrooms} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.facilitiesFilters} clickState={clickStates.facilities} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.distanceFilters} clickState={clickStates.distance} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.mealsFilters} clickState={clickStates.meals} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.chainFilters} clickState={clickStates.chain} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.reviewFilters} clickState={clickStates.review} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.roomFacilitiesFilters} clickState={clickStates.roomFacilities} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.bedPreferenceFilters} clickState={clickStates.bedPreference} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.districtFilters} clickState={clickStates.district} clickHandler={clickHandler} />
+          <FilterSection filterObj={filterData.landmarksFilters} clickState={clickStates.landmarks} clickHandler={clickHandler} />
+          
           </div>
         </div>
         <div className='w-full px-3 py-6'>
