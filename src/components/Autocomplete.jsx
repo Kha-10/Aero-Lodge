@@ -15,7 +15,7 @@ const Autocomplete = () => {
 
   
 
-  const {setLatitude,setLongitude,setLocation,location,setImageurl,history,toggle,setDestType,setDestid} = useApp();
+  const {setLatitude,setLongitude,setLocation,location,setImageurl,history,toggle,setDestType,setDestid,setHotelsNumbers} = useApp();
     
     // useEffect(()=>{
     //   setLocation(gg)
@@ -93,7 +93,7 @@ const Autocomplete = () => {
         toggle.current=false
     }
 
-    const handler = (city,lat,lng,img,id,type) => {
+    const handler = (city,lat,lng,img,id,type,hotels) => {
       setLocation(city);
       setLatitude(lat);
       setLongitude(lng);
@@ -102,6 +102,7 @@ const Autocomplete = () => {
       toggle.current=true;
       setSuggestions(null);
       setImageurl(img);
+      setHotelsNumbers(hotels)
     }
 
     useEffect(() => {
@@ -132,7 +133,7 @@ const Autocomplete = () => {
                 <div className='bg-white shadow-[1px_1px_10px_rgb(0,0,0,0.1)] w-[300px] rounded-lg absolute top-[16%] mt-2 group-hover:border-blue-500 z-50'>
                 <div className='space-y-2'ref={popRef}>
                     {suggestions.map((suggestion, i) => (
-                    <div key={i} className='hover:bg-stone-100 cursor-pointer p-2 space-y-1 first:rounded-t-lg last:rounded-b-lg' onClick={() => handler (suggestion.city_name,suggestion.latitude,suggestion.longitude,suggestion.image_url,suggestion.dest_id,suggestion.dest_type)} >
+                    <div key={i} className='hover:bg-stone-100 cursor-pointer p-2 space-y-1 first:rounded-t-lg last:rounded-b-lg' onClick={() => handler (suggestion.city_name,suggestion.latitude,suggestion.longitude,suggestion.image_url,suggestion.dest_id,suggestion.dest_type,suggestion.hotels)} >
                       <h4 className='font-semibold'>{suggestion.name}</h4>
                       <div className='text-sm space-x-1'>
                         <span >{suggestion.city_name},</span>
