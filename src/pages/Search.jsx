@@ -410,10 +410,6 @@ const Search = () => {
         filter()
       },[langauge,currency,destid,destType,categoriesFilter])
 
-      // const svg = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-4 h-4 text-blue-500">
-      //   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-      // </svg>;
-
     const [selectedTitle,setselectedTitle] = useState ('');
     
     const changeHandler = (value)=> {
@@ -449,29 +445,6 @@ const Search = () => {
   
     setClickStates((prevStates) => {
       const newState = { ...prevStates };
-  
-      // const handleClickState = (state, key) => {
-      //   if (id === filterData[key]?.id) {
-      //     state[index] = !state[index];
-      //   }
-      // };
-      
-      // handleClickState(newState.popular, 'popularFilters');
-      // handleClickState(newState.freeCancellation, 'freeCancellationFilters');
-      // handleClickState(newState.propertyRating, 'propertyRatingFilters');
-      // handleClickState(newState.propertyType, 'propertyTypeFilters');
-      // handleClickState(newState.numberOfBedrooms, 'numberOfBedroomsFilters');
-      // handleClickState(newState.facilities, 'facilitiesFilters');
-      // handleClickState(newState.distance, 'distanceFilters');
-      // handleClickState(newState.meals, 'mealsFilters');
-      // handleClickState(newState.chain, 'chainFilters');
-      // handleClickState(newState.review, 'reviewFilters');
-      // handleClickState(newState.roomFacilities, 'roomFacilitiesFilters');
-      // handleClickState(newState.bedPreference, 'bedPreferenceFilters');
-      // handleClickState(newState.district, 'districtFilters');
-      // handleClickState(newState.landmarks, 'landmarksFilters');
-  
-      // return newState;
 
       const filterKeys = [
         'popular',
@@ -508,28 +481,6 @@ const Search = () => {
       
   };
   
-  // const renderFilterSection = (filterObj, clickState, clickHandler) => (
-  //   filterObj && (
-  //     <div className='w-full bg-white px-4 py-3 rounded-lg border border-gray-300 '>
-  //       <div className='font-semibold text-sm'>{filterObj.title}</div>
-  //       <div className='mt-2'>
-  //         {filterObj.categories && filterObj.categories.map((filter, i) => (
-  //           <div key={i} className='group w-full flex items-center gap-2 cursor-pointer mt-3' onClick={() => clickHandler(i, filterObj)}>
-  //             <div className='w-full flex items-center gap-2 '>
-  //               <div className='w-[10%] flex items-center justify-center'>
-  //                 <div className='border border-gray-300 group-hover:border-blue-400 bg-white rounded w-5 h-5 flex items-center justify-center'>
-  //                   {clickState[i] && svg}
-  //                 </div>
-  //               </div>
-  //               <p className='text-[13px] group-hover:text-blue-400'>{filter.name}</p>
-  //             </div>
-  //             <p className='text-[13px] group-hover:text-blue-400'>{filter.count}</p>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </div>
-  //   )
-  // );
 
       
       useEffect(()=>{
@@ -633,29 +584,15 @@ const Search = () => {
             <div className='w-[210px] group'>
               <div className='font-semibold text-sm'>{price.title}</div>
               <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300'>
-                <select className='w-[180px] group-hover:text-blue-400 text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value) }>
+                <select className='w-[180px] group-hover:text-blue-400 text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value)}>
                   <option value="">{price.title}</option>
                   {!!price && price.categories && price.categories.map((category)=>(
-                    <option key={category.id} value={category.name}>{category.name}</option>
+                    <option key={category.id} value={category.id}>{category.name}</option>
                   ))}
                 </select>
               </div>
             </div>
           }
-          {/* {renderFilterSection(filterData.popularFilters, clickStates.popular, clickHandler)}
-          {renderFilterSection(filterData.freeCancellationFilters, clickStates.freeCancellation, clickHandler)}
-          {renderFilterSection(filterData.propertyRatingFilters, clickStates.propertyRating, clickHandler)}
-          {renderFilterSection(filterData.propertyTypeFilters, clickStates.propertyType, clickHandler)}
-          {renderFilterSection(filterData.numberOfBedroomsFilters, clickStates.numberOfBedrooms, clickHandler)}
-          {renderFilterSection(filterData.facilitiesFilters, clickStates.facilities, clickHandler)}
-          {renderFilterSection(filterData.distanceFilters, clickStates.distance, clickHandler)}
-          {renderFilterSection(filterData.mealsFilters, clickStates.meals, clickHandler)}
-          {renderFilterSection(filterData.chainFilters, clickStates.chain, clickHandler)}
-          {renderFilterSection(filterData.reviewFilters, clickStates.review, clickHandler)}
-          {renderFilterSection(filterData.roomFacilitiesFilters, clickStates.roomFacilities, clickHandler)}
-          {renderFilterSection(filterData.bedPreferenceFilters, clickStates.bedPreference, clickHandler)}
-          {renderFilterSection(filterData.districtFilters, clickStates.district, clickHandler)}
-          {renderFilterSection(filterData.landmarksFilters, clickStates.landmarks, clickHandler)} */}
           <FilterSection filterObj={filterData.popularFilters} clickState={clickStates.popular} clickHandler={clickHandler} />
           <FilterSection filterObj={filterData.freeCancellationFilters} clickState={clickStates.freeCancellation} clickHandler={clickHandler} />
           <FilterSection filterObj={filterData.propertyRatingFilters} clickState={clickStates.propertyRating} clickHandler={clickHandler} />
