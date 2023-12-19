@@ -411,8 +411,10 @@ const Search = () => {
       },[langauge,currency,destid,destType,categoriesFilter])
 
     const [selectedTitle,setselectedTitle] = useState ('');
+    console.log(selectedTitle)
     
     const changeHandler = (value)=> {
+      console.log(value)
       setselectedTitle(value)
       const newArray = [];
       newArray.push(value);
