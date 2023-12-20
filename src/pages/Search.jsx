@@ -17,7 +17,7 @@ import useApp from '../hooks/useApp';
 import Daterange from '../components/Daterange';
 import './App.css';
 import FilterSection from '../components/FilterSection';
-
+import christmasoffer from '../assets/christmasoffer.jpg';
 const Search = () => {
     const locations = useLocation();
     const params = new URLSearchParams(locations.search);
@@ -276,141 +276,141 @@ const Search = () => {
 
       const currency= localStorage.getItem('cur');
 
-      useEffect(()=> {
-        const getData = async () => {
-          let lang = ''; 
-          if(langauge ==='en') {
-             lang = langauge +'-gb'
-          }else {
-            lang = langauge
-          }
-          try {
-            const params = {
-                  units: 'metric',
-                  room_number: roomCount,
-                  longitude : lng,
-                  latitude :lat,
-                  filter_by_currency:currency,
-                  locale:lang,
-                  order_by: initialSort.id,
-                  checkout_date: checkoutDate,
-                  adults_number :adultCount,
-                  checkin_date :checkinDate,
-                  include_adjacency: 'true',
-                  page_number: '0',
-                }
-                if (childCount > 0 || categoriesFilter ) {
-                  params.children_number = childCount;
-                  params.children_ages = children_age;
+      // useEffect(()=> {
+      //   const getData = async () => {
+      //     let lang = ''; 
+      //     if(langauge ==='en') {
+      //        lang = langauge +'-gb'
+      //     }else {
+      //       lang = langauge
+      //     }
+      //     try {
+      //       const params = {
+      //             units: 'metric',
+      //             room_number: roomCount,
+      //             longitude : lng,
+      //             latitude :lat,
+      //             filter_by_currency:currency,
+      //             locale:lang,
+      //             order_by: initialSort.id,
+      //             checkout_date: checkoutDate,
+      //             adults_number :adultCount,
+      //             checkin_date :checkinDate,
+      //             include_adjacency: 'true',
+      //             page_number: '0',
+      //           }
+      //           if (childCount > 0 || categoriesFilter ) {
+      //             params.children_number = childCount;
+      //             params.children_ages = children_age;
                 
-                  const combinedString = categoriesFilter.join(',');
-                  params.categories_filter_ids = combinedString;
-                } 
+      //             const combinedString = categoriesFilter.join(',');
+      //             params.categories_filter_ids = combinedString;
+      //           } 
 
-                const {data:{result,sort} } = await axios.get ('http://localhost:8000/datas',{
-                  params : params,
-                })
-              console.log(sort)
-              setSorts(sort)
-              console.log(result);
-              // setData(result)
+      //           const {data:{result,sort} } = await axios.get ('http://localhost:8000/datas',{
+      //             params : params,
+      //           })
+      //         console.log(sort)
+      //         setSorts(sort)
+      //         console.log(result);
+      //         // setData(result)
       
-            } 
-            catch (error) {
-              if (error.response) {
-                console.error('Data:', error.response.data);
-                console.error('Status:', error.response.status);
-                console.error('Headers:', error.response.headers);
-            } else if (error.request) {
-                console.error('Request made but no response received:', error.request);
-            } else {
-                console.error('Error:', error.message);
-            }
-                // Something else went wrong
-                console.error('Error:', error.message);
-            }
+      //       } 
+      //       catch (error) {
+      //         if (error.response) {
+      //           console.error('Data:', error.response.data);
+      //           console.error('Status:', error.response.status);
+      //           console.error('Headers:', error.response.headers);
+      //       } else if (error.request) {
+      //           console.error('Request made but no response received:', error.request);
+      //       } else {
+      //           console.error('Error:', error.message);
+      //       }
+      //           // Something else went wrong
+      //           console.error('Error:', error.message);
+      //       }
          
-        };
-        getData()
-      },[langauge,currency,destid,destType,categoriesFilter])
+      //   };
+      //   getData()
+      // },[langauge,currency,destid,destType,categoriesFilter])
 
-      useEffect(()=> {
-        const filter = async () => {
-          let lang = ''; 
-          if(langauge ==='en') {
-             lang = langauge +'-gb'
-          }else {
-            lang = langauge
-          }
-          try {
-            const params = {
-                  adults_number :adultCount,
-                  filter_by_currency:currency,
-                  checkin_date :checkinDate,
-                  dest_id: destid,
-                  dest_type: destType,
-                  checkout_date: checkoutDate,
-                  units: 'metric',
-                  room_number: roomCount,
-                  order_by: initialSort.id,
-                  locale:lang,
-                  include_adjacency: 'true',
-                  page_number: '0',
-                }
-                if (childCount > 0 || categoriesFilter) {
-                  params.children_number = childCount;
-                  params.children_ages = children_age;
+      // useEffect(()=> {
+      //   const filter = async () => {
+      //     let lang = ''; 
+      //     if(langauge ==='en') {
+      //        lang = langauge +'-gb'
+      //     }else {
+      //       lang = langauge
+      //     }
+      //     try {
+      //       const params = {
+      //             adults_number :adultCount,
+      //             filter_by_currency:currency,
+      //             checkin_date :checkinDate,
+      //             dest_id: destid,
+      //             dest_type: destType,
+      //             checkout_date: checkoutDate,
+      //             units: 'metric',
+      //             room_number: roomCount,
+      //             order_by: initialSort.id,
+      //             locale:lang,
+      //             include_adjacency: 'true',
+      //             page_number: '0',
+      //           }
+      //           if (childCount > 0 || categoriesFilter) {
+      //             params.children_number = childCount;
+      //             params.children_ages = children_age;
                 
-                  const combinedString = categoriesFilter.join(',');
-                  console.log('Combined String:', combinedString);
+      //             const combinedString = categoriesFilter.join(',');
+      //             console.log('Combined String:', combinedString);
                 
-                  params.categories_filter_ids = combinedString;
-                } 
+      //             params.categories_filter_ids = combinedString;
+      //           } 
                 
-                console.log(childCount)
-                console.log(categoriesFilter)
-                const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
-                  params : params,
-                },
-                )
+      //           console.log(childCount)
+      //           console.log(categoriesFilter)
+      //           const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
+      //             params : params,
+      //           },
+      //           )
               
-              console.log(filter);
-              setPrice(filter[1]);
-              setFilterData({
-                popularFilters: filter[2],
-                freeCancellationFilters : filter[3],
-                propertyRatingFilters: filter[4],
-                propertyTypeFilters: filter[5],
-                numberOfBedroomsFilters: filter[6],
-                facilitiesFilters: filter[7],
-                distanceFilters: filter[8],
-                mealsFilters: filter[9],
-                chainFilters: filter[10],
-                reviewFilters: filter[11],
-                RoomFacilitiesFilters: filter[12],
-                bedPreferenceFilters: filter[13],
-                districtFilters: filter[14],
-                landmarksFilters: filter[15],
+      //         console.log(filter);
+      //         setPrice(filter[1]);
+      //         setFilterData({
+      //           popularFilters: filter[2],
+      //           freeCancellationFilters : filter[3],
+      //           propertyRatingFilters: filter[4],
+      //           propertyTypeFilters: filter[5],
+      //           numberOfBedroomsFilters: filter[6],
+      //           facilitiesFilters: filter[7],
+      //           distanceFilters: filter[8],
+      //           mealsFilters: filter[9],
+      //           chainFilters: filter[10],
+      //           reviewFilters: filter[11],
+      //           RoomFacilitiesFilters: filter[12],
+      //           bedPreferenceFilters: filter[13],
+      //           districtFilters: filter[14],
+      //           landmarksFilters: filter[15],
 
-              });
-            } 
-            catch (error) {
-              if (error.response) {
-                console.error('Data:', error.response.data);
-                console.error('Status:', error.response.status);
-                console.error('Headers:', error.response.headers);
-            } else if (error.request) {
-                console.error('Request made but no response received:', error.request);
-            } else {
-                console.error('Error:', error.message);
-            }
-                // Something else went wrong
-                console.error('Error:', error.message);
-            }
+      //         });
+      //       } 
+      //       catch (error) {
+      //         if (error.response) {
+      //           console.error('Data:', error.response.data);
+      //           console.error('Status:', error.response.status);
+      //           console.error('Headers:', error.response.headers);
+      //       } else if (error.request) {
+      //           console.error('Request made but no response received:', error.request);
+      //       } else {
+      //           console.error('Error:', error.message);
+      //       }
+      //           // Something else went wrong
+      //           console.error('Error:', error.message);
+      //       }
          
-        };
-        filter()
-      },[langauge,currency,destid,destType,categoriesFilter])
+      //   };
+      //   filter()
+      // },[langauge,currency,destid,destType,categoriesFilter])
 
     const [selectedTitle,setselectedTitle] = useState ('');
     console.log(selectedTitle)
@@ -616,8 +616,17 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6'>
-         <div className='w-full h-[200px] border border-gray-200 bg-white rounded-lg'>
-              ggwp
+         <div className='w-full h-[200px] flex border border-gray-200 bg-white rounded-lg'>
+              <img src={christmasoffer} className='w-[280px] h-full rounded-lg rounded-tr-none rounded-br-none' />
+              <div className='px-3 py-2'>
+                <div className=' font-semibold text-xl'>Hilton hotel</div>
+                <div className='flex items-center gap-2'>
+                  <div className='text-sm font-light'>4 satrs</div>
+                  <div className='text-blue-400 text-sm'>Bangkok</div>
+                </div>
+                <div>Superior Studio</div>
+                <div>Entire studio • 1 bathroom • 1 kitchen • 27m² 1 twin bed</div>
+              </div>
           </div>
         </div>
       </div>
