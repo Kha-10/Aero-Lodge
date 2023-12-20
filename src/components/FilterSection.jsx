@@ -8,7 +8,7 @@ const FilterSection = ({ filterObj, clickState, clickHandler }) => {
 
     return (
         filterObj && (
-            <div className='w-full bg-white px-4 py-3 rounded-lg border border-gray-300 '>
+            <div className='w-full bg-white px-4 py-3 rounded-lg border border-gray-200 '>
               <div className='font-semibold text-sm'>{filterObj.title}</div>
               <div className='mt-2'>
                 {filterObj.categories && filterObj.categories.map((filter, i) => (

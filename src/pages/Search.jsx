@@ -532,7 +532,7 @@ const Search = () => {
 
 
    return (
-    <div className='w-full h-[800vh] bg-gray-100'>
+    <div className='w-full min-h-screen bg-gray-100'>
       <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
@@ -588,7 +588,7 @@ const Search = () => {
           {!!price && 
             <div className='w-[210px] group'>
               <div className='font-semibold text-sm'>{price.title}</div>
-              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-300'>
+              <div className='bg-white rounded-lg mt-2 p-3 border border-gray-200'>
                 <select className='w-[180px] group-hover:text-blue-400 text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value)}>
                   <option value="">{price.title}</option>
                   {!!price && price.categories && price.categories.map((category)=>(
@@ -616,8 +616,8 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6'>
-          <div className='flex items-center space-x-1'>
-            {/* <h3 className='font-bold text-xl'>{city} : {modifiedHotelsNumbers} hotels found</h3> */}
+         <div className='w-full h-[200px] border border-gray-200 bg-white rounded-lg'>
+              ggwp
           </div>
         </div>
       </div>
