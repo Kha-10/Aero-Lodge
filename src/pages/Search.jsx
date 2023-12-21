@@ -616,11 +616,11 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6'>
-          <div className='w-full flex border  border-gray-200 bg-white rounded-lg'>
-              <div className='w-full p-4'>
-                <img src={christmasoffer} className='w-full max-h-[250px] rounded-lg' />
+          <div className='w-full flex border py-4 border-gray-200 bg-white rounded-lg'>
+              <div className='w-full flex justify-center'>
+                <img src={christmasoffer} className='rounded-lg max-h-[200px] max-w-[200px]' />
               </div>
-              <div className='py-4 min-w-[350px]'>
+              <div className='min-w-[300px]'>
                 <div className=' font-semibold text-xl'>Hilton hotel</div>
                 <div className='flex flex-col gap-2 mt-1'>
                   <div className='flex items-center gap-2'>
@@ -642,13 +642,13 @@ const Search = () => {
                   <p className='text-[12px] font-semibold '>No prepayment needed </p>
                 </div>
               </div>
-              <div className='w-full gap-8 px-3 py-4'>
+              <div className='w-full gap-8 px-3'>
                <div className='flex items-center gap-2'>
                 <div className='w-[80%] text-right'>
                   <h1 className='text-[14px]'>Good</h1>
                   <p className='text-[12px] font-light'>123,4 reviews</p>
                 </div>
-                <div className='w-[20%] h-full'>
+                <div className='w-[12%] h-full'>
                   <p className='bg-blue-500 text-white text-center text-[14px] rounded-tr-full rounded-tl-full rounded-br-full py-1'>8</p>
                 </div>
                </div>
