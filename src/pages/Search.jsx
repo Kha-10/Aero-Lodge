@@ -616,16 +616,50 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6'>
-         <div className='w-full h-[200px] flex border border-gray-200 bg-white rounded-lg'>
-              <img src={christmasoffer} className='w-[280px] h-full rounded-lg rounded-tr-none rounded-br-none' />
-              <div className='px-3 py-2'>
+          <div className='w-full flex border  border-gray-200 bg-white rounded-lg'>
+              <div className='w-full p-4'>
+                <img src={christmasoffer} className='w-full max-h-[250px] rounded-lg' />
+              </div>
+              <div className='py-4 min-w-[350px]'>
                 <div className=' font-semibold text-xl'>Hilton hotel</div>
-                <div className='flex items-center gap-2'>
-                  <div className='text-sm font-light'>4 satrs</div>
-                  <div className='text-blue-400 text-sm'>Bangkok</div>
+                <div className='flex flex-col gap-2 mt-1'>
+                  <div className='flex items-center gap-2'>
+                      <div className='text-[12px] font-light'>4 satrs</div>
+                      <div className='text-blue-400 text-[12px] font-semibold'>Bangkok</div>
+                      <div className='text-[12px] font-light'>3.5km from center</div>
+                  </div>
+                  <div className=''>
+                      <div className='text-[12px] font-normal'>Superior Studio</div>
+                      <div className='text-[12px] font-normal'>Entire studio • 1 bathroom • 1 kitchen • 27m² 1 twin bed</div>
+                  </div>
+                  <div className='text-[12px] flex items-center gap-2'>
+                    <p className='inline px-2  border border-gray-300'>Parking</p>
+                    <p className='inline px-2  border border-gray-300'>Bathub</p>
+                    <p className='inline px-2  border border-gray-300'>Pool</p>
+                  </div>
+                  <p className='text-[12px] font-semibold'>Breakfast included</p>
+                  <p className='text-[12px] font-semibold '>Free Cancellation</p>
+                  <p className='text-[12px] font-semibold '>No prepayment needed </p>
                 </div>
-                <div>Superior Studio</div>
-                <div>Entire studio • 1 bathroom • 1 kitchen • 27m² 1 twin bed</div>
+              </div>
+              <div className='w-full gap-8 px-3 py-4'>
+               <div className='flex items-center gap-2'>
+                <div className='w-[80%] text-right'>
+                  <h1 className='text-[14px]'>Good</h1>
+                  <p className='text-[12px] font-light'>123,4 reviews</p>
+                </div>
+                <div className='w-[20%] h-full'>
+                  <p className='bg-blue-500 text-white text-center text-[14px] rounded-tr-full rounded-tl-full rounded-br-full py-1'>8</p>
+                </div>
+               </div>
+               <div className=' space-y-1 text-right mt-[70px]'>
+                <p className='text-[12px]'>3 nights,2 adults,2 children</p>
+                <p className='text-[12px] text-red-600 line-through'>THB 1000</p>
+                <p className='text-[20px]'>THB 48,000</p>
+                <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>10% off</p>
+                <p className='text-[12px]'>Includes taxes and fees</p>
+                <button className='text-[14px] px-3 py-2 bg-blue-500 text-white rounded'>See availability</button>
+               </div>
               </div>
           </div>
         </div>
