@@ -638,7 +638,7 @@ const Search = () => {
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
          {!!datas && datas.map((data,i)=>(
-           <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-lg'>
+           <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded'>
            <div className='w-[40%] flex justify-center'>
              <img src={data?.max_photo_url} className='rounded-lg max-h-[200px] max-w-[200px]' />
            </div>
@@ -712,11 +712,19 @@ const Search = () => {
               </>
               }
              </p>
-             <p className='text-[12px] text-red-700 line-through'>{data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded}</p>
-             <p className='text-[20px]'>{data?.composite_price_breakdown?.net_amount?.amount_rounded}</p>
-             <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
-             {parseInt(100-100*parseInt(String(data?.composite_price_breakdown?.net_amount?.amount_rounded).replace(/[^\d.-]/g, ''))/parseInt(String(data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded).replace(/[^\d.-]/g, '')))+'%'}
-             </p>
+             {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded > data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded? (
+               <p className='text-[12px] text-red-700 line-through'>{data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded}</p>
+             ): null
+             }
+             <p className='text-[20px]'>{data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded}</p>
+             {!!data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
+              data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded > data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded ? (
+                <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
+                {parseInt(100-100*parseInt(String(data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded).replace(/[^\d.-]/g, ''))/parseInt(String(data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded).replace(/[^\d.-]/g, '')))+'%'}
+                </p>
+              ) : null
+             )}
+             
              <p className='text-[12px]'>Includes taxes and fees</p>
              <button className='text-[14px] px-3 py-2 bg-blue-500 text-white rounded'>See availability</button>
             </div>
