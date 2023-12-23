@@ -21,6 +21,7 @@ import pool from '../assets/pool.png';
 import car from '../assets/car.png'
 
 
+
 const Search = () => {
     const locations = useLocation();
     const params = new URLSearchParams(locations.search);
@@ -62,6 +63,7 @@ const Search = () => {
     const [child, setChild] = useState(childCount);
 
     const checkinDate = params.get('checkindate');
+   
     const inputCheckinDate = new Date(checkinDate);
     const opts = {
     weekday: 'short',
@@ -129,6 +131,16 @@ const Search = () => {
     const checkOutDay = checkOutDate.getDate().toString().padStart(2,0);
   
     const formattedCheckoutDate = `${checkOutYear}-${checkOutMonth}-${checkOutDay}`;
+
+    const getCheckinDate = checkinDate.split('-');
+    const checkinDateValue = getCheckinDate[getCheckinDate.length - 1];
+
+    const getCheckoutDate = checkoutDate.split('-');
+    const checkoutDateValue = getCheckoutDate[getCheckoutDate.length - 1];
+
+    const totalNight = checkoutDateValue - checkinDateValue;
+    console.log(totalNight)
+   
   
 
     const [popup, setPopup] = useState(false);
@@ -538,7 +550,7 @@ const Search = () => {
     <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
   </svg>;
   
-
+  
 
    return (
     <div className='w-full min-h-screen bg-gray-100'>
@@ -631,16 +643,18 @@ const Search = () => {
              <img src={data?.max_photo_url} className='rounded-lg max-h-[200px] max-w-[200px]' />
            </div>
            <div className='w-[64%]'>
-             <div className=' font-semibold text-xl'>{data?.hotel_name}</div>
+            <div className='flex items-center gap-1 flex-wrap'>
+              <span className=' font-semibold text-xl'>{data?.hotel_name}</span>
+              {!!data?.class && data.class === 1? <div className='flex items-center'>{star}</div> :''}
+              {!!data?.class && data.class === 2? <div className='flex items-center'>{star} {star}</div> :''}
+              {!!data?.class && data.class === 3? <div className='flex items-center'>{star} {star} {star} </div> :''}
+              {!!data?.class && data.class === 4? <div className='flex items-center'>{star} {star} {star} {star} </div> :''}
+              {!!data?.class && data.class === 5? <div className='flex items-center'>{star} {star} {star} {star} {star} </div> :''}
+            </div>
              <div className='flex flex-col gap-1 mt-1'>
                <div className='flex items-center gap-1'>
-                   {!!data?.class && data.class === 1? <div className='flex items-center'>{star}</div> :''}
-                   {!!data?.class && data.class === 2? <div className='flex items-center'>{star} {star}</div> :''}
-                   {!!data?.class && data.class === 3? <div className='flex items-center'>{star} {star} {star} </div> :''}
-                   {!!data?.class && data.class === 4? <div className='flex items-center'>{star} {star} {star} {star} </div> :''}
-                   {!!data?.class && data.class === 5? <div className='flex items-center'>{star} {star} {star} {star} {star} </div> :''}
-                   {!!data?.district && <div className='text-blue-600 text-[12px] font-semibold'>{data?.district},</div>}
-                   <div className='text-blue-600 text-[12px] font-semibold'>{data?.city}</div>
+                   {!!data?.district && <div className=' text-blue-600 text-[12px] font-semibold'>{data?.district},</div>}
+                   <div className=' text-blue-600 text-[12px] font-semibold'>{data?.city}</div>
                    <div className='text-[12px] font-light'>{data?.distance_to_cc} km from center</div>
                </div>
                <div className='mt-2'>
@@ -678,19 +692,31 @@ const Search = () => {
            </div>
            <div className='w-[30%] gap-8 px-3'>
             <div className='flex items-center gap-2'>
-             <div className='w-[80%] text-right'>
+             <div className='w-[100%] text-right'>
                <h1 className='text-[14px]'>{data?.review_score_word}</h1>
                <p className='text-[12px] font-light'>{data?.review_nr} reviews</p>
              </div>
-             <div className='w-[18%] h-full'>
-               <p className='bg-blue-500 text-white text-center text-[14px] rounded-tr-full rounded-tl-full rounded-br-full py-1'>{data?.review_score}</p>
-             </div>
+            {!!data?.review_score && (
+               <div className='w-[24%] h-full'>
+                <p className='bg-blue-500 text-white text-center text-[14px] rounded-tr-full rounded-tl-full rounded-br-full py-1'>{data?.review_score}</p>
+               </div>
+            )}
             </div>
             <div className=' space-y-1 text-right mt-[70px]'>
-             <p className='text-[12px]'>3 nights,2 adults,2 children</p>
-             <p className='text-[12px] text-red-700 line-through'>THB 1000</p>
-             <p className='text-[20px]'>THB 48,000</p>
-             <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>10% off</p>
+             <p className='text-[12px]'>
+              {totalNight} {`${totalNight > 1 ? 'nights' : 'night'}`},
+              {adultCount} {`${adultCount > 1 ? 'adults' : 'adult'}`} {`${childCount > 0 ? ',' : ''}`}
+              {!! childCount && 
+              <>
+              {childCount} {`${childCount > 1 ? 'children' : 'child'}`}
+              </>
+              }
+             </p>
+             <p className='text-[12px] text-red-700 line-through'>{data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded}</p>
+             <p className='text-[20px]'>{data?.composite_price_breakdown?.net_amount?.amount_rounded}</p>
+             <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
+             {parseInt(100-100*parseInt(String(data?.composite_price_breakdown?.net_amount?.amount_rounded).replace(/[^\d.-]/g, ''))/parseInt(String(data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded).replace(/[^\d.-]/g, '')))+'%'}
+             </p>
              <p className='text-[12px]'>Includes taxes and fees</p>
              <button className='text-[14px] px-3 py-2 bg-blue-500 text-white rounded'>See availability</button>
             </div>
