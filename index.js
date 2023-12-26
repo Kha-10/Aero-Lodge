@@ -21,6 +21,8 @@ app.get('/datas', async (req, res) => {
     const checkoutdate = req.query.checkout_date;
     const checkindate = req.query.checkin_date;
     const adult = req.query.adults_number;
+    const pageNumber = req.query.page_number;
+    console.log(`page ${pageNumber}`)
   
     const params = {
       filter_by_currency: currency,
@@ -34,7 +36,7 @@ app.get('/datas', async (req, res) => {
       order_by: order,
       units: 'metric',
       include_adjacency: 'true',
-      page_number: '0',
+      page_number: pageNumber,
     };
   
     // // Combine conditions in a single block
