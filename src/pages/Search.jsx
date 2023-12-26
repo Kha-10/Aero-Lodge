@@ -638,7 +638,7 @@ const Search = () => {
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
          {!!datas && datas.map((data,i)=>(
-           <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded'>
+           <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-md'>
            <div className='w-[40%] flex justify-center'>
              <img src={data?.max_photo_url} className='rounded-lg max-h-[200px] max-w-[200px]' />
            </div>
@@ -698,7 +698,7 @@ const Search = () => {
              </div>
             {!!data?.review_score && (
                <div className='w-[24%] h-full'>
-                <p className='bg-blue-500 text-white text-center text-[14px] rounded-tr-full rounded-tl-full rounded-br-full py-1'>{data?.review_score}</p>
+                <p className='bg-blue-700 text-white text-center text-[14px] rounded-tr-full rounded-tl-full rounded-br-full py-1'>{data?.review_score}</p>
                </div>
             )}
             </div>
@@ -726,11 +726,14 @@ const Search = () => {
              )}
              
              <p className='text-[12px]'>Includes taxes and fees</p>
-             <button className='text-[14px] px-3 py-2 bg-blue-500 text-white rounded'>See availability</button>
+             <button className='text-[14px] px-3 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded'>See availability</button>
             </div>
            </div>
            </div>
          ))}
+        <div className='w-full flex items-center justify-center'>
+          <button className=' bg-white text-blue-500 border border-blue-500 py-2 px-5 text-base rounded-full'>Show more</button>
+        </div>
         </div>
       </div>
     </div>
