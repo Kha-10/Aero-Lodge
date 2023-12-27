@@ -54,12 +54,6 @@ const Search = () => {
  
     const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
 
-   
-
-  
-
-
-
     const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
 
@@ -140,7 +134,6 @@ const Search = () => {
     const checkoutDateValue = getCheckoutDate[getCheckoutDate.length - 1];
 
     const totalNight = checkoutDateValue - checkinDateValue;
-    console.log(totalNight)
    
   
 
@@ -161,10 +154,9 @@ const Search = () => {
   const [arrayy,setArrayy] = useState(arr);
   const [address, setAddress] = useState(city);
   const newPopRef = useRef(null);
-  console.log('FIRST RENDER')
   const [sorts,setSorts] = useState([]);
-  console.log(sorts)
   const [datas, setDatas] = useState([]);
+  console.log(datas.length)
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
   const [filterData, setFilterData] = useState({
@@ -187,6 +179,7 @@ const Search = () => {
   const [newClick,setNewClick] = useState(false);
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
+  console.log(pageNumber)
   const [loading,setLoading] = useState(false);
     
   const addHandler = () => {
@@ -378,7 +371,7 @@ const Search = () => {
                   include_adjacency: 'true',
                   page_number: '0',
                 }
-                if (childCount > 0 || categoriesFilter) {
+                if (childCount > 0 || categoriesFilter > 0) {
                   params.children_number = childCount;
                   params.children_ages = children_age;
                 
@@ -646,14 +639,6 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
-         {loading && 
-         <Player
-          autoplay
-          loop
-          src={loadingTwo}
-          style={{ height: '100px', width: '100px' }}
-        >
-        </Player>}
          {!!datas && datas.map((data,i)=>(
            <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-md'>
            <div className='w-[40%] flex justify-center'>
@@ -753,8 +738,22 @@ const Search = () => {
             Show more
           </button>}
         </div>
+        <div className='w-full flex items-center justify-center'>
+        {loading && (
+            <Player
+            autoplay
+            loop
+            src={loadingTwo}
+            style={{ height: '100px', width: '100px' }}
+            className={`text-6xl text-blue-400 ${datas && pageNumber <= 0 ? 'top-0' : 'bottom-0 left-0'}`}
+          >
+          </Player>
+          )}
+        </div>
         </div>
       </div>
+      
+       Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, molestias inventore consequatur maiores deserunt commodi quae veritatis cum obcaecati aliquam autem, fuga, nesciunt odio velit est provident reprehenderit quas qui.
     </div>
   )
 }
