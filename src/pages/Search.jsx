@@ -19,7 +19,8 @@ import './App.css';
 import FilterSection from '../components/FilterSection';
 import pool from '../assets/pool.png';
 import car from '../assets/car.png'
-
+import { Player, Controls } from '@lottiefiles/react-lottie-player';
+import loadingTwo from '../loading2.json'
 
 
 const Search = () => {
@@ -186,7 +187,7 @@ const Search = () => {
   const [newClick,setNewClick] = useState(false);
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
-  console.log(pageNumber)
+  const [loading,setLoading] = useState(false);
     
   const addHandler = () => {
         if (child < 10) {
@@ -295,6 +296,7 @@ const Search = () => {
 
       useEffect(()=> {
         const getData = async () => {
+          setLoading(true)
           let lang = ''; 
           if(langauge ==='en') {
              lang = langauge +'-gb'
@@ -328,11 +330,13 @@ const Search = () => {
                 const {data:{result,sort} } = await axios.get ('http://localhost:8000/datas',{
                   params : params,
                 })
+              setLoading(false)
               setSorts(sort)
               setDatas((prevDatas)=>[...prevDatas,...result])
       
             } 
             catch (error) {
+              setLoading(false)
               if (error.response) {
                 console.error('Data:', error.response.data);
                 console.error('Status:', error.response.status);
@@ -350,7 +354,6 @@ const Search = () => {
         getData()
       },[langauge,currency,destid,destType,categoriesFilter,initialSort.id,pageNumber])
 
-      console.log(datas)
 
       useEffect(()=> {
         const filter = async () => {
@@ -643,6 +646,14 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
+         {loading && 
+         <Player
+          autoplay
+          loop
+          src={loadingTwo}
+          style={{ height: '100px', width: '100px' }}
+        >
+        </Player>}
          {!!datas && datas.map((data,i)=>(
            <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-md'>
            <div className='w-[40%] flex justify-center'>
@@ -738,7 +749,9 @@ const Search = () => {
            </div>
          ))}
         <div className='w-full flex items-center justify-center'>
-          <button className=' bg-white text-blue-500 border border-gray-400 py-2 px-5 text-base rounded-full shadow-[1px_1px_10px_rgb(0,0,0,0.1)]' onClick={handleShowMore}>Show more</button>
+          {datas && datas.length > 0 && <button className=' bg-white text-blue-500 border border-gray-400 py-2 px-5 text-base rounded-full shadow-[1px_1px_10px_rgb(0,0,0,0.1)]' onClick={handleShowMore}>
+            Show more
+          </button>}
         </div>
         </div>
       </div>
