@@ -328,10 +328,8 @@ const Search = () => {
                 const {data:{result,sort} } = await axios.get ('http://localhost:8000/datas',{
                   params : params,
                 })
-              console.log(sort)
               setSorts(sort)
-              console.log(result);
-              setDatas(result)
+              setDatas((prevDatas)=>[...prevDatas,...result])
       
             } 
             catch (error) {
@@ -351,6 +349,8 @@ const Search = () => {
         };
         getData()
       },[langauge,currency,destid,destType,categoriesFilter,initialSort.id,pageNumber])
+
+      console.log(datas)
 
       useEffect(()=> {
         const filter = async () => {
@@ -554,6 +554,7 @@ const Search = () => {
 
     const handleShowMore = () => {
       setPageNumber((prevPageNumber)=>prevPageNumber+1)
+
     }
   
 
@@ -737,7 +738,7 @@ const Search = () => {
            </div>
          ))}
         <div className='w-full flex items-center justify-center'>
-          <button className=' bg-white text-blue-500 border border-blue-500 py-2 px-5 text-base rounded-full' onClick={handleShowMore}>Show more</button>
+          <button className=' bg-white text-blue-500 border border-gray-400 py-2 px-5 text-base rounded-full shadow-[1px_1px_10px_rgb(0,0,0,0.1)]' onClick={handleShowMore}>Show more</button>
         </div>
         </div>
       </div>
