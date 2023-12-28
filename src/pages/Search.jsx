@@ -21,6 +21,8 @@ import pool from '../assets/pool.png';
 import car from '../assets/car.png'
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import loadingTwo from '../loading2.json'
+import loadinggg from '../animation.json';
+
 
 
 const Search = () => {
@@ -557,17 +559,35 @@ const Search = () => {
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
       {loading && (
-        <div className={`w-full flex items-center justify-center ${pageNumber <= 0 ? 'h-[100%] absolute top-0 left-0 bg-white z-50' : 'h-10 fixed bottom-0 z-50 '}`}>
+      pageNumber <= 0 ? 
+      (
+        <div className='w-full flex justify-center items-center h-[100%] absolute top-0 left-0 bg-white z-50'>
           <Player
-            autoplay
-            loop
-            src={loadingTwo}
-            style={{ height: '100px', width: '100px' }}
-            
-          >
-          </Player>
+                autoplay
+                loop
+                src={loadinggg}
+                style={{ height: '300px', width: '300px' }}
+            >
+            </Player>
         </div>
-      )}
+      ):
+      (
+        <div className='w-full flex justify-center fixed bottom-10 z-50' >
+         <div className='w-[50px] h-[50px] flex items-center justify-center rounded-full bg-white'>
+          <Player
+              autoplay
+              loop
+              src={loadingTwo}
+              // style={{ height: '300px', width: '300px' }}
+              className='w-[150px] h-[150px]'
+              
+            >
+            </Player>
+         </div>
+        </div>
+      )
+      )
+      }
       <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 

@@ -136,12 +136,12 @@ const Offers = () => {
     return (
         <div className='flex flex-col h-screen'>
         {!!loading && (
-        <div className='flex items-center justify-center h-screen w-full bg-white bg-opacity-1 z-50 absolute top-0 left-0'>
-          <Player
-            autoplay
-            loop
-            src={loadinggg}
-            style={{ height: '300px', width: '300px' }}
+        <div className='flex items-center justify-center h-[100%] w-full bg-white bg-opacity-1 z-50 absolute top-0 left-0'>
+            <Player
+                autoplay
+                loop
+                src={loadinggg}
+                style={{ height: '300px', width: '300px' }}
             >
             </Player>
         </div>
