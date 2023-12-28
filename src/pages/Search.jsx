@@ -555,7 +555,19 @@ const Search = () => {
   
 
    return (
-    <div className='w-full min-h-screen bg-gray-100'>
+    <div className='relative w-full min-h-screen bg-gray-100'>
+      {loading && (
+        <div className={`w-full flex items-center justify-center ${pageNumber <= 0 ? 'h-[100%] absolute top-0 left-0 bg-white z-50' : 'h-10 fixed bottom-0 z-50 '}`}>
+          <Player
+            autoplay
+            loop
+            src={loadingTwo}
+            style={{ height: '100px', width: '100px' }}
+            
+          >
+          </Player>
+        </div>
+      )}
       <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
@@ -738,22 +750,18 @@ const Search = () => {
             Show more
           </button>}
         </div>
-        <div className='w-full flex items-center justify-center'>
-        {loading && (
-            <Player
-            autoplay
-            loop
-            src={loadingTwo}
-            style={{ height: '100px', width: '100px' }}
-            className={`text-6xl text-blue-400 ${datas && pageNumber <= 0 ? 'top-0' : 'bottom-0 left-0'}`}
-          >
-          </Player>
-          )}
-        </div>
         </div>
       </div>
-      
-       Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, molestias inventore consequatur maiores deserunt commodi quae veritatis cum obcaecati aliquam autem, fuga, nesciunt odio velit est provident reprehenderit quas qui.
+      <section>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi, et eum accusamus quae porro itaque quisquam unde praesentium nulla. Earum doloremque corporis reiciendis! Ipsa iste quibusdam labore officia enim laboriosam.
+      Fugiat ad et veritatis voluptatibus, dolor fuga architecto deleniti. Magni repellendus maiores omnis quasi. Sit quia ipsam optio voluptatibus ut, est asperiores corrupti ipsum aliquam blanditiis saepe porro libero culpa!
+      Aperiam consectetur cum aliquam libero dignissimos distinctio nostrum quaerat dicta aliquid eaque, vel dolorum optio obcaecati doloribus porro quod ab harum sunt perspiciatis culpa magni! Soluta exercitationem fugiat accusamus itaque!
+      Et sit repellendus minus dolore ea illo ullam nisi sunt atque impedit. Aspernatur eveniet iure, excepturi similique quo iusto corrupti ex veritatis veniam cupiditate libero blanditiis accusantium debitis. Ut, ratione.
+      Necessitatibus cumque ratione ex obcaecati corrupti, aut reprehenderit rem possimus nulla dolorem debitis officia aliquid ipsa eveniet nihil adipisci hic repudiandae? Doloremque voluptas tempore sapiente temporibus. Modi voluptate esse impedit.
+      Et quos nobis nesciunt minus voluptatem provident laudantium, consectetur sint facilis pariatur. Quidem, doloribus! Molestias velit exercitationem est eveniet amet fugit. Illo aspernatur quaerat aliquid, at accusantium voluptatem eos assumenda.
+      Culpa consequuntur, quo, magnam autem quod natus quibusdam fuga reiciendis quia eveniet excepturi earum totam, officia maxime ad placeat corporis porro. Ipsa exercitationem expedita eum quia deleniti temporibus sit architecto.
+      Quibusdam cupiditate necessitatibus eveniet praesentium odio, quisquam dicta facere perferendis repellat dolores consequatur iste optio, doloremque sunt consectetur perspiciatis tempore officiis rem omnis beatae unde quos obcaecati illo. Sunt, omnis?
+      Optio sapiente tempore assumenda neque consequuntur perferendis similique. Ab molestiae ipsa facere, eveniet est illum eaque dolores, at quibusdam, doloremque natus. Saepe velit aperiam ducimus voluptatum? Magni aut laborum vitae!
+      Reprehenderit veritatis vero iusto, dolorem non quos, sint rerum neque, dignissimos molestias culpa. Deserunt porro fuga a. Ab optio voluptas aperiam maxime et, placeat ratione unde rem enim quod? Quis.</section>
     </div>
   )
 }
