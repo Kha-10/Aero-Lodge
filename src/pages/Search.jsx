@@ -765,11 +765,20 @@ const Search = () => {
            </div>
            </div>
          ))}
+        {(!!loading && datas && datas.length > 0) && (
         <div className='w-full flex items-center justify-center'>
-          {datas && datas.length > 0 && <button className=' bg-white text-blue-500 border border-gray-400 py-2 px-5 text-base rounded-full shadow-[1px_1px_10px_rgb(0,0,0,0.1)]' onClick={handleShowMore}>
-            Show more
-          </button>}
+          <button className='bg-white opacity-50 cursor-not-allowed text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
+            Search More Properties
+          </button>
         </div>
+        )}
+        {!loading && datas && datas.length > 0 && (
+        <div className='w-full flex items-center justify-center'>
+          <button className='bg-white text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
+            Search More Properties
+          </button>
+        </div>
+        )}
         </div>
       </div>
       <section>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi, et eum accusamus quae porro itaque quisquam unde praesentium nulla. Earum doloremque corporis reiciendis! Ipsa iste quibusdam labore officia enim laboriosam.
