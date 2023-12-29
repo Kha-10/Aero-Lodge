@@ -767,7 +767,7 @@ const Search = () => {
          ))}
         {(!!loading && datas && datas.length > 0) && (
         <div className='w-full flex items-center justify-center'>
-          <button className='bg-white opacity-50 cursor-not-allowed text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
+          <button className='bg-white opacity-40 cursor-not-allowed text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
             Search More Properties
           </button>
         </div>
