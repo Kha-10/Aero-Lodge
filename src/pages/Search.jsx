@@ -566,7 +566,7 @@ const Search = () => {
       {loading && (
       pageNumber <= 0 ? 
       (
-        <div className='w-full flex justify-center items-center h-[100%] fixed top-0 left-0 bg-white z-50'>
+        <div className='w-full flex justify-center items-center h-[100vh] fixed top-0 left-0 bg-black z-50'>
           <Player
                 autoplay
                 loop
