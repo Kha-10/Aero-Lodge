@@ -293,7 +293,7 @@ const Search = () => {
         const source = axios.CancelToken.source();
         const getData = async () => {
           setLoading(true)
-          console.log('run')
+          console.log('MMMMMMount')
           let lang = ''; 
           if(langauge ==='en') {
              lang = langauge +'-gb'
@@ -326,6 +326,7 @@ const Search = () => {
 
                 const {data:{count,result,sort} } = await axios.get ('http://localhost:8000/datas',{
                   params : params,
+                  cancelToken: source.token,
                 })
               setLoading(false)
               setCount(count)
@@ -334,7 +335,10 @@ const Search = () => {
             } 
             catch (error) {
               setLoading(false)
-              if (error.response) {
+              if (axios.isCancel(error)) {
+                console.log('Request was canceled.');
+              }
+              else if (error.response) {
                 console.error('Data:', error.response.data);
                 console.error('Status:', error.response.status);
                 console.error('Headers:', error.response.headers);
@@ -349,6 +353,7 @@ const Search = () => {
          
         };
         getData();
+
         return () => {
           source.cancel();
           console.log('Aborteddddddd')
@@ -357,6 +362,7 @@ const Search = () => {
 
 
       useEffect(()=> {
+        const source = axios.CancelToken.source();
         const filter = async () => {
           setLoading(true);
           console.log('ggggg')
@@ -395,6 +401,7 @@ const Search = () => {
                 console.log(categoriesFilter)
                 const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
                   params : params,
+                  cancelToken: source.token,
                 },
                 )
               
@@ -421,7 +428,10 @@ const Search = () => {
             } 
             catch (error) {
               setLoading(false);
-              if (error.response) {
+              if(axios.isCancel(error)){
+                console.log('Request was canceled2.')
+              }
+              else if (error.response) {
                 console.error('Data:', error.response.data);
                 console.error('Status:', error.response.status);
                 console.error('Headers:', error.response.headers);
@@ -436,6 +446,10 @@ const Search = () => {
          
         };
         filter()
+        return () => {
+          source.cancel();
+          console.log('Aborteddddddd')
+        };
       },[langauge,currency,destid,destType,categoriesFilter,initialSort.id])
 
     const [selectedTitle,setselectedTitle] = useState ('');
