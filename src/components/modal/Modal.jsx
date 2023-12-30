@@ -4,8 +4,8 @@ import ReactDom from 'react-dom'
 const Modal = ({children}) => {
   return (
     ReactDom.createPortal(
-        <div className='h-[300vh] bg-black bg-opacity-20 absolute z-50 top-0 left-0 w-full'>
-            <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[400px] rounded-lg absolute top-[3%] z-50 right-[35%] flex flex-col items-center mb-10 p-4'>
+        <div className='h-[100vh] fixed bg-black bg-opacity-20  z-50 top-0 left-0 w-full'>
+            <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[400px] rounded-lg absolute top-[16%] z-50 right-[35%] flex flex-col items-center mb-10 p-4'>
                 {children}
             </div>
         </div>,document.getElementById('modal'))

@@ -157,7 +157,6 @@ const Search = () => {
   const [address, setAddress] = useState(city);
   const newPopRef = useRef(null);
   const [count,setCount] = useState(0);
-  console.log(count)
   const [sorts,setSorts] = useState([]);
   const [datas, setDatas] = useState([]);
   console.log(datas.length)
@@ -293,6 +292,7 @@ const Search = () => {
       useEffect(()=> {
         const getData = async () => {
           setLoading(true)
+          console.log('run')
           let lang = ''; 
           if(langauge ==='en') {
              lang = langauge +'-gb'
@@ -330,8 +330,6 @@ const Search = () => {
               setCount(count)
               setDatas((prevDatas)=>[...prevDatas,...result])
               setSorts(sort)
-              
-      
             } 
             catch (error) {
               setLoading(false)
@@ -355,6 +353,8 @@ const Search = () => {
 
       useEffect(()=> {
         const filter = async () => {
+          setLoading(true);
+          console.log('ggggg')
           let lang = ''; 
           if(langauge ==='en') {
              lang = langauge +'-gb'
@@ -374,7 +374,7 @@ const Search = () => {
                   order_by: initialSort.id,
                   locale:lang,
                   include_adjacency: 'true',
-                  page_number: '0',
+                  page_number: pageNumber,
                 }
                 if (childCount > 0 || categoriesFilter.length > 0) {
                   params.children_number = childCount;
@@ -394,6 +394,7 @@ const Search = () => {
                 )
               
               console.log(filter);
+              setLoading(false);
               setPrice(filter[1]);
               setFilterData({
                 popularFilters: filter[2],
@@ -414,6 +415,7 @@ const Search = () => {
               });
             } 
             catch (error) {
+              setLoading(false);
               if (error.response) {
                 console.error('Data:', error.response.data);
                 console.error('Status:', error.response.status);
@@ -564,14 +566,14 @@ const Search = () => {
       {loading && (
       pageNumber <= 0 ? 
       (
-        <div className='w-full flex justify-center items-center h-[100%] absolute top-0 left-0 bg-white z-50'>
+        <div className='w-full flex justify-center items-center h-[100%] fixed top-0 left-0 bg-white z-50'>
           <Player
                 autoplay
                 loop
                 src={loadinggg}
                 style={{ height: '300px', width: '300px' }}
-            >
-            </Player>
+          >
+          </Player>
         </div>
       ):
       (
@@ -584,8 +586,8 @@ const Search = () => {
               // style={{ height: '300px', width: '300px' }}
               className='w-[150px] h-[150px]'
               
-            >
-            </Player>
+          >
+          </Player>
          </div>
         </div>
       )
@@ -598,7 +600,7 @@ const Search = () => {
 
             
         <div ref={popRef}  className='group cursor-pointer'>
-          <div onClick={handlePopup} className='relative w-[300px] bg-white h-[60px] p-3  border border-gray-400 flex justify-between items-center        rounded-lg group-hover:border-blue-500' >
+          <div onClick={handlePopup} className='relative w-[300px] bg-white h-[60px] p-3  border border-gray-400 flex justify-between items-center rounded-lg group-hover:border-blue-500' >
           <Guests adult={adult} child={child} room={roomCount}/>
           </div>
             

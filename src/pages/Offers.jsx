@@ -52,8 +52,8 @@ const Offers = () => {
         }else {
        lang = langauge
      }
-      setLoading(true)
       try {
+        setLoading(true)
         const params = {
               units: 'metric',
               room_number: room,
@@ -136,7 +136,7 @@ const Offers = () => {
     return (
         <div className='flex flex-col h-screen'>
         {!!loading && (
-        <div className='flex items-center justify-center h-[100%] w-full bg-white bg-opacity-1 z-50 absolute top-0 left-0'>
+        <div className='h-[100vh] flex items-center justify-center overflow-hidden w-full bg-white bg-opacity-1 z-50 fixed top-0 left-0'>
             <Player
                 autoplay
                 loop
