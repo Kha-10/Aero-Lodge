@@ -314,7 +314,7 @@ const Search = () => {
                   include_adjacency: 'true',
                   page_number: pageNumber,
                 }
-                if (childCount > 0 || categoriesFilter ) {
+                if (childCount > 0 || categoriesFilter.length > 0 ) {
                   params.children_number = childCount;
                   params.children_ages = children_age;
                   console.log(categoriesFilter)
@@ -376,7 +376,7 @@ const Search = () => {
                   include_adjacency: 'true',
                   page_number: '0',
                 }
-                if (childCount > 0 || categoriesFilter > 0) {
+                if (childCount > 0 || categoriesFilter.length > 0) {
                   params.children_number = childCount;
                   params.children_ages = children_age;
                 
@@ -675,9 +675,9 @@ const Search = () => {
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
          {!!datas && datas.map((data,i)=>(
-           <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-md'>
+           <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-xl'>
            <div className='w-[40%] flex justify-center'>
-             <img src={data?.max_photo_url} className='rounded-lg max-h-[200px] max-w-[200px]' />
+             <img src={data?.max_photo_url} className='rounded-md max-h-[200px] max-w-[200px]' />
            </div>
            <div className='w-[64%]'>
             <div className='flex items-center gap-1 flex-wrap'>
