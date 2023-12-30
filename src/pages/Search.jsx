@@ -19,7 +19,7 @@ import './App.css';
 import FilterSection from '../components/FilterSection';
 import pool from '../assets/pool.png';
 import car from '../assets/car.png'
-import { Player, Controls } from '@lottiefiles/react-lottie-player';
+import { Player } from '@lottiefiles/react-lottie-player';
 import loadingTwo from '../loading2.json'
 import loadinggg from '../animation.json';
 
@@ -156,6 +156,8 @@ const Search = () => {
   const [arrayy,setArrayy] = useState(arr);
   const [address, setAddress] = useState(city);
   const newPopRef = useRef(null);
+  const [count,setCount] = useState(0);
+  console.log(count)
   const [sorts,setSorts] = useState([]);
   const [datas, setDatas] = useState([]);
   console.log(datas.length)
@@ -181,7 +183,6 @@ const Search = () => {
   const [newClick,setNewClick] = useState(false);
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
-  console.log(pageNumber)
   const [loading,setLoading] = useState(false);
     
   const addHandler = () => {
@@ -322,12 +323,14 @@ const Search = () => {
                   params.categories_filter_ids = combinedString;
                 } 
 
-                const {data:{result,sort} } = await axios.get ('http://localhost:8000/datas',{
+                const {data:{count,result,sort} } = await axios.get ('http://localhost:8000/datas',{
                   params : params,
                 })
               setLoading(false)
-              setSorts(sort)
+              setCount(count)
               setDatas((prevDatas)=>[...prevDatas,...result])
+              setSorts(sort)
+              
       
             } 
             catch (error) {
@@ -618,7 +621,7 @@ const Search = () => {
       </div>
       <div className='max-w-6xl mx-auto px-[2%] py-[1%] flex items-center justify-between'>
         <div className='font-semibold text-base'>Filter by</div>
-        <h3 className='font-bold text-lg -ml-20'>{city} : {modifiedHotelsNumbers} hotels found</h3>
+        <h3 className='font-bold text-lg -ml-20'>{city} : {count} hotels found</h3>
         <div className='flex items-center gap-1'>
           <div className='font-light text-sm'>Sorted by</div>
           <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
@@ -767,15 +770,15 @@ const Search = () => {
          ))}
         {(!!loading && datas && datas.length > 0) && (
         <div className='w-full flex items-center justify-center'>
-          <button className='bg-white opacity-40 cursor-not-allowed text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
-            Search More Properties
+          <button className='bg-white opacity-60 cursor-not-allowed text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
+            Show More Properties
           </button>
         </div>
         )}
-        {!loading && datas && datas.length > 0 && (
+        {!loading && datas && datas.length > 0 && datas.length !== count  && (
         <div className='w-full flex items-center justify-center'>
           <button className='bg-white text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
-            Search More Properties
+            Show More Properties
           </button>
         </div>
         )}
