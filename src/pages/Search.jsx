@@ -290,6 +290,7 @@ const Search = () => {
       const currency= localStorage.getItem('cur');
 
       useEffect(()=> {
+        const source = axios.CancelToken.source();
         const getData = async () => {
           setLoading(true)
           console.log('run')
@@ -347,7 +348,11 @@ const Search = () => {
             }
          
         };
-        getData()
+        getData();
+        return () => {
+          source.cancel();
+          console.log('Aborteddddddd')
+        };
       },[langauge,currency,destid,destType,categoriesFilter,initialSort.id,pageNumber])
 
 
@@ -566,7 +571,7 @@ const Search = () => {
       {loading && (
       pageNumber <= 0 ? 
       (
-        <div className='w-full flex justify-center items-center h-[100vh] fixed top-0 left-0 bg-black z-50'>
+        <div className='w-full flex justify-center items-center h-[100vh] fixed top-0 left-0 bg-white z-50'>
           <Player
                 autoplay
                 loop
