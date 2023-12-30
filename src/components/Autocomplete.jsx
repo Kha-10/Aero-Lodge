@@ -93,8 +93,8 @@ const Autocomplete = () => {
         toggle.current=false
     }
 
-    const handler = (city,lat,lng,img,id,type,hotels) => {
-      setLocation(city);
+    const handler = (city,region,lat,lng,img,id,type,hotels) => {
+      setLocation(city || region);
       setLatitude(lat);
       setLongitude(lng);
       setDestid(id);
@@ -133,10 +133,10 @@ const Autocomplete = () => {
                 <div className='bg-white shadow-[1px_1px_10px_rgb(0,0,0,0.1)] w-[300px] rounded-lg absolute top-[16%] mt-2 group-hover:border-blue-500 z-50'>
                 <div className='space-y-2'ref={popRef}>
                     {suggestions.map((suggestion, i) => (
-                    <div key={i} className='hover:bg-stone-100 cursor-pointer p-2 space-y-1 first:rounded-t-lg last:rounded-b-lg' onClick={() => handler (suggestion.city_name,suggestion.latitude,suggestion.longitude,suggestion.image_url,suggestion.dest_id,suggestion.dest_type,suggestion.hotels)} >
+                    <div key={i} className='hover:bg-stone-100 cursor-pointer p-2 space-y-1 first:rounded-t-lg last:rounded-b-lg' onClick={() => handler (suggestion.city_name, suggestion.region,suggestion.latitude,suggestion.longitude,suggestion.image_url,suggestion.dest_id,suggestion.dest_type,suggestion.hotels)} >
                       <h4 className='font-semibold'>{suggestion.name}</h4>
                       <div className='text-sm space-x-1'>
-                        <span >{suggestion.city_name},</span>
+                        {!!suggestion.city_name && <span >{suggestion.city_name},</span>}
                         <span>{suggestion.region},</span>
                         <span>{suggestion.country}</span>
                       </div>
