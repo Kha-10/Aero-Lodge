@@ -582,7 +582,7 @@ const Search = () => {
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
-      {loading && (
+      {loading &&  (
       pageNumber <= 0 ? 
       (
         <div className='w-full flex justify-center items-center h-[100vh] fixed top-0 left-0 bg-white z-50'>
@@ -642,7 +642,7 @@ const Search = () => {
       </div>
       <div className='max-w-6xl mx-auto px-[2%] py-[1%] flex items-center justify-between'>
         <div className='font-semibold text-base'>Filter by</div>
-        <h3 className='font-bold text-lg -ml-20'>{city} : {count} hotels found</h3>
+        {count > 0 && <h3 className='font-bold text-lg -ml-20'>{city} : {count} hotels found</h3>}
         <div className='flex items-center gap-1'>
           <div className='font-light text-sm'>Sorted by</div>
           <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
