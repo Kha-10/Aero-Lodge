@@ -612,7 +612,7 @@ const Search = () => {
       )
       )
       }
-      <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
+      { datas.length > 0 && <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
           newPopup={newPopup}  />
@@ -639,24 +639,26 @@ const Search = () => {
         <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400'target='_blank'>    
           {t('button.search')}
         </Link>  
-      </div>
+      </div>}
       <div className='max-w-6xl mx-auto px-[2%] py-[1%] flex items-center justify-between'>
-        <div className='font-semibold text-base'>Filter by</div>
+        {datas.length > 0 && <div className='font-semibold text-base'>Filter by</div>}
         {count > 0 && <h3 className='font-bold text-lg -ml-20'>{city} : {count} hotels found</h3>}
-        <div className='flex items-center gap-1'>
-          <div className='font-light text-sm'>Sorted by</div>
-          <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
-            <div className='text-sm font-semibold'>{initialSort.name}</div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black">
-              <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
-            </svg>  
+        {datas.length > 0 && 
+          <div className='flex items-center gap-1'>
+            <div className='font-light text-sm'>Sorted by</div>
+            <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
+              <div className='text-sm font-semibold'>{initialSort.name}</div>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black">
+                <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
+              </svg>  
+            </div>
           </div>
-        </div>
+        }
         <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
-              {!!sorts &&
+              {!!sorts && 
                 sorts.map((sort, id) => (
                   <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name,sort.id),setNewClick(false)}}>
-                    {sort.name}
+                    { sort.name }
                   </div>
                 ))}
         </div>
@@ -664,7 +666,7 @@ const Search = () => {
       <div className='max-w-6xl mx-auto flex'>
         <div className='w-[40%] px-8 py-4'> 
           <div className='w-full flex flex-col gap-[20px] '>
-          {!!price && 
+          {!!price && datas.length > 0 &&
             <div className='w-[210px] group'>
               <div className='font-semibold text-sm'>{price.title}</div>
               <div className='bg-white rounded-lg mt-2 p-3 border border-gray-200'>
@@ -677,20 +679,24 @@ const Search = () => {
               </div>
             </div>
           }
-          <FilterSection filterObj={filterData.popularFilters} clickState={clickStates.popular} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.freeCancellationFilters} clickState={clickStates.freeCancellation} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.propertyRatingFilters} clickState={clickStates.propertyRating} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.propertyTypeFilters} clickState={clickStates.propertyType} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.numberOfBedroomsFilters} clickState={clickStates.numberOfBedrooms} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.facilitiesFilters} clickState={clickStates.facilities} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.distanceFilters} clickState={clickStates.distance} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.mealsFilters} clickState={clickStates.meals} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.chainFilters} clickState={clickStates.chain} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.reviewFilters} clickState={clickStates.review} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.roomFacilitiesFilters} clickState={clickStates.roomFacilities} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.bedPreferenceFilters} clickState={clickStates.bedPreference} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.districtFilters} clickState={clickStates.district} clickHandler={clickHandler} />
-          <FilterSection filterObj={filterData.landmarksFilters} clickState={clickStates.landmarks} clickHandler={clickHandler} />
+          {datas.length>0 &&
+          <>
+            <FilterSection filterObj={filterData.popularFilters} clickState={clickStates.popular} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.freeCancellationFilters} clickState={clickStates.freeCancellation} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.propertyRatingFilters} clickState={clickStates.propertyRating} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.propertyTypeFilters} clickState={clickStates.propertyType} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.numberOfBedroomsFilters} clickState={clickStates.numberOfBedrooms} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.facilitiesFilters} clickState={clickStates.facilities} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.distanceFilters} clickState={clickStates.distance} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.mealsFilters} clickState={clickStates.meals} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.chainFilters} clickState={clickStates.chain} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.reviewFilters} clickState={clickStates.review} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.roomFacilitiesFilters} clickState={clickStates.roomFacilities} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.bedPreferenceFilters} clickState={clickStates.bedPreference} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.districtFilters} clickState={clickStates.district} clickHandler={clickHandler} />
+            <FilterSection filterObj={filterData.landmarksFilters} clickState={clickStates.landmarks} clickHandler={clickHandler} />
+          </>
+          }
           
           </div>
         </div>
