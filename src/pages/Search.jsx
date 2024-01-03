@@ -159,7 +159,7 @@ const Search = () => {
   const [count,setCount] = useState(0);
   const [sorts,setSorts] = useState([]);
   const [datas, setDatas] = useState([]);
-  console.log(datas.length)
+  console.log(datas)
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
   const [filterData, setFilterData] = useState({
@@ -582,7 +582,7 @@ const Search = () => {
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
-      {loading &&  (
+      {loading && (
       pageNumber <= 0 ? 
       (
         <div className='w-full flex justify-center items-center h-[100vh] fixed top-0 left-0 bg-white z-50'>
@@ -740,7 +740,8 @@ const Search = () => {
                   }
                 </div>
                 ):null}
-               <div className='mt-2'>
+               {(data?.ribbon_text || data?.in_best_district > 0 || data?.is_beach_front > 0 || data?.is_city_center > 0 || data?.is_free_cancellable > 0 || data?.is_genius_deal > 0 || data?.is_geo_rate > 0 || data?.is_mobile_deal > 0 || data?.is_no_prepayment_block > 0 || data?.is_smart_deal > 0) &&
+                <div className='mt-2 space-y-1'>
                 {data?.ribbon_text && <p className='text-[12px] font-semibold'>Breakfast included</p>}
                 {data?.in_best_district > 0 && <p className='text-[12px] font-semibold'>Best district</p>}
                 {data?.is_beach_front > 0 && <p className='text-[12px] font-semibold'>Beach front</p>}
@@ -752,6 +753,19 @@ const Search = () => {
                 {data?.is_no_prepayment_block > 0 && <p className='text-[12px] font-semibold'>No Prepayment needed- pay at the property</p>}
                 {data?.is_smart_deal > 0 && <p className='text-[12px] font-semibold'>Smart deal</p>}
                </div>
+               }
+              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
+                <>
+                  {data?.composite_price_breakdown?.items.map((item,i) => (
+                    item.kind !== 'charge' && 
+                  (
+                    <div key={i} className='mt-1' >
+                      <span className='text-[12px] px-2 py-1 bg-blue-50 text-blue-700 inline rounded space-y-1'>{item.name}</span>
+                    </div>
+                  )
+                  ))}
+                </>
+              )}
              </div>
            </div>
            <div className='w-[30%] gap-8 px-3'>
