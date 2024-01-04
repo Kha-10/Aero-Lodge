@@ -183,8 +183,9 @@ const Search = () => {
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
   const [loading,setLoading] = useState(false);
-  const [hover, setHover] = useState({num : 0,condition : false});
-    
+  // const [hover, setHover] = useState({num : null,condition : false,cost:null});
+    const [hover, setHover] = useState({num : null,condition : false});
+
   const addHandler = () => {
         if (child < 10) {
           setChild( prevChild => prevChild +1);
@@ -580,16 +581,28 @@ const Search = () => {
 
     }
 
+    // const handleMouseEnter = (index,price) => {
+    //   console.log(index)
+    //   console.log(price)
+    //   setHover((prevHover) => ({ ...prevHover, num: index, condition: true,cost:price }));
+    // };
+    // console.log(`hoverrrrrrrrr${hover.num}`)
+
+    // const handleMouseLeave = () => {
+    //   setHover((prevHover) => ({ ...prevHover, condition: false }));
+    // }
+
     const handleMouseEnter = (index) => {
       console.log(index)
-      setHover((prevHover)=> ({...prevHover,num : index, condition : true}));
+      setHover((prevHover) => ({ ...prevHover, num: index, condition: true }));
     };
     console.log(`hoverrrrrrrrr${hover.num}`)
 
     const handleMouseLeave = () => {
-      setHover((prevHover)=> ({...prevHover,condition : false}));
+      setHover((prevHover) => ({ ...prevHover, condition: false }));
     }
-  
+
+   
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
@@ -713,7 +726,7 @@ const Search = () => {
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
          {!!datas && datas.map((data,i)=>(
-           <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-xl'>
+           <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-xl relative'>
            <div className='w-[40%] flex justify-center'>
              <img src={data?.max_photo_url} className='rounded-md max-h-[200px] max-w-[200px]' />
            </div>
@@ -751,9 +764,46 @@ const Search = () => {
                   }
                 </div>
                 ):null}
-               {(data?.ribbon_text || data?.in_best_district > 0 || data?.is_beach_front > 0 || data?.is_city_center > 0 || data?.is_free_cancellable > 0 || data?.is_genius_deal > 0 || data?.is_geo_rate > 0 || data?.is_mobile_deal > 0 || data?.is_no_prepayment_block > 0 || data?.is_smart_deal > 0) &&
+               {/* {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
+                <div className='w-full'>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"  onMouseEnter={() => handleMouseEnter(data.hotel_name)}
+                  onMouseLeave={handleMouseLeave}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                  </svg>
+                  <div className='shadow-[1px_1px_10px_rgb(0,0,0,0.1)] rounded-md'>
+                  {!!hover.condition && hover.num === data.hotel_name && (
+                    data?.composite_price_breakdown?.items.map((item,i)=>(
+                      item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
+                      <div key={i} className='w-full bg-white p-2 text-[12px]'>{item.details}</div>)
+                    ))
+                  )}
+                  </div>
+
+                  {data?.composite_price_breakdown?.items.map((item, i) => (
+                    item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
+                      <div
+                        key={i}
+                        className='mt-1 relative'
+                        onMouseEnter={() => handleMouseEnter(i, item.item_amount.amount_rounded)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <span className='text-[12px] bg-green-700 px-2 py-1 rounded text-white'>
+                          {item.name}
+                        </span>
+                        {!!hover.condition && hover.num === i && hover.cost === item.item_amount.amount_rounded && (
+                          <div className='w-full bg-white absolute top-7 z-50 text-[12px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] rounded-md text-black p-2'>
+                            {item.details}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  ))} 
+                </div>
+              )}  */}
+
+              {(data?.ribbon_text || data?.in_best_district > 0 || data?.is_beach_front > 0 || data?.is_city_center > 0 || data?.is_free_cancellable > 0 || data?.is_genius_deal > 0 || data?.is_geo_rate > 0 || data?.is_mobile_deal > 0 || data?.is_no_prepayment_block > 0 || data?.is_smart_deal > 0) &&
                 <div className='mt-2 space-y-1'>
-                {data?.ribbon_text && <p className='text-[12px] font-semibold'>Breakfast included</p>}
+                {data?.ribbon_text && <p className='text-[12px] font-semibold text-green-700'>Breakfast included</p>}
                 {data?.in_best_district > 0 && <p className='text-[12px] font-semibold'>Best district</p>}
                 {data?.is_beach_front > 0 && <p className='text-[12px] font-semibold'>Beach front</p>}
                 {data?.is_city_center > 0 && <p className='text-[12px] font-semibold'>City center</p>}
@@ -763,36 +813,9 @@ const Search = () => {
                 {data?.is_mobile_deal > 0 && <p className='text-[12px] font-semibold'>Mobile deal</p>}
                 {data?.is_no_prepayment_block > 0 && <p className='text-[12px] font-semibold'>No Prepayment needed- pay at the property</p>}
                 {data?.is_smart_deal > 0 && <p className='text-[12px] font-semibold'>Smart deal</p>}
+                {!!data?.urgency_message &&  <p className='text-[12px] font-semibold text-green-700'>{data.urgency_message}</p>}
                </div>
                }
-              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
-                <div className='w-full'>
-                  {data?.composite_price_breakdown?.items.map((item, i) => (
-                    item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
-                      <div
-                        key={i}
-                        className='mt-1 w-full relative'
-                        onMouseEnter={() => handleMouseEnter(i)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <div className='w-fit flex items-center gap-1 bg-blue-50 px-2 py-1 rounded-md text-blue-700'>
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                          </svg>
-                          <span className='text-[12px]'>
-                            {item.name}
-                          </span>
-                        </div>
-                        {!!hover.condition && hover.num === i && (
-                          <div className='w-full absolute top-8 z-50 text-[12px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] rounded-md text-black p-2'>
-                            {item.details}
-                          </div>
-                        )}
-                      </div>
-                    )
-                  ))}
-                </div>
-              )}
              </div>
            </div>
            <div className='w-[30%] gap-8 px-3'>
@@ -821,8 +844,40 @@ const Search = () => {
                <p className='text-[12px] text-red-700 line-through'>{data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded}</p>
              ): null
              }
-             <p className='text-[20px]'>{data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded}</p>
-             {!!data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
+             <div className='flex items-center justify-end gap-1'>
+              <p className='text-[20px]'>{data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded}</p>
+              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
+              <div className=''>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                  onMouseEnter={() => handleMouseEnter(data.hotel_name)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                  />
+                </svg>
+                {!!hover.condition && hover.num === data.hotel_name && (
+                  <div className='absolute bg-white w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-3 shadow-[1px_1px_10px_rgb(0,0,0,0.1)]'>
+                    {data?.composite_price_breakdown?.items.map((item, i) => (
+                      item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
+                        <div key={i} className=''>{item.details}</div>
+                      )
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+             </div>
+            {!!data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
                 data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded > data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded ? (
                   <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
                     {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt(String(data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded).replace(/[^\d.-]/g, ''))) + '%'}
