@@ -183,6 +183,7 @@ const Search = () => {
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
   const [loading,setLoading] = useState(false);
+  const [hover, setHover] = useState({num : 0,condition : false});
     
   const addHandler = () => {
         if (child < 10) {
@@ -578,6 +579,16 @@ const Search = () => {
       setPageNumber((prevPageNumber)=>prevPageNumber+1)
 
     }
+
+    const handleMouseEnter = (index) => {
+      console.log(index)
+      setHover((prevHover)=> ({...prevHover,num : index, condition : true}));
+    };
+    console.log(`hoverrrrrrrrr${hover.num}`)
+
+    const handleMouseLeave = () => {
+      setHover((prevHover)=> ({...prevHover,condition : false}));
+    }
   
 
    return (
@@ -755,21 +766,32 @@ const Search = () => {
                </div>
                }
               {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
-                <>
-                  {data?.composite_price_breakdown?.items.map((item,i) => (
-                    item.kind !== 'charge' && 
-                  (
-                    <div key={i} className='mt-1 w-fit flex items-center gap-1 bg-blue-50 px-2 py-1 rounded-md text-blue-700 cursor-default'>
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                      </svg>
-                      <span className='text-[12px]'>
-                        {item.name}
-                      </span>
-                    </div>
-                  )
+                <div className='w-full'>
+                  {data?.composite_price_breakdown?.items.map((item, i) => (
+                    item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
+                      <div
+                        key={i}
+                        className='mt-1 w-full relative'
+                        onMouseEnter={() => handleMouseEnter(i)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <div className='w-fit flex items-center gap-1 bg-blue-50 px-2 py-1 rounded-md text-blue-700'>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                          </svg>
+                          <span className='text-[12px]'>
+                            {item.name}
+                          </span>
+                        </div>
+                        {!!hover.condition && hover.num === i && (
+                          <div className='w-full absolute top-8 z-50 text-[12px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] rounded-md text-black p-2'>
+                            {item.details}
+                          </div>
+                        )}
+                      </div>
+                    )
                   ))}
-                </>
+                </div>
               )}
              </div>
            </div>
