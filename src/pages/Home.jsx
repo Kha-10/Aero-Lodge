@@ -260,7 +260,7 @@ function Home() {
 
 
         <div ref={popRef}  className='group cursor-pointer'>
-          <div onClick={handlePopup} className='relative w-[300px] h-[60px]  bg-white p-3   border border-gray-400 flex justify-between items-center rounded-lg group-hover:border-blue-500' >
+          <div onClick={handlePopup} className='relative w-[300px] h-[60px] bg-white p-3 border border-gray-400 flex justify-between items-center rounded-lg group-hover:border-blue-500' >
             <Guests adult={adult} child={child} room={room}/>
           </div>
         
