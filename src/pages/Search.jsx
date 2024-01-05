@@ -840,14 +840,23 @@ const Search = () => {
               </>
               }
              </p>
-             {parseInt(String(data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded).replace(/[^\d.-]/g, '')) > parseInt(String(data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded).replace(/[^\d.-]/g, '')) ? (
-               <p className='text-[12px] text-red-700 line-through'>{data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded}</p>
-             ): null
-             }
-             <div className='flex items-center justify-end gap-1'>
-              <p className='text-[20px]'>{data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded}</p>
-              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
-              <div className=''>
+             {!!data?.composite_price_breakdown?.strikethrough_amount && (
+              <p className='text-[12px] text-red-700 line-through'>
+                ${totalNight > 1
+                  ? data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded
+                  : data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded}
+              </p>
+            )}
+              <div className='flex items-center justify-end gap-1'>
+              {!!data?.composite_price_breakdown &&(
+                <p className='font-semibold '>
+                  ${totalNight > 1
+                    ? data?.composite_price_breakdown?.gross_amount?.amount_rounded
+                    : data?.composite_price_breakdown?.gross_amount_per_night?.amount_rounded}
+                </p>
+              )}
+              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded &&  (
+              <>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -865,7 +874,7 @@ const Search = () => {
                   />
                 </svg>
                 {!!hover.condition && hover.num === data.hotel_name && (
-                  <div className='absolute bg-white w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-3 shadow-[1px_1px_10px_rgb(0,0,0,0.1)]'>
+                  <div className='absolute bg-white w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-3 shadow-[1px_1px_10px_rgb(0,0,0,0.1)] z-50'>
                     {data?.composite_price_breakdown?.items.map((item, i) => (
                       item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
                         <div key={i} className=''>{item.details}</div>
@@ -873,7 +882,7 @@ const Search = () => {
                     ))}
                   </div>
                 )}
-              </div>
+              </>
             )}
 
              </div>
