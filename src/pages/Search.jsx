@@ -842,17 +842,13 @@ const Search = () => {
              </p>
              {!!data?.composite_price_breakdown?.strikethrough_amount && (
               <p className='text-[12px] text-red-700 line-through'>
-                ${totalNight > 1
-                  ? data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded
-                  : data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded}
+                {data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded}
               </p>
-            )}
+             )}
               <div className='flex items-center justify-end gap-1'>
-              {!!data?.composite_price_breakdown &&(
+              {!!data?.composite_price_breakdown?.gross_amount &&(
                 <p className='font-semibold '>
-                  ${totalNight > 1
-                    ? data?.composite_price_breakdown?.gross_amount?.amount_rounded
-                    : data?.composite_price_breakdown?.gross_amount_per_night?.amount_rounded}
+                  {data?.composite_price_breakdown?.gross_amount?.amount_rounded}
                 </p>
               )}
               {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded &&  (
@@ -886,13 +882,18 @@ const Search = () => {
             )}
 
              </div>
-            {!!data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
+            {/* {!!data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && (
                 data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded > data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded ? (
                   <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
                     {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt(String(data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded).replace(/[^\d.-]/g, ''))) + '%'}
                   </p>
                 ) : null
-              )}
+            )} */}
+            {!!data?.composite_price_breakdown?.strikethrough_amount_per_night && (
+             <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
+              {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.gross_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt(String(data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded).replace(/[^\d.-]/g, ''))) + '%'}
+             </p>
+            )}
              <p className='text-[12px]'>Includes taxes and fees</p>
              <button className='text-[14px] px-3 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded'>See availability</button>
             </div>
