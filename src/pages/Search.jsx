@@ -840,7 +840,7 @@ const Search = () => {
               </>
               }
              </p>
-             {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded > data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded? (
+             {parseInt(String(data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded).replace(/[^\d.-]/g, '')) > parseInt(String(data?.composite_price_breakdown?.all_inclusive_amount?.amount_rounded).replace(/[^\d.-]/g, '')) ? (
                <p className='text-[12px] text-red-700 line-through'>{data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded}</p>
              ): null
              }
