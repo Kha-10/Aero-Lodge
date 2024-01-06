@@ -856,7 +856,10 @@ const Search = () => {
               {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.gross_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt(String(data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded).replace(/[^\d.-]/g, ''))) + '%'}
              </p>
             )}
-             <p className='text-[12px]'>Includes taxes and fees</p>
+             {data?.composite_price_breakdown.excluded_amount.value > 0 
+             ? <p className='text-[12px]'>{data?.composite_price_breakdown.excluded_amount.amount_rounded} taxes and charges</p>  
+             : <p className='text-[12px]'>Includes taxes and charges</p>      
+            }
              <button className='text-[14px] px-3 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded'>See availability</button>
             </div>
            </div>
