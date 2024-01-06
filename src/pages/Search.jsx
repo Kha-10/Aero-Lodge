@@ -822,36 +822,35 @@ const Search = () => {
                   {data?.composite_price_breakdown?.gross_amount?.amount_rounded}
                 </p>
               )}
-              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded &&  (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                  onMouseEnter={() => handleMouseEnter(data.hotel_name)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
-                  />
-                </svg>
-                {!!hover.condition && hover.num === data.hotel_name && (
-                  <div className='absolute bg-blue-100 w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-3 shadow-[1px_1px_10px_rgb(0,0,0,0.1)] z-50'>
-                    {data?.composite_price_breakdown?.items.map((item, i) => (
+              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").map((filteredItem,i) => (
+                <div key={i}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                    onMouseEnter={() => handleMouseEnter(data.hotel_name)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                    />
+                  </svg>
+                  {!!hover.condition && hover.num === data.hotel_name && (
+                    data?.composite_price_breakdown?.items.map((item, i) => (
                       item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
-                        <div key={i} className=''>{item.details}</div>
+                        <div key={i} className='absolute bg-blue-100 w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-3 shadow-[1px_1px_10px_rgb(0,0,0,0.1)] z-50'>{item.details}</div>
                       )
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
+                    ))
+                  )}                   
+                </div>
 
+              ))
+            }
              </div>
             {!!data?.composite_price_breakdown?.strikethrough_amount_per_night && (
              <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
