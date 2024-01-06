@@ -591,6 +591,13 @@ const Search = () => {
       setHover((prevHover) => ({ ...prevHover, condition: false }));
     }
 
+    const cc = datas.map((data, i) => {
+      const filteredItems = data.composite_price_breakdown.items.filter(item => item.name !== 'Mobile-only price');
+      console.log(filteredItems);
+      return filteredItems;
+    });
+    
+
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
       {loading && (
@@ -798,19 +805,25 @@ const Search = () => {
               </>
               }
              </p>
-             {!!data?.composite_price_breakdown?.strikethrough_amount && (
+             {data?.composite_price_breakdown?.strikethrough_amount && data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 && (
               <p className='text-[12px] text-red-700 line-through'>
                 {data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded}
               </p>
              )}
               <div className='flex items-center justify-end gap-1'>
-              {!!data?.composite_price_breakdown?.gross_amount &&(
+              {(data?.composite_price_breakdown?.gross_amount || data?.composite_price_breakdown?.strikethrough_amount) && (
                 <p className='font-semibold '>
-                  {data?.composite_price_breakdown?.gross_amount?.amount_rounded}
+                  ${data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 
+                  ? 
+                  data?.composite_price_breakdown?.gross_amount?.amount_rounded
+                  :
+                  data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded || data?.composite_price_breakdown?.gross_amount?.amount_rounded
+                  }
                 </p>
               )}
-              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded && data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").map((filteredItem,i) => (
-                <div key={i}>
+              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded &&
+                data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 && (
+                <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -835,11 +848,10 @@ const Search = () => {
                     ))
                   )}                   
                 </div>
-
-              ))
+                )
             }
              </div>
-            {!!data?.composite_price_breakdown?.strikethrough_amount_per_night && (
+            {!!data?.composite_price_breakdown?.strikethrough_amount_per_night && data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 &&  (
              <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
               {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.gross_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt(String(data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded).replace(/[^\d.-]/g, ''))) + '%'}
              </p>
