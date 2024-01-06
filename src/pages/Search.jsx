@@ -184,7 +184,7 @@ const Search = () => {
   const [pageNumber,setPageNumber] = useState(0);
   const [loading,setLoading] = useState(false);
   // const [hover, setHover] = useState({num : null,condition : false,cost:null});
-    const [hover, setHover] = useState({num : null,condition : false});
+    const [hover, setHover] = useState({name : null,condition : false});
 
   const addHandler = () => {
         if (child < 10) {
@@ -581,28 +581,15 @@ const Search = () => {
 
     }
 
-    // const handleMouseEnter = (index,price) => {
-    //   console.log(index)
-    //   console.log(price)
-    //   setHover((prevHover) => ({ ...prevHover, num: index, condition: true,cost:price }));
-    // };
-    // console.log(`hoverrrrrrrrr${hover.num}`)
-
-    // const handleMouseLeave = () => {
-    //   setHover((prevHover) => ({ ...prevHover, condition: false }));
-    // }
-
     const handleMouseEnter = (index) => {
       console.log(index)
-      setHover((prevHover) => ({ ...prevHover, num: index, condition: true }));
+      setHover((prevHover) => ({ ...prevHover, name: index, condition: true }));
     };
     console.log(`hoverrrrrrrrr${hover.num}`)
 
     const handleMouseLeave = () => {
       setHover((prevHover) => ({ ...prevHover, condition: false }));
     }
-
-   
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
@@ -840,7 +827,7 @@ const Search = () => {
                       d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
                     />
                   </svg>
-                  {!!hover.condition && hover.num === data.hotel_name && (
+                  {!!hover.condition && hover.name === data.hotel_name && (
                     data?.composite_price_breakdown?.items.map((item, i) => (
                       item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
                         <div key={i} className='absolute bg-blue-100 w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-3 shadow-[1px_1px_10px_rgb(0,0,0,0.1)] z-50'>{item.details}</div>
