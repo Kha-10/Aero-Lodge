@@ -841,12 +841,16 @@ const Search = () => {
                     />
                   </svg>
                   {!!hover.condition && hover.name === data.hotel_name && (
-                    data?.composite_price_breakdown?.items.map((item, i) => (
+                  <div className='absolute bg-blue-100 w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-2 shadow-[1px_1px_10px_rgb(0,0,0,0.1)] z-50'>
+                    {data?.composite_price_breakdown?.items.map((item, i) => (
                       item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
-                        <div key={i} className='absolute bg-blue-100 w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-3 shadow-[1px_1px_10px_rgb(0,0,0,0.1)] z-50'>{item.details}</div>
+                        <div key={i} >
+                          {item.details}
+                        </div>
                       )
-                    ))
-                  )}                   
+                    ))}
+                  </div>
+                  )}
                 </div>
                 )
             }
