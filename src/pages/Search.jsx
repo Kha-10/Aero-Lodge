@@ -761,7 +761,7 @@ const Search = () => {
                {data?.composite_price_breakdown?.items && (
                 data.composite_price_breakdown?.items.map((item,i)=>(
                   item.kind != 'charge' && item.name != "Mobile-only price" && item.name != "Bonus savings" && item.name != 'Booking.com pays' && (
-                    <span key={i} className='text-[12px] bg-green-100 text-green-700 px-2 py-1 w-fit mt-1 rounded-md'>{item.name}</span>
+                    <span key={i} className='text-[12px] bg-green-700 text-white px-2 py-1 w-fit mt-1 rounded-md'>{item.name}</span>
                   )
                 ))
               )} 
@@ -813,7 +813,7 @@ const Search = () => {
               <div className='flex items-center justify-end gap-1'>
               {(data?.composite_price_breakdown?.gross_amount || data?.composite_price_breakdown?.strikethrough_amount) && (
                 <p className='font-semibold '>
-                  ${data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 
+                  {data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 
                   ? 
                   data?.composite_price_breakdown?.gross_amount?.amount_rounded
                   :
@@ -841,14 +841,31 @@ const Search = () => {
                     />
                   </svg>
                   {!!hover.condition && hover.name === data.hotel_name && (
-                  <div className='absolute bg-blue-100 w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-2 shadow-[1px_1px_10px_rgb(0,0,0,0.1)] z-50'>
+                  <div className='absolute bg-white w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-4 shadow-[1px_1px_10px_rgb(0,0,0,0.2)] z-50 flex flex-col'>
+                    <div className='flex items-center justify-between text-sm'>
+                      <div>
+                        {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded} x {totalNight} {totalNight > 1 ? 'nights' : 'night'}
+                      </div>
+                      <div>
+                        {data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded}
+                      </div>
+                    </div>
                     {data?.composite_price_breakdown?.items.map((item, i) => (
                       item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
                         <div key={i} >
+                         <div className='flex items-center justify-between text-sm'>
+                          <div>{item.name}</div>
+                          <div>{item.item_amount.amount_rounded}</div>
+                         </div>
                           {item.details}
                         </div>
                       )
                     ))}
+                    <div className="border-t border-gray-300 my-4"></div>
+                    <div className='flex items-center justify-between text-sm font-semibold'>
+                      <div>Total</div>
+                      <div>{data?.composite_price_breakdown?.gross_amount?.amount_rounded}</div>
+                    </div>
                   </div>
                   )}
                 </div>
@@ -856,12 +873,12 @@ const Search = () => {
             }
              </div>
             {!!data?.composite_price_breakdown?.strikethrough_amount_per_night && data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 &&  (
-             <p className='text-[12px] px-2 py-1 bg-green-700 text-white inline rounded-md'>
-              {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.gross_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt(String(data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded).replace(/[^\d.-]/g, ''))) + '%'}
+             <p className='text-[12px] px-2 py-1 text-white bg-red-700 inline rounded-md'>
+              {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.gross_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt(String(data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded).replace(/[^\d.-]/g, ''))) + '% off'}
              </p>
             )}
              {data?.composite_price_breakdown.excluded_amount.value > 0 
-             ? <p className='text-[12px]'>{data?.composite_price_breakdown.excluded_amount.amount_rounded} taxes and charges</p>  
+             ? <p className='text-[12px]'>+ {data?.composite_price_breakdown.excluded_amount.amount_rounded} taxes and charges</p>  
              : <p className='text-[12px]'>Includes taxes and charges</p>      
             }
              <button className='text-[14px] px-3 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded'>See availability</button>
