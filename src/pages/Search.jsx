@@ -22,6 +22,7 @@ import car from '../assets/car.png'
 import { Player } from '@lottiefiles/react-lottie-player';
 import loadingTwo from '../loading2.json'
 import loadinggg from '../animation.json';
+import useFetch from '../hooks/useFetch';
 
 
 
@@ -156,10 +157,6 @@ const Search = () => {
   const [arrayy,setArrayy] = useState(arr);
   const [address, setAddress] = useState(city);
   const newPopRef = useRef(null);
-  const [count,setCount] = useState(0);
-  const [sorts,setSorts] = useState([]);
-  const [datas, setDatas] = useState([]);
-  console.log(datas)
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
   const [filterData, setFilterData] = useState({
@@ -182,9 +179,8 @@ const Search = () => {
   const [newClick,setNewClick] = useState(false);
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
-  const [loading,setLoading] = useState(false);
-  // const [hover, setHover] = useState({num : null,condition : false,cost:null});
-    const [hover, setHover] = useState({name : null,condition : false});
+  // const [loading,setLoading] = useState(false);
+  const [hover, setHover] = useState({name : null,condition : false});
 
   const addHandler = () => {
         if (child < 10) {
@@ -287,172 +283,104 @@ const Search = () => {
       },[popup]);
 
       const langauge  = localStorage.getItem('i18nextLng');
-      // console.log('localStorage language :',langauge);
 
       const currency= localStorage.getItem('cur');
 
-      useEffect(()=> {
-        const source = axios.CancelToken.source();
-        const getData = async () => {
-          setLoading(true)
-          console.log('MMMMMMount')
-          let lang = ''; 
-          if(langauge ==='en') {
-             lang = langauge +'-gb'
-          }else {
-            lang = langauge
-          }
-          try {
-            const params = {
-                  units: 'metric',
-                  room_number: roomCount,
-                  longitude : lng,
-                  latitude :lat,
-                  filter_by_currency:currency,
-                  locale:lang,
-                  order_by: initialSort.id,
-                  checkout_date: checkoutDate,
-                  adults_number :adultCount,
-                  checkin_date :checkinDate,
-                  include_adjacency: 'true',
-                  page_number: pageNumber,
-                }
-                if (childCount > 0 || categoriesFilter.length > 0 ) {
-                  params.children_number = childCount;
-                  params.children_ages = children_age;
-                  console.log(categoriesFilter)
-                  const combinedString = categoriesFilter.join(',');
-                  console.log(combinedString)
-                  params.categories_filter_ids = combinedString;
-                } 
+      let{fetchData,filter} = useFetch();
 
-                const {data:{count,result,sort} } = await axios.get ('http://localhost:8000/datas',{
-                  params : params,
-                  cancelToken: source.token,
-                })
-              setLoading(false)
-              setCount(count)
-              setDatas((prevDatas)=>[...prevDatas,...result])
-              setSorts(sort)
-            } 
-            catch (error) {
-              setLoading(false)
-              if (axios.isCancel(error)) {
-                console.log('Request was canceled.');
-              }
-              else if (error.response) {
-                console.error('Data:', error.response.data);
-                console.error('Status:', error.response.status);
-                console.error('Headers:', error.response.headers);
-            } else if (error.request) {
-                console.error('Request made but no response received:', error.request);
-            } else {
-                console.error('Error:', error.message);
-            }
-                // Something else went wrong
-                console.error('Error:', error.message);
-            }
-         
-        };
-        getData();
-
-        return () => {
-          source.cancel();
-          console.log('Aborteddddddd')
-        };
-      },[langauge,currency,destid,destType,categoriesFilter,initialSort.id,pageNumber])
+      let{count,sorts,datas,loading} = fetchData(langauge, currency, destid, destType, categoriesFilter, initialSort.id, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age)
 
 
-      useEffect(()=> {
-        const source = axios.CancelToken.source();
-        const filter = async () => {
-          setLoading(true);
-          console.log('ggggg')
-          let lang = ''; 
-          if(langauge ==='en') {
-             lang = langauge +'-gb'
-          }else {
-            lang = langauge
-          }
-          try {
-            const params = {
-                  adults_number :adultCount,
-                  filter_by_currency:currency,
-                  checkin_date :checkinDate,
-                  dest_id: destid,
-                  dest_type: destType,
-                  checkout_date: checkoutDate,
-                  units: 'metric',
-                  room_number: roomCount,
-                  order_by: initialSort.id,
-                  locale:lang,
-                  include_adjacency: 'true',
-                  page_number: pageNumber,
-                }
-                if (childCount > 0 || categoriesFilter.length > 0) {
-                  params.children_number = childCount;
-                  params.children_ages = children_age;
+      // useEffect(()=> {
+      //   const source = axios.CancelToken.source();
+      //   const filter = async () => {
+      //     setLoading(true);
+      //     console.log('ggggg')
+      //     let lang = ''; 
+      //     if(langauge ==='en') {
+      //        lang = langauge +'-gb'
+      //     }else {
+      //       lang = langauge
+      //     }
+      //     try {
+      //       const params = {
+      //             adults_number :adultCount,
+      //             filter_by_currency:currency,
+      //             checkin_date :checkinDate,
+      //             dest_id: destid,
+      //             dest_type: destType,
+      //             checkout_date: checkoutDate,
+      //             units: 'metric',
+      //             room_number: roomCount,
+      //             order_by: initialSort.id,
+      //             locale:lang,
+      //             include_adjacency: 'true',
+      //             page_number: pageNumber,
+      //           }
+      //           if (childCount > 0 || categoriesFilter.length > 0) {
+      //             params.children_number = childCount;
+      //             params.children_ages = children_age;
                 
-                  const combinedString = categoriesFilter.join(',');
-                  console.log('Combined String:', combinedString);
+      //             const combinedString = categoriesFilter.join(',');
+      //             console.log('Combined String:', combinedString);
                 
-                  params.categories_filter_ids = combinedString;
-                } 
+      //             params.categories_filter_ids = combinedString;
+      //           } 
                 
-                console.log(childCount)
-                console.log(categoriesFilter)
-                const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
-                  params : params,
-                  cancelToken: source.token,
-                },
-                )
+      //           console.log(childCount)
+      //           console.log(categoriesFilter)
+      //           const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
+      //             params : params,
+      //             cancelToken: source.token,
+      //           },
+      //           )
               
-              console.log(filter);
-              setLoading(false);
-              setPrice(filter[1]);
-              setFilterData({
-                popularFilters: filter[2],
-                freeCancellationFilters : filter[3],
-                propertyRatingFilters: filter[4],
-                propertyTypeFilters: filter[5],
-                numberOfBedroomsFilters: filter[6],
-                facilitiesFilters: filter[7],
-                distanceFilters: filter[8],
-                mealsFilters: filter[9],
-                chainFilters: filter[10],
-                reviewFilters: filter[11],
-                RoomFacilitiesFilters: filter[12],
-                bedPreferenceFilters: filter[13],
-                districtFilters: filter[14],
-                landmarksFilters: filter[15],
+      //         console.log(filter);
+      //         setLoading(false);
+      //         setPrice(filter[1]);
+      //         setFilterData({
+      //           popularFilters: filter[2],
+      //           freeCancellationFilters : filter[3],
+      //           propertyRatingFilters: filter[4],
+      //           propertyTypeFilters: filter[5],
+      //           numberOfBedroomsFilters: filter[6],
+      //           facilitiesFilters: filter[7],
+      //           distanceFilters: filter[8],
+      //           mealsFilters: filter[9],
+      //           chainFilters: filter[10],
+      //           reviewFilters: filter[11],
+      //           RoomFacilitiesFilters: filter[12],
+      //           bedPreferenceFilters: filter[13],
+      //           districtFilters: filter[14],
+      //           landmarksFilters: filter[15],
 
-              });
-            } 
-            catch (error) {
-              setLoading(false);
-              if(axios.isCancel(error)){
-                console.log('Request was canceled2.')
-              }
-              else if (error.response) {
-                console.error('Data:', error.response.data);
-                console.error('Status:', error.response.status);
-                console.error('Headers:', error.response.headers);
-            } else if (error.request) {
-                console.error('Request made but no response received:', error.request);
-            } else {
-                console.error('Error:', error.message);
-            }
-                // Something else went wrong
-                console.error('Error:', error.message);
-            }
+      //         });
+      //       } 
+      //       catch (error) {
+      //         setLoading(false);
+      //         if(axios.isCancel(error)){
+      //           console.log('Request was canceled2.')
+      //         }
+      //         else if (error.response) {
+      //           console.error('Data:', error.response.data);
+      //           console.error('Status:', error.response.status);
+      //           console.error('Headers:', error.response.headers);
+      //       } else if (error.request) {
+      //           console.error('Request made but no response received:', error.request);
+      //       } else {
+      //           console.error('Error:', error.message);
+      //       }
+      //           // Something else went wrong
+      //           console.error('Error:', error.message);
+      //       }
          
-        };
-        filter()
-        return () => {
-          source.cancel();
-          console.log('Aborteddddddd')
-        };
-      },[langauge,currency,destid,destType,categoriesFilter,initialSort.id])
+      //   };
+      //   filter()
+      //   return () => {
+      //     source.cancel();
+      //     console.log('Aborteddddddd')
+      //   };
+      // },[langauge, currency, destid, destType, categoriesFilter, initialSort.id, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
 
     const [selectedTitle,setselectedTitle] = useState ('');
     console.log(selectedTitle)
@@ -534,7 +462,7 @@ const Search = () => {
         toggle.current=true;
       },[address])
 
-      const searchLink = `/search?city=${location}&room=${room}&latitude=${latitude}&longitude=${longitude}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_quantity=${arrayy}&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
+      const searchLink = `/hotelDetail?city=${location}&room=${room}&latitude=${lat}&longitude=${lng}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_quantity=${arrayy}&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
 
       useEffect(()=>{
         window.scrollTo(0,0)
@@ -666,7 +594,7 @@ const Search = () => {
             </div>
           </div>
         }
-        <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[235px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
+        <div className={`${newClick ? 'visible' : 'hidden'} w-[280px] shadow-[1px_1px_10px_rgb(0,0,0,0.1)] absolute top-[165px] z-30 right-[170px] bg-white rounded-lg space-y-1 text-[13px]`}>
               {!!sorts && 
                 sorts.map((sort, id) => (
                   <div key={id} className='hover:bg-stone-100 cursor-pointer px-4 py-3 first:rounded-t-lg last:rounded-b-lg' onClick={()=>{sortBy(sort.name,sort.id),setNewClick(false)}}>

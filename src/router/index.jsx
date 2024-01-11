@@ -18,10 +18,6 @@ const router = createBrowserRouter([
             path:"",
             element: <Home/>
         },
-      //   {
-      //     path:":locale",
-      //     element: <Home/>
-      // },
         {
             path:"/city/:title",
             element: <City/>
@@ -35,7 +31,7 @@ const router = createBrowserRouter([
           element: <Offers/>
         },
         {
-          path:"/hotelDetail/:id",
+          path:"/hotelDetail/",
           element: <HotelDetail/>
         }
       ]
