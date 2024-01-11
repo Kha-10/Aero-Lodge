@@ -590,12 +590,6 @@ const Search = () => {
     const handleMouseLeave = () => {
       setHover((prevHover) => ({ ...prevHover, condition: false }));
     }
-
-    const cc = datas.map((data, i) => {
-      const filteredItems = data.composite_price_breakdown.items.filter(item => item.name !== 'Mobile-only price');
-      console.log(filteredItems);
-      return filteredItems;
-    });
     
 
    return (
@@ -721,8 +715,8 @@ const Search = () => {
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
          {!!datas && datas.map((data,i)=>(
            <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-xl relative'>
-           <div className='w-[40%] flex justify-center'>
-             <img src={data?.max_photo_url} className='rounded-md max-h-[200px] max-w-[200px]' />
+           <div className='w-[40%] flex justify-center px-4 '>
+             <img src={data?.max_photo_url} className='rounded-md max-w-[200px] max-h-[200px]' />
            </div>
            <div className='w-[64%]'>
             <div className='flex items-center gap-1 flex-wrap'>
@@ -795,7 +789,7 @@ const Search = () => {
                </div>
             )}
             </div>
-            <div className=' space-y-1 text-right mt-[70px]'>
+            <div className='flex flex-col space-y-1 text-right mt-[70px]'>
              <p className='text-[12px]'>
               {totalNight} {`${totalNight > 1 ? 'nights' : 'night'}`},
               {adultCount} {`${adultCount > 1 ? 'adults' : 'adult'}`} {`${childCount > 0 ? ',' : ''}`}
@@ -850,9 +844,9 @@ const Search = () => {
                         {data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded}
                       </div>
                     </div>
-                    {data?.composite_price_breakdown?.items.map((item, i) => (
+                    {data?.composite_price_breakdown?.items.map((item) => (
                       item.kind !== 'charge' && item.name !== 'Mobile-only price' && (
-                        <div key={i} >
+                        <div key={item.name} >
                          <div className='flex items-center justify-between text-sm'>
                           <div>{item.name}</div>
                           <div>{item.item_amount.amount_rounded}</div>
@@ -873,15 +867,22 @@ const Search = () => {
             }
              </div>
             {!!data?.composite_price_breakdown?.strikethrough_amount_per_night && data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 &&  (
-             <p className='text-[12px] px-2 py-1 text-white bg-red-700 inline rounded-md'>
-              {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.gross_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt(String(data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded).replace(/[^\d.-]/g, ''))) + '% off'}
-             </p>
+             <div className='w-full flex items-center justify-end'>
+              <p className='text-[12px] px-2 py-1 text-white bg-red-700 rounded-md'>
+                {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.gross_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt   (String(data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded).replace(/[^\d.-]/g, ''))) + '% off'}
+              </p>
+             </div>
             )}
              {data?.composite_price_breakdown.excluded_amount.value > 0 
              ? <p className='text-[12px]'>+ {data?.composite_price_breakdown.excluded_amount.amount_rounded} taxes and charges</p>  
              : <p className='text-[12px]'>Includes taxes and charges</p>      
             }
-             <button className='text-[14px] px-3 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded'>See availability</button>
+              <Link to={searchLink} className='w-full flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 hover:bg-blue-400 rounded' target='_blank'>
+                <span className='text-[14px] text-white'>See availability</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-white">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg> 
+              </Link>
             </div>
            </div>
            </div>
