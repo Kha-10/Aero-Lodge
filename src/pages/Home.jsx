@@ -37,7 +37,7 @@ function Home() {
   
   const {adult,setAdult,child,setChild,selectedOption,setSelectedOption,room,setRoom,
   options,array,setArray,date,setDate,formattedCheckinDate,formattedCheckoutDate,
-  currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid,hotelsNumbers} = useApp();
+  currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid} = useApp();
 
   const addHandler = () => {
     if (child < 10) {
@@ -161,7 +161,6 @@ function Home() {
       img : imageurl || history.recent[0].img,
       dest_type : destType || history.recent[0].dest_type,
       dest_id : destid || history.recent[0].dest_id,
-      hotels_numbers : hotelsNumbers || history.recent[0].hotels_numbers
     });
     // setHistory(updatedHistory);
     // console.log(updatedHistory.recent[0])
@@ -239,7 +238,7 @@ function Home() {
   };
   
 
-  const searchLink = `/search?city=${location || history.recent[0]?.city}&room=${parseInt(room)}&latitude=${latitude || history.recent[0]?.lat}&longitude=${longitude || history.recent[0]?.lng}&currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${parseInt(adult)}&children=${parseInt(child)}${child > 0 ? `&children_quantity=${array}&children_ages=${selectedOption}`:''}&dest_id=${destid || history.recent[0]?.dest_id}&dest_type=${destType||  history.recent[0]?.dest_type}&hotels_numbers=${hotelsNumbers || history.recent[0]?.hotels_numbers}`;
+  const searchLink = `/search?city=${location || history.recent[0]?.city}&room=${parseInt(room)}&latitude=${latitude || history.recent[0]?.lat}&longitude=${longitude || history.recent[0]?.lng}&currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${parseInt(adult)}&children=${parseInt(child)}${child > 0 ? `&children_quantity=${array}&children_ages=${selectedOption}`:''}&dest_id=${destid || history.recent[0]?.dest_id}&dest_type=${destType||  history.recent[0]?.dest_type}}`;
 
   const offerlink = `/offers?city=${datas[0]?.title}&room_number=${room}&latitude=${datas[0]?.coordinates._lat}&longitude=${datas[0]?.coordinates._long}&filter_by_currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkout_date=${formattedCheckoutDate}&adults=${adult}&checkin_date=${formattedCheckinDate}&children_number=${child}`;
 

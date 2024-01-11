@@ -24,8 +24,6 @@ import loadingTwo from '../loading2.json'
 import loadinggg from '../animation.json';
 import useFetch from '../hooks/useFetch';
 
-
-
 const Search = () => {
     const locations = useLocation();
     const params = new URLSearchParams(locations.search);
@@ -46,14 +44,10 @@ const Search = () => {
        arr = childrenQuantity.split(',');
     }else arr = []
 
-   
-   
-    const cur = params.get('currency')
+   const cur = params.get('currency')
     const destType = params.get('dest_type');
 
     const destid = params.get('dest_id');
-    const hotelsNumbers = params.get('hotels_numbers');
-    const modifiedHotelsNumbers = parseInt(hotelsNumbers).toLocaleString();
  
     const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
 
