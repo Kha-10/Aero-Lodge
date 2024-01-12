@@ -238,7 +238,7 @@ function Home() {
   };
   
 
-  const searchLink = `/search?city=${location || history.recent[0]?.city}&room=${parseInt(room)}&latitude=${latitude || history.recent[0]?.lat}&longitude=${longitude || history.recent[0]?.lng}&currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${parseInt(adult)}&children=${parseInt(child)}${child > 0 ? `&children_quantity=${array}&children_ages=${selectedOption}`:''}&dest_id=${destid || history.recent[0]?.dest_id}&dest_type=${destType||  history.recent[0]?.dest_type}}`;
+  const searchLink = `/search?city=${location || history.recent[0]?.city}&room=${parseInt(room)}&latitude=${latitude || history.recent[0]?.lat}&longitude=${longitude || history.recent[0]?.lng}&currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${parseInt(adult)}&children=${parseInt(child)}${child > 0 ? `&children_quantity=${array}&children_ages=${selectedOption}`:''}&dest_id=${destid || history.recent[0]?.dest_id}&dest_type=${destType||  history.recent[0]?.dest_type}`;
 
   const offerlink = `/offers?city=${datas[0]?.title}&room_number=${room}&latitude=${datas[0]?.coordinates._lat}&longitude=${datas[0]?.coordinates._long}&filter_by_currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkout_date=${formattedCheckoutDate}&adults=${adult}&checkin_date=${formattedCheckinDate}&children_number=${child}`;
 

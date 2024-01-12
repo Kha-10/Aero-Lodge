@@ -46,6 +46,7 @@ const Search = () => {
 
    const cur = params.get('currency')
     const destType = params.get('dest_type');
+    console.log(destType)
 
     const destid = params.get('dest_id');
  
@@ -170,10 +171,11 @@ const Search = () => {
     districtFilters: null,
     landmarksFilters:null
   });
+
   const [newClick,setNewClick] = useState(false);
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
-  // const [loading,setLoading] = useState(false);
+  const [loading,setLoading] = useState(false);
   const [hover, setHover] = useState({name : null,condition : false});
 
   const addHandler = () => {
@@ -280,101 +282,101 @@ const Search = () => {
 
       const currency= localStorage.getItem('cur');
 
-      let{fetchData,filter} = useFetch();
+      let{fetchData,filterItems} = useFetch();
 
-      let{count,sorts,datas,loading} = fetchData(langauge, currency, destid, destType, categoriesFilter, initialSort.id, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age)
+      let{count,sorts,datas} = fetchData(langauge, currency, destid, destType, categoriesFilter, initialSort.id, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age)
 
 
-      // useEffect(()=> {
-      //   const source = axios.CancelToken.source();
-      //   const filter = async () => {
-      //     setLoading(true);
-      //     console.log('ggggg')
-      //     let lang = ''; 
-      //     if(langauge ==='en') {
-      //        lang = langauge +'-gb'
-      //     }else {
-      //       lang = langauge
-      //     }
-      //     try {
-      //       const params = {
-      //             adults_number :adultCount,
-      //             filter_by_currency:currency,
-      //             checkin_date :checkinDate,
-      //             dest_id: destid,
-      //             dest_type: destType,
-      //             checkout_date: checkoutDate,
-      //             units: 'metric',
-      //             room_number: roomCount,
-      //             order_by: initialSort.id,
-      //             locale:lang,
-      //             include_adjacency: 'true',
-      //             page_number: pageNumber,
-      //           }
-      //           if (childCount > 0 || categoriesFilter.length > 0) {
-      //             params.children_number = childCount;
-      //             params.children_ages = children_age;
+      useEffect(()=> {
+        const source = axios.CancelToken.source();
+        const filter = async () => {
+          setLoading(true);
+          console.log('ggggg')
+          let lang = ''; 
+          if(langauge ==='en') {
+             lang = langauge +'-gb'
+          }else {
+            lang = langauge
+          }
+          try {
+            const params = {
+                  adults_number :adultCount,
+                  filter_by_currency:currency,
+                  checkin_date :checkinDate,
+                  dest_id: destid,
+                  dest_type: destType,
+                  checkout_date: checkoutDate,
+                  units: 'metric',
+                  room_number: roomCount,
+                  order_by: initialSort.id,
+                  locale:lang,
+                  include_adjacency: 'true',
+                  page_number: pageNumber,
+                }
+                if (childCount > 0 || categoriesFilter.length > 0) {
+                  params.children_number = childCount;
+                  params.children_ages = children_age;
                 
-      //             const combinedString = categoriesFilter.join(',');
-      //             console.log('Combined String:', combinedString);
+                  const combinedString = categoriesFilter.join(',');
+                  console.log('Combined String:', combinedString);
                 
-      //             params.categories_filter_ids = combinedString;
-      //           } 
+                  params.categories_filter_ids = combinedString;
+                } 
                 
-      //           console.log(childCount)
-      //           console.log(categoriesFilter)
-      //           const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
-      //             params : params,
-      //             cancelToken: source.token,
-      //           },
-      //           )
+                console.log(childCount)
+                console.log(categoriesFilter)
+                const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
+                  params : params,
+                  cancelToken: source.token,
+                },
+                )
               
-      //         console.log(filter);
-      //         setLoading(false);
-      //         setPrice(filter[1]);
-      //         setFilterData({
-      //           popularFilters: filter[2],
-      //           freeCancellationFilters : filter[3],
-      //           propertyRatingFilters: filter[4],
-      //           propertyTypeFilters: filter[5],
-      //           numberOfBedroomsFilters: filter[6],
-      //           facilitiesFilters: filter[7],
-      //           distanceFilters: filter[8],
-      //           mealsFilters: filter[9],
-      //           chainFilters: filter[10],
-      //           reviewFilters: filter[11],
-      //           RoomFacilitiesFilters: filter[12],
-      //           bedPreferenceFilters: filter[13],
-      //           districtFilters: filter[14],
-      //           landmarksFilters: filter[15],
+              console.log(filter);
+              setLoading(false);
+              setPrice(filter[1]);
+              setFilterData({
+                popularFilters: filter[2],
+                freeCancellationFilters : filter[3],
+                propertyRatingFilters: filter[4],
+                propertyTypeFilters: filter[5],
+                numberOfBedroomsFilters: filter[6],
+                facilitiesFilters: filter[7],
+                distanceFilters: filter[8],
+                mealsFilters: filter[9],
+                chainFilters: filter[10],
+                reviewFilters: filter[11],
+                RoomFacilitiesFilters: filter[12],
+                bedPreferenceFilters: filter[13],
+                districtFilters: filter[14],
+                landmarksFilters: filter[15],
 
-      //         });
-      //       } 
-      //       catch (error) {
-      //         setLoading(false);
-      //         if(axios.isCancel(error)){
-      //           console.log('Request was canceled2.')
-      //         }
-      //         else if (error.response) {
-      //           console.error('Data:', error.response.data);
-      //           console.error('Status:', error.response.status);
-      //           console.error('Headers:', error.response.headers);
-      //       } else if (error.request) {
-      //           console.error('Request made but no response received:', error.request);
-      //       } else {
-      //           console.error('Error:', error.message);
-      //       }
-      //           // Something else went wrong
-      //           console.error('Error:', error.message);
-      //       }
+              });
+            } 
+            catch (error) {
+              setLoading(false);
+              if(axios.isCancel(error)){
+                console.log('Request was canceled2.')
+              }
+              else if (error.response) {
+                console.error('Data:', error.response.data);
+                console.error('Status:', error.response.status);
+                console.error('Headers:', error.response.headers);
+            } else if (error.request) {
+                console.error('Request made but no response received:', error.request);
+            } else {
+                console.error('Error:', error.message);
+            }
+                // Something else went wrong
+                console.error('Error:', error.message);
+            }
          
-      //   };
-      //   filter()
-      //   return () => {
-      //     source.cancel();
-      //     console.log('Aborteddddddd')
-      //   };
-      // },[langauge, currency, destid, destType, categoriesFilter, initialSort.id, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
+        };
+        filter()
+        return () => {
+          source.cancel();
+          console.log('Aborteddddddd')
+        };
+      },[langauge, currency, destid, destType, categoriesFilter, initialSort.id, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
 
     const [selectedTitle,setselectedTitle] = useState ('');
     console.log(selectedTitle)
@@ -406,6 +408,15 @@ const Search = () => {
       district: Array(filterData.districtFilters?.categories?.length).fill(false),
       landmarks: Array(filterData.landmarksFilters?.categories?.length).fill(false)
     });
+
+    filterData.popularFilters?.categories.forEach(element => {
+      // eslint-disable-next-line no-prototype-builtins
+      if(!element.hasOwnProperty('key')) {
+        element.key = false;
+      }
+    });
+
+    console.log(filterData)
     
 
   const clickHandler = (index, obj) => {
@@ -504,14 +515,20 @@ const Search = () => {
     }
 
     const handleMouseEnter = (index) => {
-      console.log(index)
       setHover((prevHover) => ({ ...prevHover, name: index, condition: true }));
     };
-    console.log(`hoverrrrrrrrr${hover.num}`)
 
     const handleMouseLeave = () => {
       setHover((prevHover) => ({ ...prevHover, condition: false }));
     }
+
+    useEffect(() => {
+      document.body.style.overflow = loading ? 'hidden' : 'auto';
+
+      return () => {
+        document.body.style.overflow = 'auto';
+      };
+    }, [loading]);
     
 
    return (
@@ -519,7 +536,7 @@ const Search = () => {
       {loading && (
       pageNumber <= 0 ? 
       (
-        <div className='w-full flex justify-center items-center h-[100vh] fixed top-0 left-0 bg-white z-50'>
+        <div className='w-full flex justify-center items-center h-[100vh] inset-0 fixed top-0 left-0 bg-white z-50'>
           <Player
                 autoplay
                 loop
@@ -599,7 +616,7 @@ const Search = () => {
       </div>
       <div className='max-w-6xl mx-auto flex'>
         <div className='w-[40%] px-8 py-4'> 
-          <div className='w-full flex flex-col gap-[20px] '>
+          <div className='w-full flex flex-col gap-[20px]'>
           {!!price && datas.length > 0 &&
             <div className='w-[210px] group'>
               <div className='font-semibold text-sm'>{price.title}</div>

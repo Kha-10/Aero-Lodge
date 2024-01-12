@@ -132,11 +132,19 @@ const Offers = () => {
         hotles[index].aftertax = aftertax[index]
         
     }
+
+    useEffect(() => {
+        document.body.style.overflow = loading ? 'hidden' : 'auto';
+  
+        return () => {
+          document.body.style.overflow = 'auto';
+        };
+      }, [loading]);
     
     return (
         <div className='flex flex-col h-screen'>
         {!!loading && (
-        <div className='h-[100vh] flex items-center justify-center overflow-hidden w-full bg-white bg-opacity-1 z-50 fixed top-0 left-0'>
+        <div className='h-[100vh] flex items-center justify-center w-full bg-white bg-opacity-1 z-50 fixed top-0 left-0'>
             <Player
                 autoplay
                 loop
