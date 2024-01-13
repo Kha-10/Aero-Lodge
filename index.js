@@ -125,7 +125,6 @@ app.get('/datas', async (req, res) => {
         include_adjacency: 'true'
       };
     
-      // // Combine conditions in a single block
       if (req.query.children_number && req.query.children_ages && req.query.categories_filter_ids) {
         params.children_number = req.query.children_number;
         params.children_ages = req.query.children_ages;

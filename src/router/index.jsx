@@ -31,7 +31,7 @@ const router = createBrowserRouter([
           element: <Offers/>
         },
         {
-          path:"/hotelDetail/",
+          path:"/hotelDetail/s",
           element: <HotelDetail/>
         }
       ]

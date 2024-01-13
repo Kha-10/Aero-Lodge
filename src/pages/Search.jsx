@@ -356,14 +356,15 @@ const Search = () => {
     const handleCheckboxChange = (gg, cc) => {
       setFilterData(prevData => {
         const newData = [...prevData];
-        console.log(newData)
-        if (newData[gg]?.categories && newData[gg]?.categories[cc]) {
-          newData[gg].categories[cc].selected += 1;
+        const category = newData[gg]?.categories?.[cc];
+    
+        if (category) {
+          category.selected = category.selected === 0 ? 1 : 0;
         }
+    
         return newData;
       });
-    };
-
+    };    
 
   // const clickHandler = (index, obj) => {
   //   const { id } = obj;
@@ -578,19 +579,27 @@ const Search = () => {
           }
            {datas.length > 0 && (
             !!filterData && filterData.map((filter,i) => (
-              <div key={i}>
-                <h3>{filter.title}</h3>
+              <div key={i} className='bg-white p-3 rounded-lg border border-gray-200 space-y-2'>
+                <h3 className='text-sm font-semibold'>{filter.title}</h3>
                 <ul>
                 {filter.categories.map((category,index)=> (
-                  <li key={index} className="flex items-center mb-2">
+                  <li key={index} className="flex items-center mb-2 relative ">
                     <input
                       type="checkbox"
                       id={category.name}
                       checked={category.selected === 1}
                       onChange={() => handleCheckboxChange(i, index)}
-                      className="mr-2"
+                      className="mr-2 appearance-none bg-white w-4 h-4 rounded border border-gray-300 relative hover:border-blue-500 cursor-pointer"
                     />
-                    <label htmlFor={category.name}>{category.name}</label>
+                    {category.selected === 1 ? 
+                    <span className='absolute left-[2px]'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    </span>
+                    : null
+                    }
+                    <label htmlFor={category.name} className='text-[13px] hover:text-blue-500 cursor-pointer'>{category.name}</label>
                   </li>
                 ))}
               </ul>

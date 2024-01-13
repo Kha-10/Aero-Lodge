@@ -89,12 +89,12 @@ const useFetch = () => {
         return{count,sorts,datas,loading}
     };
 
-    const filter = () => {
+    const filterItems = () => {
         
         return{}
     };
 
-  return {fetchData,filter}
+  return {fetchData,filterItems}
 }
 
 export default useFetch
