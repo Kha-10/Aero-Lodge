@@ -343,7 +343,7 @@ const Search = () => {
           source.cancel();
           console.log('Aborteddddddd')
         };
-      },[langauge, currency, destid, destType, categoriesFilter, initialSort.id, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
+      },[langauge, currency, destid, destType, initialSort.id, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
 
     
     const changeHandler = (value)=> {
@@ -353,62 +353,28 @@ const Search = () => {
 
     }
 
-    const handleCheckboxChange = (gg, cc) => {
+    const handleCheckboxChange = (index_one, index_two,id) => {
       setFilterData(prevData => {
         const newData = [...prevData];
-        const category = newData[gg]?.categories?.[cc];
-    
+        const category = newData[index_one]?.categories?.[index_two];
+        console.log(category)
         if (category) {
           category.selected = category.selected === 0 ? 1 : 0;
         }
     
         return newData;
       });
+      setCategoriesFilter((prev) => {
+        if (prev.includes(id)) {
+          return prev.filter((categoryId) => categoryId !== id);
+        } else {
+          return [...prev, id];
+        }
+      });
     };    
 
-  // const clickHandler = (index, obj) => {
-  //   const { id } = obj;
-  
-  //   setClickStates((prevStates) => {
-  //     const newState = { ...prevStates };
+    console.log(categoriesFilter)
 
-  //     const filterKeys = [
-  //       'popular',
-  //       'freeCancellation',
-  //       'propertyRating',
-  //       'propertyType',
-  //       'numberOfBedrooms',
-  //       'facilities',
-  //       'distance',
-  //       'meals',
-  //       'chain',
-  //       'review',
-  //       'roomFacilities',
-  //       'bedPreference',
-  //       'district',
-  //       'landmarks',
-  //     ];
-  //     filterKeys.forEach((key)=>{
-  //       if(id === filterData[key+'Filters']?.id) {
-  //         newState[key][index] = ! newState[key][index];
-  //       }
-  //     })
-  //     return newState;
-  //   });
-  //   const category = [];
-  //     if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
-  //       category.push(obj.categories[index].id);
-  //       setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
-  //     }else{
-  //      const newCategoriesFilter = [...categoriesFilter];
-  //      newCategoriesFilter.pop();
-  //      setCategoriesFilter(newCategoriesFilter)
-  //     }
-      
-  // };
-
-
-  
       useEffect(()=>{
         setLocation(address)
         toggle.current=true;
@@ -500,7 +466,6 @@ const Search = () => {
               autoplay
               loop
               src={loadingTwo}
-              // style={{ height: '300px', width: '300px' }}
               className='w-[150px] h-[150px]'
               
           >
@@ -583,19 +548,19 @@ const Search = () => {
                 <h3 className='text-sm font-semibold'>{filter.title}</h3>
                 <ul>
                 {filter.categories.map((category,index)=> (
-                  <li key={index} className="flex items-center mb-2 relative ">
+                  <li key={index} className="flex items-center mb-2 relative">
                     <input
                       type="checkbox"
                       id={category.name}
                       checked={category.selected === 1}
-                      onChange={() => handleCheckboxChange(i, index)}
+                      onChange={() => handleCheckboxChange(i, index,category.id)}
                       className="mr-2 appearance-none bg-white w-4 h-4 rounded border border-gray-300 relative hover:border-blue-500 cursor-pointer"
                     />
                     {category.selected === 1 ? 
-                    <span className='absolute left-[2px]'>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
+                    <span className='absolute left-[2px]' onClick={()=>handleCheckboxChange(i, index,category.id)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500 cursor-pointer">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
                     </span>
                     : null
                     }
