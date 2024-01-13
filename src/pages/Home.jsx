@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef} from 'react';
-import axios from 'axios';
 import './App.css'
 import Herosection from '../components/Herosection';
 import Autocomplete from '../components/Autocomplete';
@@ -16,11 +15,9 @@ import { collection, getDocs } from 'firebase/firestore';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Recent from '../components/Recent';
-import percentageoff from '../assets/percentoff.jpg';
 import christmasoffer from '../assets/christmasoffer.jpg';
-import limitedtime from '../assets/limitedtime.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
 
 
@@ -243,9 +240,7 @@ function Home() {
   const offerlink = `/offers?city=${datas[0]?.title}&room_number=${room}&latitude=${datas[0]?.coordinates._lat}&longitude=${datas[0]?.coordinates._long}&filter_by_currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkout_date=${formattedCheckoutDate}&adults=${adult}&checkin_date=${formattedCheckinDate}&children_number=${child}`;
 
   console.log('Selected Language:', localStorage.getItem('i18nextLng'));
-
-
-
+  
   return (
     <div className='relative w-full h-screen'>
       <Herosection/>

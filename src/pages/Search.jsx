@@ -154,24 +154,7 @@ const Search = () => {
   const newPopRef = useRef(null);
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
-  const [filterData, setFilterData] = useState({
-    price: null,
-    popularFilters: null,
-    freeCancellationFilters : null,
-    propertyRatingFilters: null,
-    propertyTypeFilters: null,
-    numberOfBedroomsFilters: null,
-    facilitiesFilters: null,
-    distanceFilters: null,
-    mealsFilters: null,
-    chainFilters: null,
-    reviewFilters: null,
-    roomFacilitiesFilters: null,
-    bedPreferenceFilters: null,
-    districtFilters: null,
-    landmarksFilters:null
-  });
-
+  const [filterData, setFilterData] = useState();
   const [newClick,setNewClick] = useState(false);
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
@@ -330,27 +313,11 @@ const Search = () => {
                   cancelToken: source.token,
                 },
                 )
-              
-              console.log(filter);
+              const slicedFilter = filter.slice(2);
+              console.log(slicedFilter);
               setLoading(false);
               setPrice(filter[1]);
-              setFilterData({
-                popularFilters: filter[2],
-                freeCancellationFilters : filter[3],
-                propertyRatingFilters: filter[4],
-                propertyTypeFilters: filter[5],
-                numberOfBedroomsFilters: filter[6],
-                facilitiesFilters: filter[7],
-                distanceFilters: filter[8],
-                mealsFilters: filter[9],
-                chainFilters: filter[10],
-                reviewFilters: filter[11],
-                RoomFacilitiesFilters: filter[12],
-                bedPreferenceFilters: filter[13],
-                districtFilters: filter[14],
-                landmarksFilters: filter[15],
-
-              });
+              setFilterData(slicedFilter)
             } 
             catch (error) {
               setLoading(false);
@@ -378,90 +345,69 @@ const Search = () => {
         };
       },[langauge, currency, destid, destType, categoriesFilter, initialSort.id, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
 
-    const [selectedTitle,setselectedTitle] = useState ('');
-    console.log(selectedTitle)
     
     const changeHandler = (value)=> {
-      console.log(value)
-      setselectedTitle(value)
-      const newArray = [];
-      newArray.push(value);
       setCategoriesFilter((prevCategories) => {
         return [...prevCategories, value];
       })
 
     }
 
-    const [clickStates, setClickStates] = useState({
-      popular: Array(filterData.popularFilters?.categories?.length).fill(false),
-      freeCancellation: Array(filterData.freeCancellationFilters?.categories?.length).fill(false),
-      propertyRating: Array(filterData.propertyRatingFilters?.categories?.length).fill(false),
-      propertyType: Array(filterData.propertyTypeFilters?.categories?.length).fill(false),
-      numberOfBedrooms: Array(filterData.numberOfBedroomsFilters?.categories?.length).fill(false),
-      facilities: Array(filterData.facilitiesFilters?.categories?.length).fill(false),
-      distance: Array(filterData.distanceFilters?.categories?.length).fill(false),
-      meals: Array(filterData.mealsFilters?.categories?.length).fill(false),
-      chain: Array(filterData.chainFilters?.categories?.length).fill(false),
-      review: Array(filterData.reviewFilters?.categories?.length).fill(false),
-      roomFacilities: Array(filterData.roomFacilitiesFilters?.categories?.length).fill(false),
-      bedPreference: Array(filterData.bedPreferenceFilters?.categories?.length).fill(false),
-      district: Array(filterData.districtFilters?.categories?.length).fill(false),
-      landmarks: Array(filterData.landmarksFilters?.categories?.length).fill(false)
-    });
-
-    filterData.popularFilters?.categories.forEach(element => {
-      // eslint-disable-next-line no-prototype-builtins
-      if(!element.hasOwnProperty('key')) {
-        element.key = false;
-      }
-    });
-
-    console.log(filterData)
-    
-
-  const clickHandler = (index, obj) => {
-    const { id } = obj;
-  
-    setClickStates((prevStates) => {
-      const newState = { ...prevStates };
-
-      const filterKeys = [
-        'popular',
-        'freeCancellation',
-        'propertyRating',
-        'propertyType',
-        'numberOfBedrooms',
-        'facilities',
-        'distance',
-        'meals',
-        'chain',
-        'review',
-        'roomFacilities',
-        'bedPreference',
-        'district',
-        'landmarks',
-      ];
-      filterKeys.forEach((key)=>{
-        if(id === filterData[key+'Filters']?.id) {
-          newState[key][index] = ! newState[key][index];
+    const handleCheckboxChange = (gg, cc) => {
+      setFilterData(prevData => {
+        const newData = [...prevData];
+        console.log(newData)
+        if (newData[gg]?.categories && newData[gg]?.categories[cc]) {
+          newData[gg].categories[cc].selected += 1;
         }
-      })
-      return newState;
-    });
-    const category = [];
-      if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
-        category.push(obj.categories[index].id);
-        setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
-      }else{
-       const newCategoriesFilter = [...categoriesFilter];
-       newCategoriesFilter.pop();
-       setCategoriesFilter(newCategoriesFilter)
-      }
-      
-  };
-  
+        return newData;
+      });
+    };
 
+
+  // const clickHandler = (index, obj) => {
+  //   const { id } = obj;
+  
+  //   setClickStates((prevStates) => {
+  //     const newState = { ...prevStates };
+
+  //     const filterKeys = [
+  //       'popular',
+  //       'freeCancellation',
+  //       'propertyRating',
+  //       'propertyType',
+  //       'numberOfBedrooms',
+  //       'facilities',
+  //       'distance',
+  //       'meals',
+  //       'chain',
+  //       'review',
+  //       'roomFacilities',
+  //       'bedPreference',
+  //       'district',
+  //       'landmarks',
+  //     ];
+  //     filterKeys.forEach((key)=>{
+  //       if(id === filterData[key+'Filters']?.id) {
+  //         newState[key][index] = ! newState[key][index];
+  //       }
+  //     })
+  //     return newState;
+  //   });
+  //   const category = [];
+  //     if( obj.categories[index].id !== categoriesFilter[categoriesFilter.length-1]) {
+  //       category.push(obj.categories[index].id);
+  //       setCategoriesFilter((prevCategoriesFilter)=> [...prevCategoriesFilter,...category])
+  //     }else{
+  //      const newCategoriesFilter = [...categoriesFilter];
+  //      newCategoriesFilter.pop();
+  //      setCategoriesFilter(newCategoriesFilter)
+  //     }
       
+  // };
+
+
+  
       useEffect(()=>{
         setLocation(address)
         toggle.current=true;
@@ -621,7 +567,7 @@ const Search = () => {
             <div className='w-[210px] group'>
               <div className='font-semibold text-sm'>{price.title}</div>
               <div className='bg-white rounded-lg mt-2 p-3 border border-gray-200'>
-                <select className='w-[180px] group-hover:text-blue-400 text-[13px] focus:outline-none' value={selectedTitle || ''}  onChange={(e) => changeHandler(e.target.value)}>
+                <select className='w-[180px] group-hover:text-blue-400 text-[13px] focus:outline-none' onChange={(e) => changeHandler(e.target.value)}>
                   <option value="">{price.title}</option>
                   {!!price && price.categories && price.categories.map((category)=>(
                     <option key={category.id} value={category.id}>{category.name}</option>
@@ -630,25 +576,27 @@ const Search = () => {
               </div>
             </div>
           }
-          {datas.length>0 &&
-          <>
-            <FilterSection filterObj={filterData.popularFilters} clickState={clickStates.popular} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.freeCancellationFilters} clickState={clickStates.freeCancellation} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.propertyRatingFilters} clickState={clickStates.propertyRating} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.propertyTypeFilters} clickState={clickStates.propertyType} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.numberOfBedroomsFilters} clickState={clickStates.numberOfBedrooms} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.facilitiesFilters} clickState={clickStates.facilities} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.distanceFilters} clickState={clickStates.distance} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.mealsFilters} clickState={clickStates.meals} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.chainFilters} clickState={clickStates.chain} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.reviewFilters} clickState={clickStates.review} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.roomFacilitiesFilters} clickState={clickStates.roomFacilities} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.bedPreferenceFilters} clickState={clickStates.bedPreference} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.districtFilters} clickState={clickStates.district} clickHandler={clickHandler} />
-            <FilterSection filterObj={filterData.landmarksFilters} clickState={clickStates.landmarks} clickHandler={clickHandler} />
-          </>
-          }
-          
+           {datas.length > 0 && (
+            !!filterData && filterData.map((filter,i) => (
+              <div key={i}>
+                <h3>{filter.title}</h3>
+                <ul>
+                {filter.categories.map((category,index)=> (
+                  <li key={index} className="flex items-center mb-2">
+                    <input
+                      type="checkbox"
+                      id={category.name}
+                      checked={category.selected === 1}
+                      onChange={() => handleCheckboxChange(i, index)}
+                      className="mr-2"
+                    />
+                    <label htmlFor={category.name}>{category.name}</label>
+                  </li>
+                ))}
+              </ul>
+              </div>
+            ))
+           )}
           </div>
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
