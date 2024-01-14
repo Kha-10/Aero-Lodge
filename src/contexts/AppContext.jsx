@@ -75,12 +75,13 @@ const [destType,setDestType] = useState('');
 
 const [destid,setDestid] = useState('');
 
+const[allDatas,setAllDatas] = useState([]);
 
 
     return(
         <AppContext.Provider value={{adult,setAdult,child,setChild,selectedOption,setSelectedOption,
         room,setRoom,options,array,setArray,address,setAddress,
-        formattedCheckinDate,formattedCheckoutDate,date,setDate,currency,setCurrency,updatedCurrency,person,latitude,setLatitude,longitude,setLongitude,location,setLocation,imageurl,setImageurl,history,setHistory,toggle,destType,setDestType,destid,setDestid}}>
+        formattedCheckinDate,formattedCheckoutDate,date,setDate,currency,setCurrency,updatedCurrency,person,latitude,setLatitude,longitude,setLongitude,location,setLocation,imageurl,setImageurl,history,setHistory,toggle,destType,setDestType,destid,setDestid,allDatas,setAllDatas}}>
             {children}
         </AppContext.Provider>
     )

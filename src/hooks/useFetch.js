@@ -1,17 +1,15 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
+import useApp from './useApp';
 
 
 const useFetch = () => {
-
+    const {allDatas,setAllDatas} = useApp();
     const fetchData = (langauge, currency, destid, destType, categoriesFilter, initialSort, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age) => {
-        console.log(childCount)
-        console.log(children_age)
-        console.log(checkinDate)
         const [count,setCount] = useState(0);
         const [sorts,setSorts] = useState([]);
-        const [datas, setDatas] = useState([]);
+        // const [datas, setDatas] = useState([]);
         const [loading,setLoading] = useState(false);
         
         useEffect(()=> {
@@ -55,7 +53,9 @@ const useFetch = () => {
                     })
                   setLoading(false)
                   setCount(count)
-                  setDatas((prevDatas)=>[...prevDatas,...result])
+                  setAllDatas(result)
+                //   setDatas(result)
+                //   setDatas((prevDatas)=>[...prevDatas,...result])
                   console.log(result)
                   setSorts(sort)
                 } 
@@ -84,11 +84,13 @@ const useFetch = () => {
               source.cancel();
               console.log('Aborteddddddd')
             };
-          },[langauge, currency, destid, destType, categoriesFilter, initialSort.id, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age])
+          },[langauge, currency, destid, destType, categoriesFilter, initialSort.id, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age, initialSort])
     
-        return{count,sorts,datas,loading}
-    };
+        // return{count,sorts,datas,loading}
+        return{count,sorts,loading}
+    }
 
+   
     const filterItems = () => {
         
         return{}

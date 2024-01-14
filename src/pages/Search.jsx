@@ -50,7 +50,9 @@ const Search = () => {
 
     const destid = params.get('dest_id');
  
-    const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
+    const {location,setLocation,toggle,latitude,longitude,imageurl,date,allDatas,setAllDatas} = useApp();
+
+    console.log(allDatas)
 
     const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
@@ -158,8 +160,9 @@ const Search = () => {
   const [newClick,setNewClick] = useState(false);
   const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
-  const [loading,setLoading] = useState(false);
+  const [load,setLoad] = useState(false);
   const [hover, setHover] = useState({name : null,condition : false});
+  const [load_ing,setLoad_ing] = useState(false);
 
   const addHandler = () => {
         if (child < 10) {
@@ -265,15 +268,14 @@ const Search = () => {
 
       const currency= localStorage.getItem('cur');
 
-      let{fetchData,filterItems} = useFetch();
+      let{fetchData} = useFetch();
 
-      let{count,sorts,datas} = fetchData(langauge, currency, destid, destType, categoriesFilter, initialSort.id, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age)
-
+      let{count,sorts,loading} = fetchData(langauge, currency, destid, destType, categoriesFilter, initialSort.id, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age)
 
       useEffect(()=> {
         const source = axios.CancelToken.source();
         const filter = async () => {
-          setLoading(true);
+          setLoad(true);
           console.log('ggggg')
           let lang = ''; 
           if(langauge ==='en') {
@@ -315,12 +317,12 @@ const Search = () => {
                 )
               const slicedFilter = filter.slice(2);
               console.log(slicedFilter);
-              setLoading(false);
+              setLoad(false);
               setPrice(filter[1]);
               setFilterData(slicedFilter)
             } 
             catch (error) {
-              setLoading(false);
+              setLoad(false);
               if(axios.isCancel(error)){
                 console.log('Request was canceled2.')
               }
@@ -386,8 +388,8 @@ const Search = () => {
         window.scrollTo(0,0)
     },[]);
     
-
     const sortBy = (name,id) => {
+      setPageNumber(0);
       setInitialSort((prevInitialSort)=>{
         const newInitialSort = {...prevInitialSort};
         newInitialSort.name = name;
@@ -422,10 +424,75 @@ const Search = () => {
     <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
   </svg>;
 
-    const handleShowMore = () => {
-      setPageNumber((prevPageNumber)=>prevPageNumber+1)
+     
 
-    }
+      const getData = async () => {
+        setLoad_ing(true)
+        console.log('MMMMMMount')
+        let lang = ''; 
+        if(langauge ==='en') {
+           lang = langauge +'-gb'
+        }else {
+          lang = langauge
+        }
+        const updatedPageNumber = pageNumber + 1;
+        setPageNumber(updatedPageNumber);
+        try {
+          const params = {
+                units: 'metric',
+                room_number: roomCount,
+                longitude : lng,
+                latitude :lat,
+                filter_by_currency:currency,
+                locale:lang,
+                order_by: initialSort.id,
+                checkout_date: checkoutDate,
+                adults_number :adultCount,
+                checkin_date :checkinDate,
+                include_adjacency: 'true',
+                page_number: updatedPageNumber,
+              }
+              if (childCount > 0 || categoriesFilter.length > 0 ) {
+                params.children_number = childCount;
+                params.children_ages = children_age;
+                console.log(categoriesFilter)
+                const combinedString = categoriesFilter.join(',');
+                console.log(combinedString)
+                params.categories_filter_ids = combinedString;
+              } 
+
+              // const {data:{count,result,sort} } = await axios.get ('http://localhost:8000/datas',{
+              //   params : params,
+              // })
+              // const {data:{count,result} } = await axios.get ('http://localhost:8000/datas',{
+              //   params : params,
+              // })
+              const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
+                params : params,
+              })
+            setLoad_ing(false)
+            // setCount(count)
+            setAllDatas((prevDatas)=>[...prevDatas,...result])
+            // setSorts(sort)
+          } 
+          catch (error) {
+            setLoad_ing(false)
+            if (error.response) {
+              console.error('Data:', error.response.data);
+              console.error('Status:', error.response.status);
+              console.error('Headers:', error.response.headers);
+          } else if (error.request) {
+              console.error('Request made but no response received:', error.request);
+          } else {
+              console.error('Error:', error.message);
+          }
+              // Something else went wrong
+              console.error('Error:', error.message);
+          }
+       
+      };
+      // setPageNumber((prevPageNumber) => prevPageNumber+1);
+      console.log(pageNumber)
 
     const handleMouseEnter = (index) => {
       setHover((prevHover) => ({ ...prevHover, name: index, condition: true }));
@@ -436,17 +503,17 @@ const Search = () => {
     }
 
     useEffect(() => {
-      document.body.style.overflow = loading ? 'hidden' : 'auto';
+      document.body.style.overflow = load ? 'hidden' : 'auto';
 
       return () => {
         document.body.style.overflow = 'auto';
       };
-    }, [loading]);
-    
+    }, [load]);
+ 
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
-      {loading && (
+      {/* {load && loading && (
       pageNumber <= 0 ? 
       (
         <div className='w-full flex justify-center items-center h-[100vh] inset-0 fixed top-0 left-0 bg-white z-50'>
@@ -466,16 +533,39 @@ const Search = () => {
               autoplay
               loop
               src={loadingTwo}
-              className='w-[150px] h-[150px]'
-              
+              className='w-[150px] h-[150px]'              
           >
           </Player>
          </div>
         </div>
       )
       )
-      }
-      { datas.length > 0 && <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
+      } */}
+      {load && loading && (
+        <div className='w-full flex justify-center items-center h-[100vh] inset-0 fixed top-0 left-0 bg-white z-50'>
+          <Player
+                autoplay
+                loop
+                src={loadinggg}
+                style={{ height: '300px', width: '300px' }}
+          >
+          </Player>
+        </div>
+      )}
+      {load_ing && (
+        <div className='w-full flex justify-center fixed bottom-10 z-50' >
+          <div className='w-[50px] h-[50px] flex items-center justify-center rounded-full bg-white'>
+            <Player
+                autoplay
+                loop
+                src={loadingTwo}
+                className='w-[150px] h-[150px]'              
+            >
+            </Player>
+          </div>
+       </div>
+      )}
+      { allDatas.length > 0 && <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
           newPopup={newPopup}  />
@@ -504,9 +594,9 @@ const Search = () => {
         </Link>  
       </div>}
       <div className='max-w-6xl mx-auto px-[2%] py-[1%] flex items-center justify-between'>
-        {datas.length > 0 && <div className='font-semibold text-base'>Filter by</div>}
+        {allDatas.length > 0 && <div className='font-semibold text-base'>Filter by</div>}
         {count > 0 && <h3 className='font-bold text-lg -ml-20'>{city} : {count} hotels found</h3>}
-        {datas.length > 0 && 
+        {allDatas.length > 0 && 
           <div className='flex items-center gap-1'>
             <div className='font-light text-sm'>Sorted by</div>
             <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
@@ -529,7 +619,7 @@ const Search = () => {
       <div className='max-w-6xl mx-auto flex'>
         <div className='w-[40%] px-8 py-4'> 
           <div className='w-full flex flex-col gap-[20px]'>
-          {!!price && datas.length > 0 &&
+          {!!price && allDatas.length > 0 &&
             <div className='w-[210px] group'>
               <div className='font-semibold text-sm'>{price.title}</div>
               <div className='bg-white rounded-lg mt-2 p-3 border border-gray-200'>
@@ -542,7 +632,7 @@ const Search = () => {
               </div>
             </div>
           }
-           {datas.length > 0 && (
+           {allDatas.length > 0 && (
             !!filterData && filterData.map((filter,i) => (
               <div key={i} className='bg-white p-3 rounded-lg border border-gray-200 space-y-2'>
                 <h3 className='text-sm font-semibold'>{filter.title}</h3>
@@ -574,7 +664,7 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
-         {!!datas && datas.map((data,i)=>(
+         {!!allDatas && allDatas.map((data,i)=>(
            <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-xl relative'>
            <div className='w-[40%] flex justify-center px-4 '>
              <img src={data?.max_photo_url} className='rounded-md max-w-[200px] max-h-[200px]' />
@@ -748,16 +838,16 @@ const Search = () => {
            </div>
            </div>
          ))}
-        {(!!loading && datas && datas.length > 0) && (
+        {(!!load_ing && allDatas && allDatas.length > 0) && (
         <div className='w-full flex items-center justify-center'>
-          <button className='bg-white opacity-60 cursor-not-allowed text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
+          <button className='bg-white opacity-60 cursor-not-allowed text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={getData}>
             Show More Properties
           </button>
         </div>
         )}
-        {!loading && datas && datas.length > 0 && datas.length !== count  && (
+        {!load_ing && allDatas && allDatas.length > 0 && allDatas.length !== count  && (
         <div className='w-full flex items-center justify-center'>
-          <button className='bg-white text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={handleShowMore}>
+          <button className='bg-white text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={getData}>
             Show More Properties
           </button>
         </div>

@@ -153,7 +153,7 @@ const Navbar = () => {
   return (
     <>
      <nav>
-            <ul className='flex justify-between items-center px-10 py-3 border-b border-gray-200 '>
+            <ul className='flex justify-between items-center px-10 py-3 border-b border-gray-200'>
                 <li className='w-20 -ml-5'> 
                     <img src={logo} alt="logo"/>
                 </li>
