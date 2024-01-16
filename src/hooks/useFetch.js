@@ -5,7 +5,8 @@ import useApp from './useApp';
 
 
 const useFetch = () => {
-    const fetchData = (langauge, currency, destid, destType, categoriesFilter, initialSort, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age) => {
+
+    const fetchData = (langauge, currency, destid, destType, categoriesFilter, orderBy, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age) => {
         const [count,setCount] = useState(0);
         const [sorts,setSorts] = useState([]);
         const [datas, setDatas] = useState([]);
@@ -30,7 +31,7 @@ const useFetch = () => {
                       latitude :lat,
                       filter_by_currency:currency,
                       locale:lang,
-                      order_by: initialSort,
+                      order_by: orderBy,
                       checkout_date: checkoutDate,
                       adults_number :adultCount,
                       checkin_date :checkinDate,
@@ -84,7 +85,7 @@ const useFetch = () => {
               source.cancel();
               console.log('Aborteddddddd')
             };
-          },[langauge, currency, destid, destType, categoriesFilter, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age, initialSort])
+          },[langauge, currency, destid, destType, categoriesFilter, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age, orderBy])
     
         // return{count,sorts,datas,loading}
         return{datas,setDatas,count,sorts,loading}

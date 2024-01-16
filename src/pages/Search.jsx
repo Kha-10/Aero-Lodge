@@ -153,7 +153,7 @@ const Search = () => {
   const [price,setPrice] = useState (null);
   const [filterData, setFilterData] = useState();
   const [newClick,setNewClick] = useState(false);
-  const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
+  // const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
   const [load,setLoad] = useState(false);
   const [hover, setHover] = useState({name : null,condition : false});
@@ -260,6 +260,10 @@ const Search = () => {
 
       const currency= localStorage.getItem('cur');
 
+      let hh = localStorage.getItem('history');
+      let parsedData = JSON.parse(hh);
+      let orderBy = parsedData[0].order_by;
+      
       useEffect(()=> {
         const source = axios.CancelToken.source();
         const filter = async () => {
@@ -280,7 +284,7 @@ const Search = () => {
                   checkout_date: checkoutDate,
                   units: 'metric',
                   room_number: roomCount,
-                  order_by: initialSort.id,
+                  order_by: orderBy,
                   locale:lang,
                   include_adjacency: 'true',
                   page_number: pageNumber,
@@ -330,11 +334,11 @@ const Search = () => {
           source.cancel();
           console.log('Aborteddddddd')
         };
-      },[langauge, currency, destid, destType, initialSort.id, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
+      },[langauge, currency, destid, destType, orderBy, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
 
       let{fetchData} = useFetch();
 
-      let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType, categoriesFilter, initialSort.id, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age);
+      let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType, categoriesFilter, orderBy, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age);
 
       const changeHandler = (value)=> {
       setCategoriesFilter((prevCategories) => {
@@ -428,7 +432,7 @@ const Search = () => {
                 latitude :lat,
                 filter_by_currency:currency,
                 locale:lang,
-                order_by: initialSort.id,
+                order_by: orderBy,
                 checkout_date: checkoutDate,
                 adults_number :adultCount,
                 checkin_date :checkinDate,
@@ -552,7 +556,7 @@ const Search = () => {
           <div className='flex items-center gap-1'>
             <div className='font-light text-sm'>Sorted by</div>
             <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
-              <div className='text-sm font-semibold'>{initialSort.name}</div>
+              <div className='text-sm font-semibold'>{orderBy}</div>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black">
                 <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
               </svg>  

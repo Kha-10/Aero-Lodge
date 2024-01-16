@@ -34,7 +34,7 @@ function Home() {
   
   const {adult,setAdult,child,setChild,selectedOption,setSelectedOption,room,setRoom,
   options,array,setArray,date,setDate,formattedCheckinDate,formattedCheckoutDate,
-  currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid} = useApp();
+  currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid,orderBy,setOrderBy} = useApp();
 
   const addHandler = () => {
     if (child < 10) {
@@ -128,19 +128,15 @@ function Home() {
     let ref = collection(db,'stays');
     getDocs(ref).then(docs => {
       let datas =[];
-      docs.forEach(doc => {
-        // console.log(doc.id)
-        // console.log(doc.data())
-     
+      docs.forEach(doc => {  
         let data = {id:doc.id,...doc.data()}
         datas.push(data)
-        // console.log(datas)
         setDatas(datas)
       })
     })
   }, []);
 
-  const setRecent = () => {
+  const recentHandler = () => {
     const updatedHistory = { recent: history.recent , ...history };
     updatedHistory.recent.unshift({
       city: location || history.recent[0].city,
@@ -158,9 +154,8 @@ function Home() {
       img : imageurl || history.recent[0].img,
       dest_type : destType || history.recent[0].dest_type,
       dest_id : destid || history.recent[0].dest_id,
-    });
-    // setHistory(updatedHistory);
-    // console.log(updatedHistory.recent[0])
+      order_by : orderBy || history.recent[0].order_by
+    }); 
     const data = localStorage.getItem('history');
     if (data === null) {
       localStorage.setItem('history', JSON.stringify(updatedHistory.recent))
@@ -234,7 +229,7 @@ function Home() {
   };
   
 
-  const searchLink = `/search?city=${location || history.recent[0]?.city}&room=${parseInt(room)}&latitude=${latitude || history.recent[0]?.lat}&longitude=${longitude || history.recent[0]?.lng}&currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${parseInt(adult)}&children=${parseInt(child)}${child > 0 ? `&children_quantity=${array}&children_ages=${selectedOption}`:''}&dest_id=${destid || history.recent[0]?.dest_id}&dest_type=${destType||  history.recent[0]?.dest_type}`;
+  const searchLink = `/search?city=${location || history.recent[0]?.city}&room=${parseInt(room)}&latitude=${latitude || history.recent[0]?.lat}&longitude=${longitude || history.recent[0]?.lng}&currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${parseInt(adult)}&children=${parseInt(child)}${child > 0 ? `&children_quantity=${array}&children_ages=${selectedOption}`:''}&dest_id=${destid || history.recent[0]?.dest_id}&dest_type=${destType||  history.recent[0]?.dest_type}&order_by=${orderBy || history.recent[0]?.order_by}`;
 
   const offerlink = `/offers?city=${datas[0]?.title}&room_number=${room}&latitude=${datas[0]?.coordinates._lat}&longitude=${datas[0]?.coordinates._long}&filter_by_currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkout_date=${formattedCheckoutDate}&adults=${adult}&checkin_date=${formattedCheckinDate}&children_number=${child}`;
 
@@ -270,8 +265,7 @@ function Home() {
           <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>{t('button.done')}</button>
         </div>}
         </div>
-        <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400'  onClick={()=>{setRecent();
-        // setLocation('');
+        <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400'  onClick={()=>{recentHandler();
         toggle.current=true}}>{t('button.search')
         }
         </Link>
@@ -347,9 +341,6 @@ function Home() {
                   children_ages: selectedOption,
                   img : data.image
                 })
-                // console.log(updatedHistory.recent);
-                // setHistory(updatedHistory);
-                // localStorage.setItem('history', JSON.stringify(updatedHistory.recent));
                 const response = localStorage.getItem('history');
                 if (response === null) {
                   localStorage.setItem('history', JSON.stringify(updatedHistory.recent))
