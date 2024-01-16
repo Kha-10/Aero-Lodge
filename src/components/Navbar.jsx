@@ -32,10 +32,6 @@ const Navbar = () => {
     const {setAdult,setChild,setSelectedOption,setArray,setRoom,setAddress,setDate,currency,setCurrency,updatedCurrency} = useApp();
 
     const location = useLocation();
-    console.log(location)
-    console.log(location.search)
-    console.log(location.key)
-    console.log('currenvy:',currency)
     const navigate = useNavigate ();
 
     useEffect(()=>{
@@ -74,7 +70,7 @@ const Navbar = () => {
             changeCurrency(curr)
 
         }
-        console.log('I DID FUCKING CHANGE')
+        // console.log('I DID FUCKING CHANGE')
     },[location.key])
 
     const handleSwitchLanguage = (locales) => {

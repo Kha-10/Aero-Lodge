@@ -7,11 +7,9 @@ import { useLocation } from 'react-router-dom';
 
 const Autocomplete = () => {
   const [suggestions,setSuggestions] = useState(null);
-  console.log(suggestions)
   const popRef = useRef(null);
   const loc = useLocation();
     const path = loc.pathname;
-    console.log(path)
 
   
 

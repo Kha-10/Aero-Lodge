@@ -17,7 +17,7 @@ const Daterange = ({handleNewPopup,setNewPopup,newPopup}) => {
     const location = useLocation();
     const path = location.pathname
     
-    console.log(date)
+
    
 
     useEffect(() => {

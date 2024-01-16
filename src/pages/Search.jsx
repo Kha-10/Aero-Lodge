@@ -46,13 +46,10 @@ const Search = () => {
 
    const cur = params.get('currency')
     const destType = params.get('dest_type');
-    console.log(destType)
 
     const destid = params.get('dest_id');
  
-    const {location,setLocation,toggle,latitude,longitude,imageurl,date,allDatas,setAllDatas} = useApp();
-
-    console.log(allDatas)
+    const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
 
     const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
@@ -71,8 +68,6 @@ const Search = () => {
     timeZoneName: 'short',
     };
     const weekdayCheckinDate = inputCheckinDate.toLocaleString('en-US', opts);
-
-    console.log(weekdayCheckinDate)
     
 
     const checkoutDate = params.get('checkoutdate');
@@ -209,12 +204,9 @@ const Search = () => {
       }
       
      const handleChange = (event, index) => {
-        console.log("Index:", index);
-        console.log(event.target.value)
       // Update the selectedOption array
         const updatedSelectedOption = [...selectedOption];
         updatedSelectedOption[index] = event.target.value;
-        console.log(updatedSelectedOption[index])
         setSelectedOption(updatedSelectedOption);
       }
     
@@ -268,15 +260,10 @@ const Search = () => {
 
       const currency= localStorage.getItem('cur');
 
-      let{fetchData} = useFetch();
-
-      let{count,sorts,loading} = fetchData(langauge, currency, destid, destType, categoriesFilter, initialSort.id, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age)
-
       useEffect(()=> {
         const source = axios.CancelToken.source();
         const filter = async () => {
           setLoad(true);
-          console.log('ggggg')
           let lang = ''; 
           if(langauge ==='en') {
              lang = langauge +'-gb'
@@ -307,9 +294,6 @@ const Search = () => {
                 
                   params.categories_filter_ids = combinedString;
                 } 
-                
-                console.log(childCount)
-                console.log(categoriesFilter)
                 const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
                   params : params,
                   cancelToken: source.token,
@@ -317,6 +301,7 @@ const Search = () => {
                 )
               const slicedFilter = filter.slice(2);
               console.log(slicedFilter);
+              console.log('Filter')
               setLoad(false);
               setPrice(filter[1]);
               setFilterData(slicedFilter)
@@ -347,8 +332,11 @@ const Search = () => {
         };
       },[langauge, currency, destid, destType, initialSort.id, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
 
-    
-    const changeHandler = (value)=> {
+      let{fetchData} = useFetch();
+
+      let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType, categoriesFilter, initialSort.id, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age);
+
+      const changeHandler = (value)=> {
       setCategoriesFilter((prevCategories) => {
         return [...prevCategories, value];
       })
@@ -359,7 +347,6 @@ const Search = () => {
       setFilterData(prevData => {
         const newData = [...prevData];
         const category = newData[index_one]?.categories?.[index_two];
-        console.log(category)
         if (category) {
           category.selected = category.selected === 0 ? 1 : 0;
         }
@@ -375,8 +362,6 @@ const Search = () => {
       });
     };    
 
-    console.log(categoriesFilter)
-
       useEffect(()=>{
         setLocation(address)
         toggle.current=true;
@@ -389,7 +374,6 @@ const Search = () => {
     },[]);
     
     const sortBy = (name,id) => {
-      setPageNumber(0);
       setInitialSort((prevInitialSort)=>{
         const newInitialSort = {...prevInitialSort};
         newInitialSort.name = name;
@@ -428,7 +412,6 @@ const Search = () => {
 
       const getData = async () => {
         setLoad_ing(true)
-        console.log('MMMMMMount')
         let lang = ''; 
         if(langauge ==='en') {
            lang = langauge +'-gb'
@@ -472,7 +455,7 @@ const Search = () => {
               })
             setLoad_ing(false)
             // setCount(count)
-            setAllDatas((prevDatas)=>[...prevDatas,...result])
+            setDatas(prevData => [...prevData,...result])
             // setSorts(sort)
           } 
           catch (error) {
@@ -491,8 +474,6 @@ const Search = () => {
           }
        
       };
-      // setPageNumber((prevPageNumber) => prevPageNumber+1);
-      console.log(pageNumber)
 
     const handleMouseEnter = (index) => {
       setHover((prevHover) => ({ ...prevHover, name: index, condition: true }));
@@ -509,38 +490,9 @@ const Search = () => {
         document.body.style.overflow = 'auto';
       };
     }, [load]);
- 
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
-      {/* {load && loading && (
-      pageNumber <= 0 ? 
-      (
-        <div className='w-full flex justify-center items-center h-[100vh] inset-0 fixed top-0 left-0 bg-white z-50'>
-          <Player
-                autoplay
-                loop
-                src={loadinggg}
-                style={{ height: '300px', width: '300px' }}
-          >
-          </Player>
-        </div>
-      ):
-      (
-        <div className='w-full flex justify-center fixed bottom-10 z-50' >
-         <div className='w-[50px] h-[50px] flex items-center justify-center rounded-full bg-white'>
-          <Player
-              autoplay
-              loop
-              src={loadingTwo}
-              className='w-[150px] h-[150px]'              
-          >
-          </Player>
-         </div>
-        </div>
-      )
-      )
-      } */}
       {load && loading && (
         <div className='w-full flex justify-center items-center h-[100vh] inset-0 fixed top-0 left-0 bg-white z-50'>
           <Player
@@ -565,7 +517,7 @@ const Search = () => {
           </div>
        </div>
       )}
-      { allDatas.length > 0 && <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
+      {datas.length > 0 && <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
           newPopup={newPopup}  />
@@ -594,9 +546,9 @@ const Search = () => {
         </Link>  
       </div>}
       <div className='max-w-6xl mx-auto px-[2%] py-[1%] flex items-center justify-between'>
-        {allDatas.length > 0 && <div className='font-semibold text-base'>Filter by</div>}
+        {datas.length > 0 && <div className='font-semibold text-base'>Filter by</div>}
         {count > 0 && <h3 className='font-bold text-lg -ml-20'>{city} : {count} hotels found</h3>}
-        {allDatas.length > 0 && 
+        {datas.length > 0 && 
           <div className='flex items-center gap-1'>
             <div className='font-light text-sm'>Sorted by</div>
             <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
@@ -619,7 +571,7 @@ const Search = () => {
       <div className='max-w-6xl mx-auto flex'>
         <div className='w-[40%] px-8 py-4'> 
           <div className='w-full flex flex-col gap-[20px]'>
-          {!!price && allDatas.length > 0 &&
+          {!!price && datas.length > 0 &&
             <div className='w-[210px] group'>
               <div className='font-semibold text-sm'>{price.title}</div>
               <div className='bg-white rounded-lg mt-2 p-3 border border-gray-200'>
@@ -632,7 +584,7 @@ const Search = () => {
               </div>
             </div>
           }
-           {allDatas.length > 0 && (
+           {datas.length > 0 && (
             !!filterData && filterData.map((filter,i) => (
               <div key={i} className='bg-white p-3 rounded-lg border border-gray-200 space-y-2'>
                 <h3 className='text-sm font-semibold'>{filter.title}</h3>
@@ -664,7 +616,7 @@ const Search = () => {
           </div>
         </div>
         <div className='w-full px-3 py-6 flex flex-col gap-4'>
-         {!!allDatas && allDatas.map((data,i)=>(
+         {!!datas && datas.map((data,i)=>(
            <div key={i} className='w-full flex border py-4 border-gray-200 bg-white rounded-xl relative'>
            <div className='w-[40%] flex justify-center px-4 '>
              <img src={data?.max_photo_url} className='rounded-md max-w-[200px] max-h-[200px]' />
@@ -838,14 +790,14 @@ const Search = () => {
            </div>
            </div>
          ))}
-        {(!!load_ing && allDatas && allDatas.length > 0) && (
+        {(!!load_ing && datas && datas.length > 0) && (
         <div className='w-full flex items-center justify-center'>
           <button className='bg-white opacity-60 cursor-not-allowed text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={getData}>
             Show More Properties
           </button>
         </div>
         )}
-        {!load_ing && allDatas && allDatas.length > 0 && allDatas.length !== count  && (
+        {!load_ing && datas && datas.length > 0 && datas.length !== count  && (
         <div className='w-full flex items-center justify-center'>
           <button className='bg-white text-blue-500 border border-blue-400 py-2 px-4 text-[14px] rounded' onClick={getData}>
             Show More Properties

@@ -170,7 +170,6 @@ function Home() {
   
       // Check if the city already exists in the recent history
       const cityExists = parsedData.some(item => item.city === updatedHistory.recent[0].city);
-      console.log(cityExists)
       if(cityExists) {
         const filtered = parsedData.filter(gg => gg.city !== updatedHistory.recent[0].city);
         filtered.unshift(updatedHistory.recent[0])

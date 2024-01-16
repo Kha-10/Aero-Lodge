@@ -5,11 +5,10 @@ import useApp from './useApp';
 
 
 const useFetch = () => {
-    const {allDatas,setAllDatas} = useApp();
-    const fetchData = (langauge, currency, destid, destType, categoriesFilter, initialSort, pageNumber, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age) => {
+    const fetchData = (langauge, currency, destid, destType, categoriesFilter, initialSort, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age) => {
         const [count,setCount] = useState(0);
         const [sorts,setSorts] = useState([]);
-        // const [datas, setDatas] = useState([]);
+        const [datas, setDatas] = useState([]);
         const [loading,setLoading] = useState(false);
         
         useEffect(()=> {
@@ -36,7 +35,7 @@ const useFetch = () => {
                       adults_number :adultCount,
                       checkin_date :checkinDate,
                       include_adjacency: 'true',
-                      page_number: pageNumber,
+                      page_number: '0',
                     }
                     if (childCount > 0 || categoriesFilter.length > 0 ) {
                       params.children_number = childCount;
@@ -47,17 +46,18 @@ const useFetch = () => {
                       params.categories_filter_ids = combinedString;
                     } 
     
-                    const {data:{count,result,sort} } = await axios.get ('http://localhost:8000/datas',{
+                    const {data:{result,count,sort} } = await axios.get ('http://localhost:8000/datas',{
                       params : params,
                       cancelToken: source.token,
                     })
                   setLoading(false)
                   setCount(count)
-                  setAllDatas(result)
-                //   setDatas(result)
-                //   setDatas((prevDatas)=>[...prevDatas,...result])
+                  console.log('COUNT')
+                  setDatas(result)
+                  console.log(`UPDATE`)
                   console.log(result)
                   setSorts(sort)
+                  console.log('SORT')
                 } 
                 catch (error) {
                   setLoading(false)
@@ -84,10 +84,10 @@ const useFetch = () => {
               source.cancel();
               console.log('Aborteddddddd')
             };
-          },[langauge, currency, destid, destType, categoriesFilter, initialSort.id, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age, initialSort])
+          },[langauge, currency, destid, destType, categoriesFilter, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age, initialSort])
     
         // return{count,sorts,datas,loading}
-        return{count,sorts,loading}
+        return{datas,setDatas,count,sorts,loading}
     }
 
    
