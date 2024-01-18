@@ -51,6 +51,8 @@ const Search = () => {
  
     const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
 
+    console.log(imageurl)
+
     const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
 
@@ -258,11 +260,13 @@ const Search = () => {
 
       const langauge  = localStorage.getItem('i18nextLng');
 
-      const currency= localStorage.getItem('cur');
+      const currency = localStorage.getItem('cur');
 
-      let hh = localStorage.getItem('history');
-      let parsedData = JSON.parse(hh);
-      let orderBy = parsedData[0].order_by;
+      let orders = localStorage.getItem('history');
+      let parsedData = JSON.parse(orders);
+      let orderBy = parsedData[0]?.order_by;
+      let orderById = orderBy.id;
+      let orderByName = orderBy.name;
       
       useEffect(()=> {
         const source = axios.CancelToken.source();
@@ -284,7 +288,7 @@ const Search = () => {
                   checkout_date: checkoutDate,
                   units: 'metric',
                   room_number: roomCount,
-                  order_by: orderBy,
+                  order_by: orderById,
                   locale:lang,
                   include_adjacency: 'true',
                   page_number: pageNumber,
@@ -334,11 +338,11 @@ const Search = () => {
           source.cancel();
           console.log('Aborteddddddd')
         };
-      },[langauge, currency, destid, destType, orderBy, adultCount, checkinDate, checkoutDate, roomCount, pageNumber, childCount, children_age])
+      },[langauge, currency, destid, destType,adultCount, checkinDate, checkoutDate,orderById,roomCount, pageNumber, childCount, children_age])
 
       let{fetchData} = useFetch();
 
-      let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType, categoriesFilter, orderBy, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age);
+      let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType, categoriesFilter,roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderById);
 
       const changeHandler = (value)=> {
       setCategoriesFilter((prevCategories) => {
@@ -377,16 +381,94 @@ const Search = () => {
         window.scrollTo(0,0)
     },[]);
     
-    const sortBy = (name,id) => {
-      setInitialSort((prevInitialSort)=>{
-        const newInitialSort = {...prevInitialSort};
-        newInitialSort.name = name;
-        newInitialSort.id = id;
-       return newInitialSort
-      })
+    const sortBy = async (name,id) => {
+      const obj = {id :id,name :name}
 
+      const combinedDatas = {
+        adults : adult,
+        checkin_date : formattedCheckinDate,
+        checkout_date : formattedCheckoutDate,
+        children : child,
+        children_ages : selectedOption,
+        children_array : arrayy,
+        city : location,
+        currencies : currency,
+        dest_id : destid,
+        dest_type : destType,
+        img : imageurl,
+        lat : lat,
+        lng : lng,
+        locale : langauge,
+        order_by : obj,
+        room_number : room
+      }
+      const localStorageDatas =localStorage.getItem('history');
+      const newDatas = JSON.parse(localStorageDatas);
+      const filteredItems = newDatas.filter(bb => bb.city !== city);
+      filteredItems.unshift(combinedDatas)
+      console.log(filteredItems)
+      localStorage.setItem('history',JSON.stringify(filteredItems));
+
+      let lang = ''; 
+      if(langauge ==='en') {
+         lang = langauge +'-gb'
+      }else {
+        lang = langauge
+      }
+      const updatedPageNumber = pageNumber + 1;
+      setPageNumber(updatedPageNumber);
+      try {
+        const params = {
+              units: 'metric',
+              room_number: roomCount,
+              longitude : lng,
+              latitude :lat,
+              filter_by_currency:currency,
+              locale:lang,
+              order_by: orderById,
+              checkout_date: checkoutDate,
+              adults_number :adultCount,
+              checkin_date :checkinDate,
+              include_adjacency: 'true',
+              page_number: updatedPageNumber,
+            }
+            if (childCount > 0 || categoriesFilter.length > 0 ) {
+              params.children_number = childCount;
+              params.children_ages = children_age;
+              console.log(categoriesFilter)
+              const combinedString = categoriesFilter.join(',');
+              console.log(combinedString)
+              params.categories_filter_ids = combinedString;
+            } 
+
+            // const {data:{count,result,sort} } = await axios.get ('http://localhost:8000/datas',{
+            //   params : params,
+            // })
+            // const {data:{count,result} } = await axios.get ('http://localhost:8000/datas',{
+            //   params : params,
+            // })
+            const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
+              params : params,
+            })
+          // setCount(count)
+          setDatas(result)
+          // setSorts(sort)
+        } 
+        catch (error) {
+          if (error.response) {
+            console.error('Data:', error.response.data);
+            console.error('Status:', error.response.status);
+            console.error('Headers:', error.response.headers);
+        } else if (error.request) {
+            console.error('Request made but no response received:', error.request);
+        } else {
+            console.error('Error:', error.message);
+        }
+            // Something else went wrong
+            console.error('Error:', error.message);
+        }
     }
-    
+
     const sortToggle = () => {
       setNewClick(!newClick)
     }
@@ -432,7 +514,7 @@ const Search = () => {
                 latitude :lat,
                 filter_by_currency:currency,
                 locale:lang,
-                order_by: orderBy,
+                order_by: orderById,
                 checkout_date: checkoutDate,
                 adults_number :adultCount,
                 checkin_date :checkinDate,
@@ -556,7 +638,7 @@ const Search = () => {
           <div className='flex items-center gap-1'>
             <div className='font-light text-sm'>Sorted by</div>
             <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
-              <div className='text-sm font-semibold'>{orderBy}</div>
+              <div className='text-sm font-semibold'>{orderByName}</div>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black">
                 <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />
               </svg>  
@@ -819,7 +901,8 @@ const Search = () => {
       Culpa consequuntur, quo, magnam autem quod natus quibusdam fuga reiciendis quia eveniet excepturi earum totam, officia maxime ad placeat corporis porro. Ipsa exercitationem expedita eum quia deleniti temporibus sit architecto.
       Quibusdam cupiditate necessitatibus eveniet praesentium odio, quisquam dicta facere perferendis repellat dolores consequatur iste optio, doloremque sunt consectetur perspiciatis tempore officiis rem omnis beatae unde quos obcaecati illo. Sunt, omnis?
       Optio sapiente tempore assumenda neque consequuntur perferendis similique. Ab molestiae ipsa facere, eveniet est illum eaque dolores, at quibusdam, doloremque natus. Saepe velit aperiam ducimus voluptatum? Magni aut laborum vitae!
-      Reprehenderit veritatis vero iusto, dolorem non quos, sint rerum neque, dignissimos molestias culpa. Deserunt porro fuga a. Ab optio voluptas aperiam maxime et, placeat ratione unde rem enim quod? Quis.</section>
+      Reprehenderit veritatis vero iusto, dolorem non quos, sint rerum neque, dignissimos molestias culpa. Deserunt porro fuga a. Ab optio voluptas aperiam maxime et, placeat ratione unde rem enim quod? Quis.
+      </section>
     </div>
   )
 }

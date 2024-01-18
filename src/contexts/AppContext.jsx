@@ -75,7 +75,10 @@ const [destType,setDestType] = useState('');
 
 const [destid,setDestid] = useState('');
 
-const [orderBy,setOrderBy] = useState('popularity');
+const [orderBy,setOrderBy] = useState({
+  id : "popularity",
+  name : "Popularity"
+});
 
     return(
         <AppContext.Provider value={{adult,setAdult,child,setChild,selectedOption,setSelectedOption,

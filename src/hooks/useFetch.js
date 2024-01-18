@@ -1,12 +1,11 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
-import useApp from './useApp';
 
 
 const useFetch = () => {
 
-    const fetchData = (langauge, currency, destid, destType, categoriesFilter, orderBy, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age) => {
+    const fetchData = (langauge, currency, destid, destType, categoriesFilter, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderBy) => {
         const [count,setCount] = useState(0);
         const [sorts,setSorts] = useState([]);
         const [datas, setDatas] = useState([]);
@@ -53,12 +52,9 @@ const useFetch = () => {
                     })
                   setLoading(false)
                   setCount(count)
-                  console.log('COUNT')
                   setDatas(result)
-                  console.log(`UPDATE`)
-                  console.log(result)
                   setSorts(sort)
-                  console.log('SORT')
+                  console.log(sort)
                 } 
                 catch (error) {
                   setLoading(false)
@@ -85,9 +81,8 @@ const useFetch = () => {
               source.cancel();
               console.log('Aborteddddddd')
             };
-          },[langauge, currency, destid, destType, categoriesFilter, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age, orderBy])
+          },[langauge, currency, destid, destType, categoriesFilter, roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderBy])
     
-        // return{count,sorts,datas,loading}
         return{datas,setDatas,count,sorts,loading}
     }
 
