@@ -151,10 +151,9 @@ const Search = () => {
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
   const [filterData, setFilterData] = useState();
+  console.log(filterData)
   const [newClick,setNewClick] = useState(false);
-  // const [initialSort,setInitialSort] = useState({id:'popularity',name:'Popularity'});
   const [pageNumber,setPageNumber] = useState(0);
-  const [load,setLoad] = useState(false);
   const [hover, setHover] = useState({name : null,condition : false});
   const [load_ing,setLoad_ing] = useState(false);
 
@@ -268,7 +267,6 @@ const Search = () => {
       useEffect(()=> {
         const source = axios.CancelToken.source();
         const filter = async () => {
-          setLoad(true);
           let lang = ''; 
           if(langauge ==='en') {
              lang = langauge +'-gb'
@@ -307,12 +305,10 @@ const Search = () => {
               const slicedFilter = filter.slice(2);
               console.log(slicedFilter);
               console.log('Filter')
-              setLoad(false);
               setPrice(filter[1]);
               setFilterData(slicedFilter)
             } 
             catch (error) {
-              setLoad(false);
               if(axios.isCancel(error)){
                 console.log('Request was canceled2.')
               }
@@ -508,16 +504,16 @@ const Search = () => {
     }
 
     useEffect(() => {
-      document.body.style.overflow = load ? 'hidden' : 'auto';
+      document.body.style.overflow = loading ? 'hidden' : 'auto';
 
       return () => {
         document.body.style.overflow = 'auto';
       };
-    }, [load]);
+    }, [loading]);
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
-      {load && loading && (
+      {loading && (
         <div className='w-full flex justify-center items-center h-[100vh] inset-0 fixed top-0 left-0 bg-white z-50'>
           <Player
                 autoplay
