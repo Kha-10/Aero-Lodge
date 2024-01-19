@@ -54,7 +54,7 @@ const useFetch = () => {
                   setCount(count)
                   setDatas(result)
                   setSorts(sort)
-                  console.log(sort)
+                  console.log(result)
                 } 
                 catch (error) {
                   setLoading(false)

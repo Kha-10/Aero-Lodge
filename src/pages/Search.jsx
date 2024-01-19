@@ -16,7 +16,6 @@ import axios from 'axios';
 import useApp from '../hooks/useApp';
 import Daterange from '../components/Daterange';
 import './App.css';
-import FilterSection from '../components/FilterSection';
 import pool from '../assets/pool.png';
 import car from '../assets/car.png'
 import { Player } from '@lottiefiles/react-lottie-player';
@@ -50,8 +49,6 @@ const Search = () => {
     const destid = params.get('dest_id');
  
     const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
-
-    console.log(imageurl)
 
     const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
@@ -408,65 +405,6 @@ const Search = () => {
       filteredItems.unshift(combinedDatas)
       console.log(filteredItems)
       localStorage.setItem('history',JSON.stringify(filteredItems));
-
-      let lang = ''; 
-      if(langauge ==='en') {
-         lang = langauge +'-gb'
-      }else {
-        lang = langauge
-      }
-      const updatedPageNumber = pageNumber + 1;
-      setPageNumber(updatedPageNumber);
-      try {
-        const params = {
-              units: 'metric',
-              room_number: roomCount,
-              longitude : lng,
-              latitude :lat,
-              filter_by_currency:currency,
-              locale:lang,
-              order_by: orderById,
-              checkout_date: checkoutDate,
-              adults_number :adultCount,
-              checkin_date :checkinDate,
-              include_adjacency: 'true',
-              page_number: updatedPageNumber,
-            }
-            if (childCount > 0 || categoriesFilter.length > 0 ) {
-              params.children_number = childCount;
-              params.children_ages = children_age;
-              console.log(categoriesFilter)
-              const combinedString = categoriesFilter.join(',');
-              console.log(combinedString)
-              params.categories_filter_ids = combinedString;
-            } 
-
-            // const {data:{count,result,sort} } = await axios.get ('http://localhost:8000/datas',{
-            //   params : params,
-            // })
-            // const {data:{count,result} } = await axios.get ('http://localhost:8000/datas',{
-            //   params : params,
-            // })
-            const {data:{result} } = await axios.get ('http://localhost:8000/datas',{
-              params : params,
-            })
-          // setCount(count)
-          setDatas(result)
-          // setSorts(sort)
-        } 
-        catch (error) {
-          if (error.response) {
-            console.error('Data:', error.response.data);
-            console.error('Status:', error.response.status);
-            console.error('Headers:', error.response.headers);
-        } else if (error.request) {
-            console.error('Request made but no response received:', error.request);
-        } else {
-            console.error('Error:', error.message);
-        }
-            // Something else went wrong
-            console.error('Error:', error.message);
-        }
     }
 
     const sortToggle = () => {
@@ -769,8 +707,11 @@ const Search = () => {
            <div className='w-[30%] gap-8 px-3'>
             <div className='flex items-center gap-2'>
              <div className='w-[100%] text-right'>
-               <h1 className='text-[14px]'>{data?.review_score_word}</h1>
-               <p className='text-[12px] font-light'>{data?.review_nr} reviews</p>
+              {!data?.review_score && !data?.review_score_word && !data?.review_nr && (
+                <span className='bg-yellow-400 px-2 py-1 text-[12px] rounded'>New to Aero Lodge</span>
+              )}
+              {!!data?.review_score_word && <h1 className='text-[14px]'>{data?.review_score_word}</h1>}
+              {!!data?.review_nr && <p className='text-[12px] font-light'>{data?.review_nr} reviews</p>}
              </div>
             {!!data?.review_score && (
                <div className='w-[24%] h-full'>
