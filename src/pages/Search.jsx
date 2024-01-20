@@ -151,11 +151,13 @@ const Search = () => {
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   const [price,setPrice] = useState (null);
   const [filterData, setFilterData] = useState();
-  console.log(filterData)
   const [newClick,setNewClick] = useState(false);
   const [pageNumber,setPageNumber] = useState(0);
   const [hover, setHover] = useState({name : null,condition : false});
   const [load_ing,setLoad_ing] = useState(false);
+  const [collectedIds, setCollectedIds] = useState([]);
+  const [checked,setChecked] = useState(false);
+
 
   const addHandler = () => {
         if (child < 10) {
@@ -263,6 +265,9 @@ const Search = () => {
       let orderBy = parsedData[0]?.order_by;
       let orderById = orderBy.id;
       let orderByName = orderBy.name;
+      let filters = parsedData[0]?.categories_filterIds;
+      console.log(filters);
+
       
       useEffect(()=> {
         const source = axios.CancelToken.source();
@@ -285,17 +290,22 @@ const Search = () => {
                   room_number: roomCount,
                   order_by: orderById,
                   locale:lang,
+                  // categories_filter_ids : combinedString,
                   include_adjacency: 'true',
                   page_number: pageNumber,
                 }
-                if (childCount > 0 || categoriesFilter.length > 0) {
+                if (childCount > 0 || collectedIds.length > 0) {
                   params.children_number = childCount;
                   params.children_ages = children_age;
                 
-                  const combinedString = categoriesFilter.join(',');
+                  const combinedString = collectedIds.join(',');
                   console.log('Combined String:', combinedString);
                 
                   params.categories_filter_ids = combinedString;
+                } 
+                if (childCount > 0) {
+                  params.children_number = childCount;
+                  params.children_ages = children_age;
                 } 
                 const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
                   params : params,
@@ -303,8 +313,6 @@ const Search = () => {
                 },
                 )
               const slicedFilter = filter.slice(2);
-              console.log(slicedFilter);
-              console.log('Filter')
               setPrice(filter[1]);
               setFilterData(slicedFilter)
             } 
@@ -331,11 +339,11 @@ const Search = () => {
           source.cancel();
           console.log('Aborteddddddd')
         };
-      },[langauge, currency, destid, destType,adultCount, checkinDate, checkoutDate,orderById,roomCount, pageNumber, childCount, children_age])
+      },[langauge, currency, destid, destType,adultCount, checkinDate, checkoutDate,orderById,collectedIds,roomCount, pageNumber, childCount, children_age])
 
       let{fetchData} = useFetch();
 
-      let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType, categoriesFilter,roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderById);
+      let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType,roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderById,collectedIds);
 
       const changeHandler = (value)=> {
       setCategoriesFilter((prevCategories) => {
@@ -345,23 +353,62 @@ const Search = () => {
     }
 
     const handleCheckboxChange = (index_one, index_two,id) => {
-      setFilterData(prevData => {
-        const newData = [...prevData];
-        const category = newData[index_one]?.categories?.[index_two];
-        if (category) {
-          category.selected = category.selected === 0 ? 1 : 0;
-        }
-    
-        return newData;
-      });
-      setCategoriesFilter((prev) => {
-        if (prev.includes(id)) {
-          return prev.filter((categoryId) => categoryId !== id);
-        } else {
-          return [...prev, id];
-        }
-      });
+      // setFilterData(prevData => {
+      //   const newData = [...prevData];
+      //   const category = newData[index_one]?.categories?.[index_two];
+      //   if (category) {
+      //     category.selected = category.selected === 0 ? 1 : 0;
+      //   }
+      //     return newData;
+      // });
+      if(!collectedIds.includes(id)) {
+        setCollectedIds(prevCollectedIds => [...prevCollectedIds, id]);
+      } else {
+        setCollectedIds(prevCollectedIds => prevCollectedIds.filter(item => item !== id));
+      }
+
+  
+
+      // setCategoriesFilter((prev) => {
+      //   if (prev.includes(id)) {
+      //     return prev.filter((categoryId) => categoryId !== id);
+      //   } else {
+      //     return [...prev, id];
+      //   }
+      // });
     };    
+
+    
+
+    useEffect (()=> {
+      if(collectedIds.length > 0) {
+        const collectedDatas = {
+          adults : adult,
+          checkin_date : formattedCheckinDate,
+          checkout_date : formattedCheckoutDate,
+          children : child,
+          children_ages : selectedOption,
+          children_array : arrayy,
+          city : location,
+          currencies : currency,
+          dest_id : destid,
+          dest_type : destType,
+          img : imageurl,
+          lat : lat,
+          lng : lng,
+          locale : langauge,
+          order_by : orderBy,
+          room_number : room,
+          categories_filterIds : collectedIds
+        }
+        const localStorageDatas =localStorage.getItem('history');
+        const newDatas = JSON.parse(localStorageDatas);
+        const filteredItems = newDatas.filter(bb => bb.city !== city);
+        filteredItems.unshift(collectedDatas)
+        console.log(filteredItems)
+        localStorage.setItem('history',JSON.stringify(filteredItems));
+      }
+    },[collectedIds])
 
       useEffect(()=>{
         setLocation(address)
@@ -393,7 +440,8 @@ const Search = () => {
         lng : lng,
         locale : langauge,
         order_by : obj,
-        room_number : room
+        room_number : room,
+        categories_filterIds :filters
       }
       const localStorageDatas =localStorage.getItem('history');
       const newDatas = JSON.parse(localStorageDatas);
@@ -614,17 +662,17 @@ const Search = () => {
                     <input
                       type="checkbox"
                       id={category.name}
-                      checked={category.selected === 1}
+                      checked={filters.some(item => item === category.id)}
                       onChange={() => handleCheckboxChange(i, index,category.id)}
                       className="mr-2 appearance-none bg-white w-4 h-4 rounded border border-gray-300 relative hover:border-blue-500 cursor-pointer"
                     />
-                    {category.selected === 1 ? 
+                    {filters.some(item => item === category.id) &&
                     <span className='absolute left-[2px]' onClick={()=>handleCheckboxChange(i, index,category.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500 cursor-pointer">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     </span>
-                    : null
+                    
                     }
                     <label htmlFor={category.name} className='text-[13px] hover:text-blue-500 cursor-pointer'>{category.name}</label>
                   </li>

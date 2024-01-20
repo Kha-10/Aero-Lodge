@@ -17,6 +17,7 @@ app.get('/datas', async (req, res) => {
     const lat = req.query.latitude;
     const currency = req.query.filter_by_currency;
     const locale = req.query.locale;
+    // const categories = req.query.categories_filter_ids;
     const order = req.query.order_by;
     const checkoutdate = req.query.checkout_date;
     const checkindate = req.query.checkin_date;
@@ -37,15 +38,19 @@ app.get('/datas', async (req, res) => {
       units: 'metric',
       include_adjacency: 'true',
       page_number: pageNumber,
+    //   categories_filter_ids : categories
     };
   
-    // // Combine conditions in a single block
+    // Combine conditions in a single block
     if (req.query.children_number && req.query.children_ages && req.query.categories_filter_ids) {
         params.children_number = req.query.children_number;
         params.children_ages = req.query.children_ages;
         params.categories_filter_ids = req.query.categories_filter_ids
       }
-    
+    // if (req.query.children_number && req.query.children_ages) {
+    //     params.children_number = req.query.children_number;
+    //     params.children_ages = req.query.children_ages;
+    //   }
   
     const options = {
       method: 'GET',
@@ -108,7 +113,7 @@ app.get('/datas', async (req, res) => {
     const checkoutdates = req.query.checkout_date;
     const checkindates = req.query.checkin_date;
     const adults = req.query.adults_number;
-    
+    // const categories = req.query.categories_filter_ids
     
     const params = {
         adults_number: adults,
@@ -121,6 +126,7 @@ app.get('/datas', async (req, res) => {
         room_number: rooms,
         order_by: orders,
         locale: locales,
+        // categories_filter_ids : categories,
         page_number: '0',
         include_adjacency: 'true'
       };
@@ -130,6 +136,10 @@ app.get('/datas', async (req, res) => {
         params.children_ages = req.query.children_ages;
         params.categories_filter_ids = req.query.categories_filter_ids
       }
+    //   if (req.query.children_number && req.query.children_ages) {
+    //     params.children_number = req.query.children_number;
+    //     params.children_ages = req.query.children_ages;
+    //   }
     
     const options = {
         method: 'GET',
