@@ -42,15 +42,13 @@ const useFetch = () => {
                     if (childCount > 0 || ids.length > 0 ) {
                       params.children_number = childCount;
                       params.children_ages = children_age;
-                      console.log(ids)
                       const combinedString = ids.join(',');
-                      console.log(combinedString)
                       params.categories_filter_ids = combinedString;
                     } 
-                    if (childCount > 0 ) {
-                        params.children_number = childCount;
-                        params.children_ages = children_age;
-                      } 
+                    // if (childCount > 0 ) {
+                    //     params.children_number = childCount;
+                    //     params.children_ages = children_age;
+                    //   } 
                     const {data:{result,count,sort} } = await axios.get ('http://localhost:8000/datas',{
                       params : params,
                       cancelToken: source.token,

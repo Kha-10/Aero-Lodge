@@ -266,7 +266,7 @@ const Search = () => {
       let orderById = orderBy.id;
       let orderByName = orderBy.name;
       let filters = parsedData[0]?.categories_filterIds;
-      console.log(filters);
+ 
 
       
       useEffect(()=> {
@@ -303,10 +303,10 @@ const Search = () => {
                 
                   params.categories_filter_ids = combinedString;
                 } 
-                if (childCount > 0) {
-                  params.children_number = childCount;
-                  params.children_ages = children_age;
-                } 
+                // if (childCount > 0) {
+                //   params.children_number = childCount;
+                //   params.children_ages = children_age;
+                // } 
                 const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
                   params : params,
                   cancelToken: source.token,
@@ -377,7 +377,7 @@ const Search = () => {
       //   }
       // });
     };    
-
+console.log(collectedIds)
     
 
     useEffect (()=> {
@@ -405,7 +405,7 @@ const Search = () => {
         const newDatas = JSON.parse(localStorageDatas);
         const filteredItems = newDatas.filter(bb => bb.city !== city);
         filteredItems.unshift(collectedDatas)
-        console.log(filteredItems)
+  
         localStorage.setItem('history',JSON.stringify(filteredItems));
       }
     },[collectedIds])
@@ -503,12 +503,10 @@ const Search = () => {
                 include_adjacency: 'true',
                 page_number: updatedPageNumber,
               }
-              if (childCount > 0 || categoriesFilter.length > 0 ) {
+              if (childCount > 0 || collectedIds.length > 0) {
                 params.children_number = childCount;
                 params.children_ages = children_age;
-                console.log(categoriesFilter)
-                const combinedString = categoriesFilter.join(',');
-                console.log(combinedString)
+                const combinedString = collectedIds.join(',');
                 params.categories_filter_ids = combinedString;
               } 
 
@@ -662,11 +660,11 @@ const Search = () => {
                     <input
                       type="checkbox"
                       id={category.name}
-                      checked={filters.some(item => item === category.id)}
+                      checked={!!filters && filters.some(item => item === category.id)}
                       onChange={() => handleCheckboxChange(i, index,category.id)}
                       className="mr-2 appearance-none bg-white w-4 h-4 rounded border border-gray-300 relative hover:border-blue-500 cursor-pointer"
                     />
-                    {filters.some(item => item === category.id) &&
+                    {!!filters && filters.some(item => item === category.id) &&
                     <span className='absolute left-[2px]' onClick={()=>handleCheckboxChange(i, index,category.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500 cursor-pointer">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />

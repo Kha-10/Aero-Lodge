@@ -80,14 +80,14 @@ const [orderBy,setOrderBy] = useState({
   name : "Popularity"
 });
 
-const[categoriesFilterIds,setCategoriesFilterIds] = useState ([
-  'class::2','class::4','free_cancellation::1'
-])
+// const[categoriesFilterIds,setCategoriesFilterIds] = useState ([
+//   'class::2','class::4','free_cancellation::1'
+// ])
 
     return(
         <AppContext.Provider value={{adult,setAdult,child,setChild,selectedOption,setSelectedOption,
         room,setRoom,options,array,setArray,address,setAddress,
-        formattedCheckinDate,formattedCheckoutDate,date,setDate,currency,setCurrency,updatedCurrency,person,latitude,setLatitude,longitude,setLongitude,location,setLocation,imageurl,setImageurl,history,setHistory,toggle,destType,setDestType,destid,setDestid,orderBy,setOrderBy,categoriesFilterIds,setCategoriesFilterIds}}>
+        formattedCheckinDate,formattedCheckoutDate,date,setDate,currency,setCurrency,updatedCurrency,person,latitude,setLatitude,longitude,setLongitude,location,setLocation,imageurl,setImageurl,history,setHistory,toggle,destType,setDestType,destid,setDestid,orderBy,setOrderBy}}>
             {children}
         </AppContext.Provider>
     )
