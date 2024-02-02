@@ -221,6 +221,7 @@ const Search = () => {
         setPopup(false)
        
       }
+      <div className=""></div>
       useEffect(() => {
         function handleClickOutside(event) {
           if (!newPopRef.current.contains(event.target)) {
@@ -237,7 +238,7 @@ const Search = () => {
         };
       }, [newPopup]);
       
-
+  
       useEffect(() => {
         function handleClickOutside(event) {
           if (!popRef.current.contains(event.target)) {
@@ -266,6 +267,7 @@ const Search = () => {
       let orderById = orderBy.id;
       let orderByName = orderBy.name;
       let filters = parsedData[0]?.categories_filterIds;
+      let image = parsedData[0]?.img;
  
 
       
@@ -393,7 +395,7 @@ console.log(collectedIds)
           currencies : currency,
           dest_id : destid,
           dest_type : destType,
-          img : imageurl,
+          img : image,
           lat : lat,
           lng : lng,
           locale : langauge,
@@ -435,7 +437,7 @@ console.log(collectedIds)
         currencies : currency,
         dest_id : destid,
         dest_type : destType,
-        img : imageurl,
+        img : image,
         lat : lat,
         lng : lng,
         locale : langauge,
@@ -545,10 +547,11 @@ console.log(collectedIds)
       setHover((prevHover) => ({ ...prevHover, name: index, condition: true }));
     };
 
+
     const handleMouseLeave = () => {
       setHover((prevHover) => ({ ...prevHover, condition: false }));
     }
-
+   
     useEffect(() => {
       document.body.style.overflow = loading ? 'hidden' : 'auto';
 
@@ -772,28 +775,34 @@ console.log(collectedIds)
               }
              </p>
              {data?.composite_price_breakdown?.strikethrough_amount && data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 && (
-              <p className='text-[12px] text-red-700 line-through'>
-                {data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded}
-              </p>
+              <div className='text-[12px] text-red-700 line-through space-x-1'>
+                <span>{data?.composite_price_breakdown?.strikethrough_amount?.currency}</span>    
+                <span>{Math.round(data?.composite_price_breakdown?.strikethrough_amount?.value)}</span>           
+              </div>
              )}
               <div className='flex items-center justify-end gap-1'>
               {(data?.composite_price_breakdown?.gross_amount || data?.composite_price_breakdown?.strikethrough_amount) && (
                 <p className='font-semibold '>
                   {data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 
                   ? 
-                  data?.composite_price_breakdown?.gross_amount?.amount_rounded
+                  `${data?.composite_price_breakdown?.gross_amount?.currency}
+                   ${Math.round(data?.composite_price_breakdown?.gross_amount?.value)}`
                   :
-                  data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded || data?.composite_price_breakdown?.gross_amount?.amount_rounded
+                  `${data?.composite_price_breakdown?.strikethrough_amount?.currency}
+                   ${Math.round(data?.composite_price_breakdown?.strikethrough_amount?.value)}`
+                  || 
+                  `${data?.composite_price_breakdown?.gross_amount?.currency}
+                   ${Math.round(data?.composite_price_breakdown?.gross_amount?.value)}`
                   }
                 </p>
               )}
-              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded &&
+              {data?.composite_price_breakdown?.strikethrough_amount_per_night?.value &&
                 data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 && (
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
-                    viewBox="0 0 24 24"
+                    viewBox="0 0 24 24" 
                     strokeWidth={1.5}
                     stroke="currentColor"
                     className="w-5 h-5"
@@ -809,11 +818,19 @@ console.log(collectedIds)
                   {!!hover.condition && hover.name === data.hotel_name && (
                   <div className='absolute bg-white w-[40%] top-52 -right-[120px] text-left flex-wrap p-2 rounded-md text-[12px] space-y-4 shadow-[1px_1px_10px_rgb(0,0,0,0.2)] z-50 flex flex-col'>
                     <div className='flex items-center justify-between text-sm'>
-                      <div>
-                        {data?.composite_price_breakdown?.strikethrough_amount_per_night?.amount_rounded} x {totalNight} {totalNight > 1 ? 'nights' : 'night'}
+                      <div className='space-x-1'>
+                        <span>
+                        {data?.composite_price_breakdown?.strikethrough_amount_per_night?.currency} 
+                        </span>
+                        <span>
+                        {data?.composite_price_breakdown?.strikethrough_amount_per_night?.value}
+                        </span>          
+                        <span>x</span>
+                        <span>{totalNight} {totalNight > 1 ? 'nights' : 'night'}</span>
                       </div>
-                      <div>
-                        {data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded}
+                      <div className='space-x-1'>
+                        {data?.composite_price_breakdown?.strikethrough_amount?.currency}
+                        {data?.composite_price_breakdown?.strikethrough_amount?.value}                  
                       </div>
                     </div>
                     {data?.composite_price_breakdown?.items.map((item) => (
@@ -821,7 +838,10 @@ console.log(collectedIds)
                         <div key={item.name} >
                          <div className='flex items-center justify-between text-sm'>
                           <div>{item.name}</div>
-                          <div>{item.item_amount.amount_rounded}</div>
+                          <div className='space-x-1'>
+                            <span>{item.item_amount.currency}</span>
+                            <span>{item.item_amount.value}</span>
+                          </div>
                          </div>
                           {item.details}
                         </div>
@@ -830,7 +850,10 @@ console.log(collectedIds)
                     <div className="border-t border-gray-300 my-4"></div>
                     <div className='flex items-center justify-between text-sm font-semibold'>
                       <div>Total</div>
-                      <div>{data?.composite_price_breakdown?.gross_amount?.amount_rounded}</div>
+                      <div className='space-x-1'>
+                        <span>{data?.composite_price_breakdown?.gross_amount?.currency}</span>
+                        <span>{data?.composite_price_breakdown?.gross_amount?.value}</span>
+                      </div>
                     </div>
                   </div>
                   )}
@@ -841,12 +864,12 @@ console.log(collectedIds)
             {!!data?.composite_price_breakdown?.strikethrough_amount_per_night && data?.composite_price_breakdown?.items.filter(item => item.name !== "Mobile-only price" && item.kind !== "charge").length > 0 &&  (
              <div className='w-full flex items-center justify-end'>
               <p className='text-[12px] px-2 py-1 text-white bg-red-700 rounded-md'>
-                {parseInt(100 - 100 * parseInt(String(data?.composite_price_breakdown?.gross_amount?.amount_rounded).replace(/[^\d.-]/g, '')) / parseInt   (String(data?.composite_price_breakdown?.strikethrough_amount?.amount_rounded).replace(/[^\d.-]/g, ''))) + '% off'}
+                {Math.round((100 - (data?.composite_price_breakdown?.gross_amount?.value / data?.composite_price_breakdown?.strikethrough_amount?.value) * 100)) + '% off'}
               </p>
              </div>
             )}
              {data?.composite_price_breakdown.excluded_amount.value > 0 
-             ? <p className='text-[12px]'>+ {data?.composite_price_breakdown.excluded_amount.amount_rounded} taxes and charges</p>  
+             ? <p className='text-[12px]'>+ {data?.composite_price_breakdown.excluded_amount.value} taxes and charges</p>  
              : <p className='text-[12px]'>Includes taxes and charges</p>      
             }
               <Link to={searchLink} className='w-full flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 hover:bg-blue-400 rounded' target='_blank'>
