@@ -788,9 +788,10 @@ console.log(collectedIds)
                   `${data?.composite_price_breakdown?.gross_amount?.currency}
                    ${Math.round(data?.composite_price_breakdown?.gross_amount?.value)}`
                   :
+                  data?.composite_price_breakdown?.strikethrough_amount ?
                   `${data?.composite_price_breakdown?.strikethrough_amount?.currency}
                    ${Math.round(data?.composite_price_breakdown?.strikethrough_amount?.value)}`
-                  || 
+                   :
                   `${data?.composite_price_breakdown?.gross_amount?.currency}
                    ${Math.round(data?.composite_price_breakdown?.gross_amount?.value)}`
                   }
@@ -869,7 +870,9 @@ console.log(collectedIds)
              </div>
             )}
              {data?.composite_price_breakdown.excluded_amount.value > 0 
-             ? <p className='text-[12px]'>+ {data?.composite_price_breakdown.excluded_amount.value} taxes and charges</p>  
+             ? 
+             <p className='text-[12px]'>+ ${Math.round(data?.composite_price_breakdown?.excluded_amount?.value)} taxes and charges</p>
+
              : <p className='text-[12px]'>Includes taxes and charges</p>      
             }
               <Link to={searchLink} className='w-full flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 hover:bg-blue-400 rounded' target='_blank'>
