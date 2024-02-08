@@ -19,8 +19,9 @@ import { Link } from 'react-router-dom';
 import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
-import { addChildrenHandler,removeChildrenHandler,addAdultsHandler,removeAdultsHandler} from '../utils/ChildFunctions';
-
+import { addChildrenHandler,removeChildrenHandler } from '../utils/ChildFunctions';
+import { addAdultsHandler,removeAdultsHandler } from '../utils/AdultFunctions';
+import { addRoom } from '../utils/roomFunctions';
 
 function Home() {
   const [popup, setPopup] = useState(false);
@@ -50,12 +51,14 @@ function Home() {
   const removeAdultsHandlerWrapper = () => {
     removeAdultsHandler(adult,setAdult)
   }
-
-  const addRoom = () => {
-    if (room < 30 ) {
-      setRoom(prevRoom => prevRoom+1);
-    }
+  const addRoomWrapper = () => {
+    addRoom(room,setRoom)
   }
+  // const addRoom = () => {
+  //   if (room < 30 ) {
+  //     setRoom(prevRoom => prevRoom+1);
+  //   }
+  // }
 
   const removeRoom = () => {
     if (room > 1 ) {
@@ -251,7 +254,7 @@ function Home() {
           <Child  removeHandler={removeChildrenHandlerrWrapper} child={child} addHandler={addChildrenHandlerWrapper} array={array} handleChange={handleChange}
           selectedOption={selectedOption} options={options}/>
           
-          <Room room={room} removeRoom={removeRoom} addRoom={addRoom}/>
+          <Room room={room} removeRoom={removeRoom} addRoom={addRoomWrapper}/>
           
           <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>{t('button.done')}</button>
         </div>}
