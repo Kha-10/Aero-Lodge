@@ -19,8 +19,7 @@ import { Link } from 'react-router-dom';
 import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
-import ChildAddFunction from '../utils/ChildAddFunction';
-import ChildRemoveFunction from '../utils/ChildRemoveFunction';
+import { addChildrenHandler,removeChildrenHandler,addAdultsHandler,removeAdultsHandler} from '../utils/ChildFunctions';
 
 
 function Home() {
@@ -35,27 +34,22 @@ function Home() {
   options,array,setArray,date,setDate,formattedCheckinDate,formattedCheckoutDate,
   currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
-  const addHandlerWrapper = () => {
-    ChildAddFunction(child, setChild, setArray);
+  const addChildrenHandlerWrapper = () => {
+    addChildrenHandler(child, setChild, setArray);
   };
   console.log(child)
 
-  const removeHandlerrWrapper  = () => {
-    ChildRemoveFunction(child,setChild,array,setArray,selectedOption,setSelectedOption)
+  const removeChildrenHandlerrWrapper  = () => {
+    removeChildrenHandler(child,setChild,array,setArray,selectedOption,setSelectedOption)
   }
 
-  const addNewHandler = () => {
-    if (adult < 30) {
-      setAdult( prevAdult => prevAdult +1);
-     
-    }
-  };
+  const addAdultsHandlerWrapper = () => {
+    addAdultsHandler(adult,setAdult)
+  }
 
-  const removeNewHandler = () => {
-    if (adult > 1) {
-      setAdult ( prevAdult => prevAdult - 1);
-    }
-  };
+  const removeAdultsHandlerWrapper = () => {
+    removeAdultsHandler(adult,setAdult)
+  }
 
   const addRoom = () => {
     if (room < 30 ) {
@@ -252,9 +246,9 @@ function Home() {
         {!!popup && 
         <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[72%] right-[13%] flex flex-col space-y-5 p-6 '>
           
-          <Adult removeNewHandler={removeNewHandler} adult={adult} addNewHandler={addNewHandler}/>
+          <Adult removeNewHandler={removeAdultsHandlerWrapper} adult={adult} addNewHandler={addAdultsHandlerWrapper}/>
           
-          <Child  removeHandler={removeHandlerrWrapper} child={child} addHandler={addHandlerWrapper} array={array} handleChange={handleChange}
+          <Child  removeHandler={removeChildrenHandlerrWrapper} child={child} addHandler={addChildrenHandlerWrapper} array={array} handleChange={handleChange}
           selectedOption={selectedOption} options={options}/>
           
           <Room room={room} removeRoom={removeRoom} addRoom={addRoom}/>
