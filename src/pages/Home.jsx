@@ -19,6 +19,8 @@ import { Link } from 'react-router-dom';
 import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
+import ChildAddFunction from '../utils/ChildAddFunction';
+import ChildRemoveFunction from '../utils/ChildRemoveFunction';
 
 
 function Home() {
@@ -28,33 +30,19 @@ function Home() {
   const [datas, setDatas] = useState([]);
   
   const {t} = useTranslation();
-
-
-  // const { locale } = useParams();
   
   const {adult,setAdult,child,setChild,selectedOption,setSelectedOption,room,setRoom,
   options,array,setArray,date,setDate,formattedCheckinDate,formattedCheckoutDate,
   currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
-  const addHandler = () => {
-    if (child < 10) {
-      setChild( prevChild => prevChild +1);
-      setArray(prevArray => [...prevArray, child]);
-    }
+  const addHandlerWrapper = () => {
+    ChildAddFunction(child, setChild, setArray);
   };
-  console.log(array)
- 
-  const removeHandler = () => {
-    if (child > 0) {
-      setChild ( prevChild => prevChild - 1);
-      const arr = array ;
-      arr.pop()
-      setArray (arr)
-      const aar = selectedOption;
-      aar.pop()
-      setSelectedOption(aar)
-    }
-  };
+  console.log(child)
+
+  const removeHandlerrWrapper  = () => {
+    ChildRemoveFunction(child,setChild,array,setArray,selectedOption,setSelectedOption)
+  }
 
   const addNewHandler = () => {
     if (adult < 30) {
@@ -111,6 +99,18 @@ function Home() {
        
       }
     }
+  //   for (let i = 1; i <= 50; i++) {
+  //     if (i % 3 === 0 && i % 5 === 0) {
+  //         console.log("Fizz Buzz");
+  //     } else if (i % 3 === 0) {
+  //         console.log("Fizz");
+  //     } else if (i % 5 === 0) {
+  //         console.log("Buzz");
+  //     } else {
+  //         console.log(i);
+  //     }
+  // }
+  
 
     if (popup) {
       document.addEventListener('click', handleClickOutside);
@@ -254,7 +254,7 @@ function Home() {
           
           <Adult removeNewHandler={removeNewHandler} adult={adult} addNewHandler={addNewHandler}/>
           
-          <Child  removeHandler={removeHandler} child={child} addHandler={addHandler} array={array} handleChange={handleChange}
+          <Child  removeHandler={removeHandlerrWrapper} child={child} addHandler={addHandlerWrapper} array={array} handleChange={handleChange}
           selectedOption={selectedOption} options={options}/>
           
           <Room room={room} removeRoom={removeRoom} addRoom={addRoom}/>

@@ -43,7 +43,7 @@ const Search = () => {
        arr = childrenQuantity.split(',');
     }else arr = []
 
-   const cur = params.get('currency')
+    const cur = params.get('currency');
     const destType = params.get('dest_type');
 
     const destid = params.get('dest_id');
@@ -221,7 +221,7 @@ const Search = () => {
         setPopup(false)
        
       }
-      <div className=""></div>
+
       useEffect(() => {
         function handleClickOutside(event) {
           if (!newPopRef.current.contains(event.target)) {
@@ -559,6 +559,8 @@ console.log(collectedIds)
         document.body.style.overflow = 'auto';
       };
     }, [loading]);
+    
+   
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>
