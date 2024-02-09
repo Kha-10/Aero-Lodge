@@ -21,7 +21,7 @@ import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
 import { addChildrenHandler,removeChildrenHandler } from '../utils/ChildFunctions';
 import { addAdultsHandler,removeAdultsHandler } from '../utils/AdultFunctions';
-import { addRoom } from '../utils/roomFunctions';
+import { addRoom, removeRoom } from '../utils/roomFunctions';
 
 function Home() {
   const [popup, setPopup] = useState(false);
@@ -54,16 +54,9 @@ function Home() {
   const addRoomWrapper = () => {
     addRoom(room,setRoom)
   }
-  // const addRoom = () => {
-  //   if (room < 30 ) {
-  //     setRoom(prevRoom => prevRoom+1);
-  //   }
-  // }
 
-  const removeRoom = () => {
-    if (room > 1 ) {
-      setRoom(prevRoom => prevRoom-1 );
-    }
+  const removeRoomWrapper = () => {
+    removeRoom(room,setRoom)
   }
   
  const handleChange = (event, index) => {
@@ -254,7 +247,7 @@ function Home() {
           <Child  removeHandler={removeChildrenHandlerrWrapper} child={child} addHandler={addChildrenHandlerWrapper} array={array} handleChange={handleChange}
           selectedOption={selectedOption} options={options}/>
           
-          <Room room={room} removeRoom={removeRoom} addRoom={addRoomWrapper}/>
+          <Room room={room} removeRoom={removeRoomWrapper} addRoom={addRoomWrapper}/>
           
           <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>{t('button.done')}</button>
         </div>}
