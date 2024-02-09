@@ -19,9 +19,9 @@ import { Link } from 'react-router-dom';
 import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
-import { addChildrenHandler,removeChildrenHandler } from '../utils/ChildFunctions';
 import { addRoom, removeRoom } from '../utils/roomFunctions';
 import adultHandlers from '../utils/adultHelpers';
+import childHandlers from '../utils/childHelpers';
 
 function Home() {
   const [popup, setPopup] = useState(false);
@@ -36,14 +36,7 @@ function Home() {
   currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
  const {addAdultsHandler,removeAdultsHandler} = adultHandlers();
-
-  const addChildrenHandlerWrapper = () => {
-    addChildrenHandler(child, setChild, setArray);
-  };
-
-  const removeChildrenHandlerrWrapper  = () => {
-    removeChildrenHandler(child,setChild,array,setArray,selectedOption,setSelectedOption)
-  }
+ const {addChildrenHandler,removeChildrenHandler} = childHandlers();
 
   const addRoomWrapper = () => {
     addRoom(room,setRoom)
@@ -217,7 +210,7 @@ function Home() {
           
           <Adult removeNewHandler={removeAdultsHandler} adult={adult} addNewHandler={addAdultsHandler}/>
           
-          <Child  removeHandler={removeChildrenHandlerrWrapper} child={child} addHandler={addChildrenHandlerWrapper} array={array} handleChange={handleChange}
+          <Child  removeHandler={removeChildrenHandler} child={child} addHandler={addChildrenHandler} array={array} handleChange={handleChange}
           selectedOption={selectedOption} options={options}/>
           
           <Room room={room} removeRoom={removeRoomWrapper} addRoom={addRoomWrapper}/>
@@ -306,8 +299,7 @@ function Home() {
                   localStorage.setItem('history', JSON.stringify(updatedHistory.recent))
                 }
                 else {
-                  const parsedData = JSON.parse(response);
-              
+                  const parsedData = JSON.parse(response);              
                   // Check if the city already exists in the recent history
                   const cityExists = parsedData.some(item => item.city === updatedHistory.recent[0].city);
                   console.log(cityExists)
