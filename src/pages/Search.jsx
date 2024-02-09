@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import Guests from '../components/ui/Guest/Guests';
 import Adult from '../components/ui/Adult/Adult';
 import Child from '../components/ui/Child/Child';
-import Room from '../components/Room';
+import Room from '../components/ui/Room/Room';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './App.css';

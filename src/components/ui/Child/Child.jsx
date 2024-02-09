@@ -22,7 +22,7 @@ const Child = ({removeHandler,child,addHandler,array,handleChange,selectedOption
                   <button onClick={removeHandler} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${child === 0? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}`}>
                     {plus}
                   </button>
-                  {(!!child || child === 0) && <h1>{child}</h1>}
+                  {(!!child || child === 0) && <h1 className=' w-[30px] h-[30px] flex items-center justify-center'>{child}</h1>}
                   <button onClick={addHandler} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${child === 10 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}`}>
                     {minus}
                   </button>

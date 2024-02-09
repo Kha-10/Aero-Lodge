@@ -6,7 +6,7 @@ import Daterange from '../components/Daterange';
 import Guests from '../components/ui/Guest/Guests';
 import Adult from '../components/ui/Adult/Adult';
 import Child from '../components/ui/Child/Child';
-import Room from '../components/Room';
+import Room from '../components/ui/Room/Room';
 import { useTranslation } from 'react-i18next';
 import useApp from '../hooks/useApp';
 import Advertise from '../components/Advertise';
@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom';
 import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
-import { addRoom, removeRoom } from '../utils/roomFunctions';
+import roomHandlers from '../utils/roomHelpers';
 import adultHandlers from '../utils/adultHelpers';
 import childHandlers from '../utils/childHelpers';
 
@@ -37,15 +37,8 @@ function Home() {
 
  const {addAdultsHandler,removeAdultsHandler} = adultHandlers();
  const {addChildrenHandler,removeChildrenHandler} = childHandlers();
+ const {addRoomHandler,removeRoomHandler} = roomHandlers();
 
-  const addRoomWrapper = () => {
-    addRoom(room,setRoom)
-  }
-
-  const removeRoomWrapper = () => {
-    removeRoom(room,setRoom)
-  }
-  
   const handleChange = (event, index) => {
     console.log("Index:", index);
     console.log(event.target.value)
@@ -213,7 +206,7 @@ function Home() {
           <Child  removeHandler={removeChildrenHandler} child={child} addHandler={addChildrenHandler} array={array} handleChange={handleChange}
           selectedOption={selectedOption} options={options}/>
           
-          <Room room={room} removeRoom={removeRoomWrapper} addRoom={addRoomWrapper}/>
+          <Room room={room} removeRoom={removeRoomHandler} addRoom={addRoomHandler}/>
           
           <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>{t('button.done')}</button>
         </div>}
