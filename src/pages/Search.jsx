@@ -22,6 +22,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import loadingTwo from '../loading2.json'
 import loadinggg from '../animation.json';
 import useFetch from '../hooks/useFetch';
+import AdultsComponent from '../utils/AdultsComponent';
 
 const Search = () => {
     const locations = useLocation();
@@ -48,9 +49,9 @@ const Search = () => {
 
     const destid = params.get('dest_id');
  
-    const {location,setLocation,toggle,latitude,longitude,imageurl,date} = useApp();
+    const {location,setLocation,toggle,latitude,longitude,imageurl,date,adult} = useApp();
 
-    const [adult, setAdult] = useState(adultCount);
+    // const [adult, setAdult] = useState(adultCount);
     const [child, setChild] = useState(childCount);
 
     const checkinDate = params.get('checkindate');
@@ -178,18 +179,7 @@ const Search = () => {
         }
       };
     
-      const addNewHandler = () => {
-        if (adult < 30) {
-          setAdult( prevAdultt => prevAdultt +1);
-         
-        }
-      };
-    
-      const removeNewHandler = () => {
-        if (adult > 1) {
-          setAdult ( prevAdult => prevAdult - 1);
-        }
-      };
+      const {addAdultsHandler,removeAdultsHandler} = AdultsComponent();
     
       const addRoom = () => {
         if (room < 30 ) {
@@ -211,8 +201,9 @@ const Search = () => {
       }
     
       const handlePopup = () => {
+        console.log('gg')
           setPopup(!popup)
-          setNewPopup (false)
+          // setNewPopup (false)
        
       }
     
@@ -457,11 +448,12 @@ console.log(collectedIds)
       setNewClick(!newClick)
     }
     
-    const popUp = useRef(null);
+    const poppUp = useRef(null);
 
     useEffect(()=>{
       function handleClickoutside (event) {
-        if(!popUp.current.contains(event.target)){
+        console.log(event)
+        if(!poppUp.current.contains(event.target)){
             setNewClick(false)
         }
       }
@@ -599,10 +591,11 @@ console.log(collectedIds)
           <Guests adult={adult} child={child} room={roomCount}/>
           </div>
             
-          {!!popup && 
-          <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[25%] right-[21%] flex flex-col space-y-5 p-6 '>
+          {popup && 
+          // <div className=' bg-black text-white w-[330px] z-50 absolute'>gggg</div>
+          <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute flex flex-col space-y-5 p-6 z-50'>
             
-            <Adult removeNewHandler={removeNewHandler} adult={adult} addNewHandler={addNewHandler}/>
+            <Adult removeNewHandler={removeAdultsHandler} adult={adult} addNewHandler={addAdultsHandler}/>
             
             <Child  removeHandler={removeHandler} child={child} addHandler={addHandler} array={arrayy} handleChange={handleChange}
             selectedOption={selectedOption} options={options}/>
@@ -610,7 +603,8 @@ console.log(collectedIds)
             <Room room={room} removeRoom={removeRoom} addRoom={addRoom}/>
             
             <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>Done</button>
-            </div>}
+            </div>
+            }
         </div>
         <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400'target='_blank'>    
           {t('button.search')}
@@ -622,7 +616,7 @@ console.log(collectedIds)
         {datas.length > 0 && 
           <div className='flex items-center gap-1'>
             <div className='font-light text-sm'>Sorted by</div>
-            <div ref={popUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
+            <div ref={poppUp} className='flex items-center gap-1 cursor-pointer' onClick={sortToggle}>
               <div className='text-sm font-semibold'>{orderByName}</div>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-3 h-3 stroke-black">
                 <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" clipRule="evenodd" />

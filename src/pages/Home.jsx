@@ -20,8 +20,8 @@ import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
 import { addChildrenHandler,removeChildrenHandler } from '../utils/ChildFunctions';
-import { addAdultsHandler,removeAdultsHandler } from '../utils/AdultFunctions';
 import { addRoom, removeRoom } from '../utils/roomFunctions';
+import AdultsComponent from '../utils/AdultsComponent';
 
 function Home() {
   const [popup, setPopup] = useState(false);
@@ -35,22 +35,16 @@ function Home() {
   options,array,setArray,date,setDate,formattedCheckinDate,formattedCheckoutDate,
   currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
+ const {addAdultsHandler,removeAdultsHandler} = AdultsComponent();
+
   const addChildrenHandlerWrapper = () => {
     addChildrenHandler(child, setChild, setArray);
   };
-  console.log(child)
 
   const removeChildrenHandlerrWrapper  = () => {
     removeChildrenHandler(child,setChild,array,setArray,selectedOption,setSelectedOption)
   }
 
-  const addAdultsHandlerWrapper = () => {
-    addAdultsHandler(adult,setAdult)
-  }
-
-  const removeAdultsHandlerWrapper = () => {
-    removeAdultsHandler(adult,setAdult)
-  }
   const addRoomWrapper = () => {
     addRoom(room,setRoom)
   }
@@ -59,7 +53,7 @@ function Home() {
     removeRoom(room,setRoom)
   }
   
- const handleChange = (event, index) => {
+  const handleChange = (event, index) => {
     console.log("Index:", index);
     console.log(event.target.value)
     const updatedSelectedOption = [...selectedOption];
@@ -70,38 +64,21 @@ function Home() {
 
   const handlePopup = () => {
       setPopup(!popup)
-      setNewPopup (false)
-   
+      // setNewPopup (false)
   }
 
   const handleNewPopup = () => {
     setNewPopup (!newPopup)
-    setPopup(false)
-   
+    // setPopup(false)
   }
   
-  console.log(popRef)
-   useEffect(() => {
+  useEffect(() => {
     function handleClickOutside(event) {
-      console.log(event)
       if (!popRef.current.contains(event.target)) {
         setPopup(false)
        
       }
     }
-  //   for (let i = 1; i <= 50; i++) {
-  //     if (i % 3 === 0 && i % 5 === 0) {
-  //         console.log("Fizz Buzz");
-  //     } else if (i % 3 === 0) {
-  //         console.log("Fizz");
-  //     } else if (i % 5 === 0) {
-  //         console.log("Buzz");
-  //     } else {
-  //         console.log(i);
-  //     }
-  // }
-  
-
     if (popup) {
       document.addEventListener('click', handleClickOutside);
     }
@@ -111,8 +88,6 @@ function Home() {
     };
     
   },[popup]);
-
-  
 
   useEffect(() => {
     let ref = collection(db,'stays');
@@ -152,13 +127,11 @@ function Home() {
     }
     else {
       const parsedData = JSON.parse(data);
-  
       // Check if the city already exists in the recent history
       const cityExists = parsedData.some(item => item.city === updatedHistory.recent[0].city);
       if(cityExists) {
         const filtered = parsedData.filter(gg => gg.city !== updatedHistory.recent[0].city);
         filtered.unshift(updatedHistory.recent[0])
-        // console.log(filtered)
         localStorage.setItem('history', JSON.stringify(filtered))
       }
       else {
@@ -242,7 +215,7 @@ function Home() {
         {!!popup && 
         <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[72%] right-[13%] flex flex-col space-y-5 p-6 '>
           
-          <Adult removeNewHandler={removeAdultsHandlerWrapper} adult={adult} addNewHandler={addAdultsHandlerWrapper}/>
+          <Adult removeNewHandler={removeAdultsHandler} adult={adult} addNewHandler={addAdultsHandler}/>
           
           <Child  removeHandler={removeChildrenHandlerrWrapper} child={child} addHandler={addChildrenHandlerWrapper} array={array} handleChange={handleChange}
           selectedOption={selectedOption} options={options}/>
