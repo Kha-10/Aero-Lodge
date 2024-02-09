@@ -1,6 +1,6 @@
 import useApp from "../hooks/useApp";
 
-const AdultsComponent = () => {
+const adultHandlers = () => {
   // Call the useApp hook inside the functional component
   const { adult, setAdult } = useApp();
 
@@ -26,4 +26,4 @@ const AdultsComponent = () => {
   };
 };
 
-export default AdultsComponent;
+export default adultHandlers;

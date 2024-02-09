@@ -3,9 +3,9 @@ import './App.css'
 import Herosection from '../components/Herosection';
 import Autocomplete from '../components/Autocomplete';
 import Daterange from '../components/Daterange';
-import Guests from '../components/Guests';
-import Adult from '../components/Adult';
-import Child from '../components/Child';
+import Guests from '../components/ui/Guest/Guests';
+import Adult from '../components/ui/Adult/Adult';
+import Child from '../components/ui/Child/Child';
 import Room from '../components/Room';
 import { useTranslation } from 'react-i18next';
 import useApp from '../hooks/useApp';
@@ -21,7 +21,7 @@ import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
 import { addChildrenHandler,removeChildrenHandler } from '../utils/ChildFunctions';
 import { addRoom, removeRoom } from '../utils/roomFunctions';
-import AdultsComponent from '../utils/AdultsComponent';
+import adultHandlers from '../utils/adultHelpers';
 
 function Home() {
   const [popup, setPopup] = useState(false);
@@ -35,7 +35,7 @@ function Home() {
   options,array,setArray,date,setDate,formattedCheckinDate,formattedCheckoutDate,
   currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
- const {addAdultsHandler,removeAdultsHandler} = AdultsComponent();
+ const {addAdultsHandler,removeAdultsHandler} = adultHandlers();
 
   const addChildrenHandlerWrapper = () => {
     addChildrenHandler(child, setChild, setArray);

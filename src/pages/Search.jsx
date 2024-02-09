@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
-import Guests from '../components/Guests';
-import Adult from '../components/Adult';
-import Child from '../components/Child';
+import Guests from '../components/ui/Guest/Guests';
+import Adult from '../components/ui/Adult/Adult';
+import Child from '../components/ui/Child/Child';
 import Room from '../components/Room';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import loadingTwo from '../loading2.json'
 import loadinggg from '../animation.json';
 import useFetch from '../hooks/useFetch';
-import AdultsComponent from '../utils/AdultsComponent';
+import AdultsComponent from '../utils/adultHelpers';
 
 const Search = () => {
     const locations = useLocation();
