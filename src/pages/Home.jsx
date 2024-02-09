@@ -19,9 +19,9 @@ import { Link } from 'react-router-dom';
 import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
-import roomHandlers from '../utils/roomHelpers';
-import adultHandlers from '../utils/adultHelpers';
-import childHandlers from '../utils/childHelpers';
+import roomHandlers from '../hooks/useRooms';
+import adultHandlers from '../hooks/useAdults';
+import childHandlers from '../hooks/useChildren';
 
 function Home() {
   const [popup, setPopup] = useState(false);
@@ -31,9 +31,9 @@ function Home() {
   
   const {t} = useTranslation();
   
-  const {adult,setAdult,child,setChild,selectedOption,setSelectedOption,room,setRoom,
-  options,array,setArray,date,setDate,formattedCheckinDate,formattedCheckoutDate,
-  currency,latitude,longitude,location,setLocation,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
+  const {adult,child,selectedOption,setSelectedOption,room,
+  options,array,formattedCheckinDate,formattedCheckoutDate,
+  currency,latitude,longitude,location,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
  const {addAdultsHandler,removeAdultsHandler} = adultHandlers();
  const {addChildrenHandler,removeChildrenHandler} = childHandlers();

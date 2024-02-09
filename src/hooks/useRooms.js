@@ -1,4 +1,4 @@
-import useApp from "../hooks/useApp";
+import useApp from "./useApp";
 
 const roomHandlers = () => {
 
@@ -23,15 +23,3 @@ const roomHandlers = () => {
 };
 
 export default roomHandlers;
-
-// export const addRoom = (room,setRoom) => {
-//     if (room < 30 ) {
-//       setRoom(prevRoom => prevRoom+1);
-//     }
-//   }
-
-// export const removeRoom = (room,setRoom) => {
-//     if (room > 1 ) {
-//       setRoom(prevRoom => prevRoom-1 );
-//     }
-//   }

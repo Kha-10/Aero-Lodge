@@ -1,4 +1,4 @@
-import useApp from "../hooks/useApp";
+import useApp from "./useApp";
 
 const adultHandlers = () => {
   // Call the useApp hook inside the functional component

@@ -22,7 +22,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import loadingTwo from '../loading2.json'
 import loadinggg from '../animation.json';
 import useFetch from '../hooks/useFetch';
-import AdultsComponent from '../utils/adultHelpers';
+import AdultsComponent from '../hooks/useAdults';
 
 const Search = () => {
     const locations = useLocation();
