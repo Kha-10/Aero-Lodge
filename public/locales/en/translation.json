@@ -9,15 +9,15 @@
         "startDate" : "{{date, DATE_SHORT}}",
         "endDate": "{{date, DATE_SHORT}}"
     },
-    "adult_one": "adult",
-    "adult_other": "adults",
-    "children_zero" : "children",
-    "children_one" : "child",
-    "children_other" : "children",
-    "room_one": "room",
-    "room_other": "rooms",
+    "adult_one": "Adult",
+    "adult_other": "Adults",
+    "children_zero" : "Children",
+    "children_one" : "Child",
+    "children_other" : "Children",
+    "room_one": "Room",
+    "room_other": "Rooms",
     "button" : {
-        "search" : "search",
+        "search" : "Search",
         "done" : "Done"
     },
    "age" :{

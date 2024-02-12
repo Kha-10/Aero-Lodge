@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef} from 'react';
 import './App.css'
 import Herosection from '../components/Herosection';
-import Autocomplete from '../components/Autocomplete';
-import Daterange from '../components/Daterange';
-import Guests from '../components/ui/Guest/Guests';
-import Adult from '../components/ui/Adult/Adult';
-import Child from '../components/ui/Child/Child';
-import Room from '../components/ui/Room/Room';
+import Autocomplete from '../components/shared/Autocomplete/Autocomplete';
+import Daterange from '../components/shared/DateRange/Daterange';
+import Guests from '../components/shared/Guest/Guests';
+import Adult from '../components/shared/Adult/Adult';
+import Child from '../components/shared/Child/Child';
+import Room from '../components/shared/Room/Room';
 import { useTranslation } from 'react-i18next';
 import useApp from '../hooks/useApp';
 import Advertise from '../components/Advertise';
@@ -31,9 +31,7 @@ function Home() {
   
   const {t} = useTranslation();
   
-  const {adult,child,selectedOption,setSelectedOption,room,
-  options,array,formattedCheckinDate,formattedCheckoutDate,
-  currency,latitude,longitude,location,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
+  const {adult,child,selectedOption,setSelectedOption,room,options,array,formattedCheckinDate,formattedCheckoutDate,currency,latitude,longitude,location,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
  const {addAdultsHandler,removeAdultsHandler} = adultHandlers();
  const {addChildrenHandler,removeChildrenHandler} = childHandlers();

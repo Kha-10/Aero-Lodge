@@ -2,26 +2,19 @@ import React from 'react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
-import useApp from '../hooks/useApp';
+import useApp from '../../../hooks/useApp';
 import { useLocation } from 'react-router-dom';
+import useDebounce from '../../../hooks/useDebounce';
 
 const Autocomplete = () => {
   const [suggestions,setSuggestions] = useState(null);
   const popRef = useRef(null);
   const loc = useLocation();
-    const path = loc.pathname;
-
-  
+  const path = loc.pathname;
 
   const {setLatitude,setLongitude,setLocation,location,setImageurl,history,toggle,setDestType,setDestid} = useApp();
-    
-    // useEffect(()=>{
-    //   setLocation(gg)
-    //   toggle.current=true;
-    // },[])
-    
-    // console.log(location)
 
+  const debouncedValue = useDebounce(location);
 
   const handleOnChange = (e) => {
         setLocation(e.target.value);
@@ -30,7 +23,7 @@ const Autocomplete = () => {
   const langauge = localStorage.getItem('i18nextLng');
 
    useEffect(() => {
-        if(location.length > 2 && !toggle.current) {
+        if(debouncedValue.length > 2 && !toggle.current) {
             const getLocation = async () => {
               let lang = ''; 
                 if(langauge ==='en') {
@@ -41,7 +34,7 @@ const Autocomplete = () => {
                 try{
                     const {data} = await axios.get('http://localhost:8000/locations',{
                         params: {
-                            name: location,
+                            name: debouncedValue,
                             locale: lang
                           }
                     });
@@ -62,15 +55,15 @@ const Autocomplete = () => {
             }
               getLocation();
         }
-    },[location])
+    },[debouncedValue])
 
     useEffect(()=>{
-        if(location.length <= 2 ) {
+        if(debouncedValue<= 2 ) {
             setSuggestions(null)
             toggle.current=false
            
         }
-    },[location])
+    },[debouncedValue])
 
     useEffect(() => {
         function handleClickOutside(event) {

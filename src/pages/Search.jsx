@@ -1,20 +1,20 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
-import Guests from '../components/ui/Guest/Guests';
-import Adult from '../components/ui/Adult/Adult';
-import Child from '../components/ui/Child/Child';
-import Room from '../components/ui/Room/Room';
+import Guests from '../components/shared/Guest/Guests';
+import Adult from '../components/shared/Adult/Adult';
+import Child from '../components/shared/Child/Child';
+import Room from '../components/shared/Room/Room';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './App.css';
-import Autocomplete from '../components/Autocomplete';
+import Autocomplete from '../components/shared/Autocomplete/Autocomplete';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
 import { DateRange } from 'react-date-range';
 import axios from 'axios';
 import useApp from '../hooks/useApp';
-import Daterange from '../components/Daterange';
+import Daterange from '../components/shared/DateRange/Daterange';
 import './App.css';
 import pool from '../assets/pool.png';
 import car from '../assets/car.png'
@@ -201,35 +201,33 @@ const Search = () => {
       }
     
       const handlePopup = () => {
-        console.log('gg')
           setPopup(!popup)
           // setNewPopup (false)
        
       }
     
       const handleNewPopup = () => {
+        console.log('gg')
         setNewPopup (!newPopup)
-        setPopup(false)
-       
+        // setPopup(false)       
       }
 
-      useEffect(() => {
-        function handleClickOutside(event) {
-          if (!newPopRef.current.contains(event.target)) {
-            setNewPopup(false);
-          }
-        }
+      // useEffect(() => {
+      //   function handleClickOutside(event) {
+      //     if (!newPopRef.current.contains(event.target)) {
+      //       setNewPopup(false);
+      //     }
+      //   }
     
-        if (newPopup) {
-          document.addEventListener('click', handleClickOutside);
-        }
+      //   if (newPopup) {
+      //     document.addEventListener('click', handleClickOutside);
+      //   }
     
-        return () => {
-          document.removeEventListener('click', handleClickOutside);
-        };
-      }, [newPopup]);
-      
-  
+      //   return () => {
+      //     document.removeEventListener('click', handleClickOutside);
+      //   };
+      // }, [newPopup]);
+        
       useEffect(() => {
         function handleClickOutside(event) {
           if (!popRef.current.contains(event.target)) {
@@ -582,18 +580,17 @@ console.log(collectedIds)
       )}
       {datas.length > 0 && <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
+
         <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
           newPopup={newPopup}  />
 
-            
         <div ref={popRef}  className='group cursor-pointer'>
           <div onClick={handlePopup} className='relative w-[300px] bg-white h-[60px] p-3  border border-gray-400 flex justify-between items-center rounded-lg group-hover:border-blue-500' >
           <Guests adult={adult} child={child} room={roomCount}/>
           </div>
             
           {popup && 
-          // <div className=' bg-black text-white w-[330px] z-50 absolute'>gggg</div>
-          <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute flex flex-col space-y-5 p-6 z-50'>
+          <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute flex flex-col space-y-5 p-6 z-50 top-24'>
             
             <Adult removeNewHandler={removeAdultsHandler} adult={adult} addNewHandler={addAdultsHandler}/>
             

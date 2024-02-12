@@ -80,10 +80,6 @@ const [orderBy,setOrderBy] = useState({
   name : "Popularity"
 });
 
-// const[categoriesFilterIds,setCategoriesFilterIds] = useState ([
-//   'class::2','class::4','free_cancellation::1'
-// ])
-
     return(
         <AppContext.Provider value={{adult,setAdult,child,setChild,selectedOption,setSelectedOption,
         room,setRoom,options,array,setArray,address,setAddress,

@@ -9,15 +9,15 @@
         "startDate" : "{{date, DATE_SHORT}}",
         "endDate": "{{date, DATE_SHORT}}"
     },
-    "adult_one": "adulta",
-    "adult_other": "adultas",
-    "children_zero" : "niñas",
-    "children_one" : "niña",
-    "children_other" : "niñas",
-    "room_one": "habitación",
-    "room_other": "habitaciones",
+    "adult_one": "Adulta",
+    "adult_other": "Adultas",
+    "children_zero" : "Niñas",
+    "children_one" : "Niña",
+    "children_other" : "Niñas",
+    "room_one": "Habitación",
+    "room_other": "Habitaciones",
     "button" : {
-        "search" : "buscar",
+        "search" : "Buscar",
         "done" : "Listo"
     },
     "age" :{
