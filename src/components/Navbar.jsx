@@ -10,6 +10,7 @@ import useApp from '../hooks/useApp';
 import Modal from './modal/Modal';
 import logo from '../assets/logo.png'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useBodyOverflow from '../hooks/useBodyOverflow';
 
 
 const Navbar = () => {
@@ -120,31 +121,7 @@ const Navbar = () => {
     const changeLanguagePopup = () => {
         setLanguagePopup(!languagePopup)
     }
-
-    useEffect(()=>{
-        const handleClick =(event) => {
-            if(!popupRef.current.contains(event.target)) {
-                setLanguagePopup(false);
-            }
-        }
-        if(languagePopup) {
-            document.addEventListener('click',handleClick);
-        }
-        return ()=> document.removeEventListener('click',handleClick);
-    },[languagePopup])
-
-    useEffect(()=>{
-        const handleClick =(event) => {
-            if(!popupCurrRef.current.contains(event.target)) {
-                setCurrencyPopup(false);
-            }
-        }
-        if(currencyPopup) {
-            document.addEventListener('click',handleClick);
-        }
-        return ()=> document.removeEventListener('click',handleClick);
-    },[currencyPopup])
-
+    useBodyOverflow(languagePopup);
 
   return (
     <>

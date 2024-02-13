@@ -105,7 +105,7 @@ const Autocomplete = () => {
     
   return (
     <div>
-        <input type="text" placeholder='Enter your destination' className='w-[300px] h-[60px] py-3 px-11 border bg-white border-gray-400  rounded-md placeholder-black hover:border-blue-500' value={location}
+        <input type="text" placeholder='Enter your destination' className='w-[300px] h-[60px] py-3 px-11 border bg-white border-gray-400 text-sm rounded-md placeholder-black hover:border-blue-500' value={location}
         onChange={handleOnChange} />
         <div className={` ${path === '/search' ? 'absolute left-30 top-[48px] pl-3 pointer-events-none' : 'absolute left-30 top-[77px] pl-3 pointer-events-none'}`}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 ">

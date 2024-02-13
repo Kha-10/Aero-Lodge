@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 const useDebounce = (location) => {
     const [debouncedValue,setDebouncedValue] = useState (location);
-    const delay = 1000;
+    const delay = 500;
 
     useEffect(()=>{
         const timeOut = setTimeout(() => {

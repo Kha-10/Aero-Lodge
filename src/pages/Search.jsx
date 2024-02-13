@@ -8,7 +8,7 @@ import Room from '../components/shared/Room/Room';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './App.css';
-import Autocomplete from '../components/shared/Autocomplete/Autocomplete';
+import Autocomplete from '../components/shared/Autocompelete/Autocomplete';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
 import { DateRange } from 'react-date-range';
