@@ -10,7 +10,7 @@ import useApp from '../../../hooks/useApp';
 import { useLocation } from 'react-router-dom';
 
 const Daterange = ({handleNewPopup,setNewPopup,newPopup}) => {
-    console.log(newPopup)
+
     const newPopRef = useRef(null);
     const {t} = useTranslation();
     const {date,setDate} = useApp();
@@ -76,12 +76,12 @@ const Daterange = ({handleNewPopup,setNewPopup,newPopup}) => {
   )
 }
 
-Daterange.propTypes = {
-    handleNewPopup: PropTypes.func.isRequired,
-    setNewPopup: PropTypes.func.isRequired,
-    newPopup: PropTypes.bool.isRequired,
-    date: PropTypes.array.isRequired,
-    setDate: PropTypes.func.isRequired,
-  };
+// Daterange.propTypes = {
+//     handleNewPopup: PropTypes.func.isRequired,
+//     setNewPopup: PropTypes.func.isRequired,
+//     newPopup: PropTypes.bool.isRequired,
+//     date: PropTypes.array.isRequired,
+//     setDate: PropTypes.func.isRequired,
+//   };
 
 export default Daterange;

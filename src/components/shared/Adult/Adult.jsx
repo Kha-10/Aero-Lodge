@@ -1,8 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import useApp from '../../../hooks/useApp';
+import adultHandlers from '../../../hooks/useAdults';
 
-const Adult = ({removeNewHandler,adult,addNewHandler}) => {
+const Adult = () => {
+
+  const {adult} = useApp();
+  const {addAdultsHandler,removeAdultsHandler} = adultHandlers();
 
   const {t} = useTranslation();
   const plus = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -19,11 +24,11 @@ const Adult = ({removeNewHandler,adult,addNewHandler}) => {
             <div className='flex items-center justify-between '>
               <div className="cursor-default">{t('adult',{count : adult})}</div>
               <div className='flex items-center justify-around border border-b w-[125px] p-2 border-gray-400 rounded-md'>
-                <button onClick={removeNewHandler} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${adult === 1? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full "}`}>
+                <button onClick={removeAdultsHandler} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${adult === 1? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full "}`}>
                   {plus}
                 </button>
                 {!!adult && <h1 className=' w-[30px] h-[30px] flex items-center justify-center'>{adult}</h1>}
-                <button onClick={addNewHandler} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${adult === 30 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}`}>
+                <button onClick={addAdultsHandler} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${adult === 30 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}`}>
                   {minus}
                 </button>
               </div>
@@ -33,10 +38,10 @@ const Adult = ({removeNewHandler,adult,addNewHandler}) => {
   )
 }
 
-Adult.propTypes ={
-  removeNewHandler : PropTypes.func.isRequired,
-  adult : PropTypes.number.isRequired,
-  addNewHandler :  PropTypes.func.isRequired
-}
+// Adult.propTypes ={
+//   removeNewHandler : PropTypes.func.isRequired,
+//   adult : PropTypes.number.isRequired,
+//   addNewHandler :  PropTypes.func.isRequired
+// }
 
 export default Adult

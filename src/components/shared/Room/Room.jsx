@@ -1,9 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import roomHandlers from '../../../hooks/useRooms';
+import useApp from '../../../hooks/useApp';
 
-const Room = ({removeRoom,room,addRoom}) => {
-  
+const Room = () => {
+  const {room} = useApp();
+  const {addRoomHandler,removeRoomHandler} = roomHandlers();
+
   const {t} = useTranslation();
 
   const plus = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -20,11 +24,11 @@ const Room = ({removeRoom,room,addRoom}) => {
             <div className='flex items-center justify-between'>
               <div className="cursor-default">{t('room',{count : room})}</div>
               <div className='flex items-center justify-around border border-b w-[125px] p-2 border-gray-400 rounded-md'>
-                <button onClick={removeRoom} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${room === 1? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}`}>
+                <button onClick={removeRoomHandler} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${room === 1? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}`}>
                   {plus}
                 </button>
                 {(!!room || room === 0) && <h1 className='w-[30px] h-[30px] flex items-center justify-center'>{room}</h1>}
-                <button onClick={addRoom} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${room === 30 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}`}>
+                <button onClick={addRoomHandler} className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${room === 30 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:bg-blue-100 rounded-full"}`}>
                   {minus}
                 </button>
               </div>

@@ -211,22 +211,6 @@ const Search = () => {
         setNewPopup (!newPopup)
         // setPopup(false)       
       }
-
-      // useEffect(() => {
-      //   function handleClickOutside(event) {
-      //     if (!newPopRef.current.contains(event.target)) {
-      //       setNewPopup(false);
-      //     }
-      //   }
-    
-      //   if (newPopup) {
-      //     document.addEventListener('click', handleClickOutside);
-      //   }
-    
-      //   return () => {
-      //     document.removeEventListener('click', handleClickOutside);
-      //   };
-      // }, [newPopup]);
         
       useEffect(() => {
         function handleClickOutside(event) {

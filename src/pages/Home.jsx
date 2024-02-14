@@ -20,8 +20,6 @@ import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
 import roomHandlers from '../hooks/useRooms';
-import adultHandlers from '../hooks/useAdults';
-import childHandlers from '../hooks/useChildren';
 
 function Home() {
   const [popup, setPopup] = useState(false);
@@ -31,21 +29,10 @@ function Home() {
   
   const {t} = useTranslation();
   
-  const {adult,child,selectedOption,setSelectedOption,room,options,array,formattedCheckinDate,formattedCheckoutDate,currency,latitude,longitude,location,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
+  const {adult,child,selectedOption,room,array,formattedCheckinDate,formattedCheckoutDate,currency,latitude,longitude,location,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
- const {addAdultsHandler,removeAdultsHandler} = adultHandlers();
- const {addChildrenHandler,removeChildrenHandler} = childHandlers();
  const {addRoomHandler,removeRoomHandler} = roomHandlers();
-
-  const handleChange = (event, index) => {
-    console.log("Index:", index);
-    console.log(event.target.value)
-    const updatedSelectedOption = [...selectedOption];
-    updatedSelectedOption[index] = event.target.value;
-    console.log(updatedSelectedOption[index]);
-    setSelectedOption(updatedSelectedOption);
-  }
-
+ 
   const handlePopup = () => {
       setPopup(!popup)
       // setNewPopup (false)
@@ -200,10 +187,9 @@ function Home() {
         {!!popup && 
         <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[72%] right-[13%] flex flex-col space-y-5 p-6 '>
           
-          <Adult removeNewHandler={removeAdultsHandler} adult={adult} addNewHandler={addAdultsHandler}/>
+          <Adult/>
           
-          <Child  removeHandler={removeChildrenHandler} child={child} addHandler={addChildrenHandler} array={array} handleChange={handleChange}
-          selectedOption={selectedOption} options={options}/>
+          <Child/>
           
           <Room room={room} removeRoom={removeRoomHandler} addRoom={addRoomHandler}/>
           
