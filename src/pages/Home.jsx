@@ -31,7 +31,7 @@ function Home() {
   
   const {adult,child,selectedOption,room,array,formattedCheckinDate,formattedCheckoutDate,currency,latitude,longitude,location,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
 
- const {addRoomHandler,removeRoomHandler} = roomHandlers();
+//  const {addRoomHandler,removeRoomHandler} = roomHandlers();
  
   const handlePopup = () => {
       setPopup(!popup)
@@ -191,7 +191,7 @@ function Home() {
           
           <Child/>
           
-          <Room room={room} removeRoom={removeRoomHandler} addRoom={addRoomHandler}/>
+          <Room/>
           
           <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>{t('button.done')}</button>
         </div>}
