@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next';
+import useApp from '../../../hooks/useApp';
 
-const Guests = ({adult,child,room}) => {
+const Guests = () => {
 
- 
+  const {adult,child,room} = useApp();
   const {t} = useTranslation();
 
   return (

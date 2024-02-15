@@ -3,10 +3,7 @@ import './App.css'
 import Herosection from '../components/Herosection';
 import Autocomplete from '../components/shared/Autocompelete/Autocomplete';
 import Daterange from '../components/shared/DateRange/Daterange';
-import Guests from '../components/shared/Guest/Guests';
-import Adult from '../components/shared/Adult/Adult';
-import Child from '../components/shared/Child/Child';
-import Room from '../components/shared/Room/Room';
+import GuestQuantity from '../components/shared/GuestQuantity/GuestQuantity';
 import { useTranslation } from 'react-i18next';
 import useApp from '../hooks/useApp';
 import Advertise from '../components/Advertise';
@@ -19,46 +16,13 @@ import { Link } from 'react-router-dom';
 import Recent from '../components/Recent';
 import christmasoffer from '../assets/christmasoffer.jpg';
 import dailyspecials from '../assets/dailyspecials.jpg';
-import roomHandlers from '../hooks/useRooms';
 
 function Home() {
-  const [popup, setPopup] = useState(false);
-  const [newPopup , setNewPopup] = useState (false);
-  const popRef = useRef(null);
   const [datas, setDatas] = useState([]);
   
   const {t} = useTranslation();
   
   const {adult,child,selectedOption,room,array,formattedCheckinDate,formattedCheckoutDate,currency,latitude,longitude,location,imageurl,history,setHistory,toggle,destType,destid,orderBy} = useApp();
-
-//  const {addRoomHandler,removeRoomHandler} = roomHandlers();
- 
-  const handlePopup = () => {
-      setPopup(!popup)
-      // setNewPopup (false)
-  }
-
-  const handleNewPopup = () => {
-    setNewPopup (!newPopup)
-    // setPopup(false)
-  }
-  
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (!popRef.current.contains(event.target)) {
-        setPopup(false)
-       
-      }
-    }
-    if (popup) {
-      document.addEventListener('click', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-    
-  },[popup]);
 
   useEffect(() => {
     let ref = collection(db,'stays');
@@ -109,8 +73,7 @@ function Home() {
         parsedData.unshift(updatedHistory.recent[0]);
         localStorage.setItem('history', JSON.stringify(parsedData));
       }
-    }
-    
+    }    
   };
 
   useEffect(() => {
@@ -135,7 +98,6 @@ function Home() {
         </button>
       </div>
     )
-
   }
 
   const PrevArrow = (props) => {
@@ -149,7 +111,6 @@ function Home() {
         </button>
       </div>
     )
-
   }
 
   const settings = {
@@ -162,40 +123,21 @@ function Home() {
     nextArrow : <NextArrow/>
   };
   
-
   const searchLink = `/search?city=${location || history.recent[0]?.city}&room=${parseInt(room)}&latitude=${latitude || history.recent[0]?.lat}&longitude=${longitude || history.recent[0]?.lng}&currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${parseInt(adult)}&children=${parseInt(child)}${child > 0 ? `&children_quantity=${array}&children_ages=${selectedOption}`:''}&dest_id=${destid || history.recent[0]?.dest_id}&dest_type=${destType||  history.recent[0]?.dest_type}&order_by=${orderBy || history.recent[0]?.order_by}`;
 
   const offerlink = `/offers?city=${datas[0]?.title}&room_number=${room}&latitude=${datas[0]?.coordinates._lat}&longitude=${datas[0]?.coordinates._long}&filter_by_currency=${currency}&locale=${localStorage.getItem('i18nextLng')}&checkout_date=${formattedCheckoutDate}&adults=${adult}&checkin_date=${formattedCheckinDate}&children_number=${child}`;
-
-  
+ 
   return (
     <div className='relative w-full h-screen'>
       <Herosection/>
       <div  className='absolute bg-white flex justify-center items-center gap-5 inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] border border-b border-gray-300 rounded-2xl top-[300px] z-50'>
         
-        <Autocomplete />
+        <Autocomplete/>
         
-        <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
-        newPopup={newPopup}  />
+        <Daterange/>
 
-
-        <div ref={popRef}  className='group cursor-pointer'>
-          <div onClick={handlePopup} className='relative w-[300px] h-[60px] bg-white p-3 border border-gray-400 flex items-center rounded-lg group-hover:border-blue-500' >
-            <Guests adult={adult} child={child} room={room}/>
-          </div>
+        <GuestQuantity/>
         
-        {!!popup && 
-        <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[72%] right-[13%] flex flex-col space-y-5 p-6 '>
-          
-          <Adult/>
-          
-          <Child/>
-          
-          <Room/>
-          
-          <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>{t('button.done')}</button>
-        </div>}
-        </div>
         <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400'  onClick={()=>{recentHandler();
         toggle.current=true}}>{t('button.search')
         }
@@ -208,7 +150,6 @@ function Home() {
        {/* sign in ad */}
        <Advertise/>
 
-       
       <div className='px-10 w-full mt-[50px] mx-auto space-y-4 '>
         <div className='text-2xl font-semibold'>Offers and Rewards</div>
         <div className='flex items-center gap-[40px]'>

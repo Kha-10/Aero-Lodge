@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 const useBodyOverflow = (showPopup) => {
 
     useEffect(() => {
-        console.log('MAL')
         document.body.style.overflow = showPopup ? 'hidden' : 'auto';
     
         return () => {

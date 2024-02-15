@@ -1,5 +1,5 @@
 import React from 'react'
-import {useRef,useEffect } from 'react';
+import {useRef,useEffect,useState} from 'react';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
 import { DateRange } from 'react-date-range';
@@ -9,13 +9,19 @@ import { useTranslation } from 'react-i18next';
 import useApp from '../../../hooks/useApp';
 import { useLocation } from 'react-router-dom';
 
-const Daterange = ({handleNewPopup,setNewPopup,newPopup}) => {
+const Daterange = () => {
 
     const newPopRef = useRef(null);
     const {t} = useTranslation();
     const {date,setDate} = useApp();
+    const [newPopup , setNewPopup] = useState (false);
     const location = useLocation();
-    const path = location.pathname    
+    const path = location.pathname;
+    
+    const handleNewPopup = () => {
+      setNewPopup (!newPopup)
+      // setPopup(false)
+    }
 
     useEffect(() => {
         function handleClickOutside(event) {

@@ -122,6 +122,7 @@ const Navbar = () => {
         setLanguagePopup(!languagePopup)
     }
     useBodyOverflow(languagePopup);
+    useBodyOverflow(currencyPopup);
 
   return (
     <>
