@@ -5,10 +5,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useTranslation } from 'react-i18next';
 import './Style.css'
+import useApp from '../hooks/useApp';
 
-const Recent = ({recentHistory}) => {
-    const recent = recentHistory;
-    console.log(recent)
+const Recent = () => {
+    const {history} = useApp();
+    const recent = history.recent;
     const {t} = useTranslation();
     const NextArrow = (props) => {
         const { className, onClick } = props;

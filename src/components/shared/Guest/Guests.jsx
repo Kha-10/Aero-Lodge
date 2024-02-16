@@ -33,9 +33,9 @@ const Guests = () => {
   )
 }
 
-Guests.propTypes={
-  adult : PropTypes.number.isRequired,
-  child : PropTypes.number.isRequired,
-  room : PropTypes.number.isRequired
-}
+// Guests.propTypes={
+//   adult : PropTypes.number.isRequired,
+//   child : PropTypes.number.isRequired,
+//   room : PropTypes.number.isRequired
+// }
 export default Guests
