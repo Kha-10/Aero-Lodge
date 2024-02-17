@@ -38,7 +38,7 @@ const GuestQuantity = () => {
           </div>
         
         {!!popup && 
-        <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[72%] right-[13%] flex flex-col space-y-5 p-6 '>
+        <div className='text-sm bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[72%] right-[12%] flex flex-col space-y-5 p-6 '>
           
           <Adult/>
           

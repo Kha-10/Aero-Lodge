@@ -31,6 +31,7 @@ function Home() {
   return (
     <div className='relative w-full h-screen'>
       <Herosection/>
+
       <div  className='absolute bg-white flex justify-center items-center gap-5 inset-x-0 max-w-6xl mx-auto px-[2%] py-[4%] border border-b border-gray-300 rounded-2xl top-[300px] z-50'>
         
         <Autocomplete/>
@@ -40,6 +41,7 @@ function Home() {
         <GuestQuantity/>
 
         <SearchButton/>
+
       </div>
 
       {/* recent searches */}

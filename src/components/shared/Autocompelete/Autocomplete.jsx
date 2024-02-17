@@ -102,25 +102,24 @@ const Autocomplete = () => {
       }
     }, [history]);
 
-    
   return (
-    <div>
-        <input type="text" placeholder='Enter your destination' className='w-[300px] h-[60px] py-3 px-11 border bg-white border-gray-400 text-sm rounded-md placeholder-black hover:border-blue-500' value={location}
-        onChange={handleOnChange} />
-        <div className={` ${path === '/search' ? 'absolute left-30 top-[48px] pl-3 pointer-events-none' : 'absolute left-30 top-[77px] pl-3 pointer-events-none'}`}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 ">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-            </svg>
+    <div className='w-[300px] h-[60px] flex items-center p-3 border bg-white border-gray-400 text-sm rounded-md placeholder-black hover:border-blue-500'>
+        <div className='w-[9%]'>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+          </svg>
         </div>
-        {!!location && <button className={`${path === '/search'?'absolute left-[410px] top-[51px] pl-3' : 'absolute right-[840px] top-[80px] pl-3' }`} onClick={removeHandler}>
+        <input type="text" placeholder='Enter your destination' value={location} className='w-full ml-2 focus:outline-none'
+        onChange={handleOnChange} />
+        {!!location && <button onClick={removeHandler} className='w-[8%] flex items-center justify-center'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>}
         {!!suggestions && location.length !== 0 && suggestions.length > 0 && (
             <div className='relative group' >
-                <div className='bg-white shadow-[1px_1px_10px_rgb(0,0,0,0.1)] w-[300px] rounded-lg absolute top-[16%] mt-2 group-hover:border-blue-500 z-50'>
+                <div className='bg-white shadow-[1px_1px_10px_rgb(0,0,0,0.1)] w-[300px] rounded-lg absolute top-[30px] -left-[290px] mt-2 group-hover:border-blue-500 z-50'>
                 <div className='space-y-2'ref={popRef}>
                     {suggestions.map((suggestion, i) => (
                     <div key={i} className='hover:bg-stone-100 cursor-pointer p-2 space-y-1 first:rounded-t-lg last:rounded-b-lg' onClick={() => handler (suggestion.city_name, suggestion.region,suggestion.latitude,suggestion.longitude,suggestion.image_url,suggestion.dest_id,suggestion.dest_type)} >

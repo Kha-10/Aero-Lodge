@@ -16,6 +16,8 @@
     "children_other" : "Niñas",
     "room_one": "Habitación",
     "room_other": "Habitaciones",
+    "guest_one" : "Huésped",
+    "guest_other" : "Huéspedes",
     "button" : {
         "search" : "Buscar",
         "done" : "Listo"
