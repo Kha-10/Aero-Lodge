@@ -16,8 +16,6 @@
     "children_other" : "เด็ก",
     "room_one": "ห้อง",
     "room_other": "ห้องพัก",
-    "guest_one" : "ผู้เข้าพัก",
-    "guest_other" : "ผู้เข้าพัก",
     "button" : {
         "search" : "ค้นหา",
         "done" : "เสร็จสิ้น"

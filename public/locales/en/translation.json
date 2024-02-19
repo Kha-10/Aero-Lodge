@@ -16,8 +16,6 @@
     "children_other" : "Children",
     "room_one": "Room",
     "room_other": "Rooms",
-    "guest_one" : "Guest",
-    "guest_other" : "Guests",
     "button" : {
         "search" : "Search",
         "done" : "Done"

@@ -16,8 +16,6 @@
     "children_other" : "子供たち",
     "room_one": "部屋",
     "room_other": "部屋",
-    "guest_one" : "ゲスト",
-    "guest_other" : "ゲスト",
     "button" : {
         "search" : "検索",
         "done" : "完了"
