@@ -1,17 +1,12 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
-import Guests from '../components/shared/Guest/Guests';
-import Adult from '../components/shared/Adult/Adult';
-import Child from '../components/shared/Child/Child';
-import Room from '../components/shared/Room/Room';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './App.css';
 import Autocomplete from '../components/shared/Autocompelete/Autocomplete';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
-import { DateRange } from 'react-date-range';
 import axios from 'axios';
 import useApp from '../hooks/useApp';
 import Daterange from '../components/shared/DateRange/Daterange';
@@ -22,7 +17,8 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import loadingTwo from '../loading2.json'
 import loadinggg from '../animation.json';
 import useFetch from '../hooks/useFetch';
-import AdultsComponent from '../hooks/useAdults';
+import GuestQuantity from '../components/shared/GuestQuantity/GuestQuantity';
+import SearchButton from '../components/shared/searchButton/SearchButton';
 
 const Search = () => {
     const locations = useLocation();
@@ -33,75 +29,31 @@ const Search = () => {
     const roomCount = parseInt(params.get('room'));
     const adultCount = parseInt(params.get('adult'));
     const childCount = parseInt(params.get('children'));
+    console.log(childCount)
     const children_age = params.get('children_ages')
-    const childrenQuantity = params.get('children_quantity');
-    let arr_ay;
-    if(children_age) {
-       arr_ay = children_age.split(',');
-    }else arr_ay =[]
-    let arr;
-    if(childrenQuantity) {
-       arr = childrenQuantity.split(',');
-    }else arr = []
+    console.log(children_age)
+    // const childrenQuantity = params.get('children_quantity');
+    // let arr_ay;
+    // if(children_age) {
+    //    arr_ay = children_age.split(',');
+    // }else arr_ay =[]
+    // let arr;
+    // if(childrenQuantity) {
+    //    arr = childrenQuantity.split(',');
+    // }else arr = []
 
     const cur = params.get('currency');
     const destType = params.get('dest_type');
 
     const destid = params.get('dest_id');
  
-    const {location,setLocation,toggle,latitude,longitude,imageurl,date,adult} = useApp();
-
-    // const [adult, setAdult] = useState(adultCount);
-    const [child, setChild] = useState(childCount);
+    const {location,setLocation,toggle,imageurl,date,adult,child,selectedOption,address,array,room} = useApp();
+    // console.log(array)
 
     const checkinDate = params.get('checkindate');
-   
-    const inputCheckinDate = new Date(checkinDate);
-    const opts = {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZoneName: 'short',
-    };
-    const weekdayCheckinDate = inputCheckinDate.toLocaleString('en-US', opts);
     
-
     const checkoutDate = params.get('checkoutdate');
-    const inputCheckoutDate = new Date(checkoutDate);
-    const opt = {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZoneName: 'short',
-    };
-    const weekdayCheckoutDate = inputCheckoutDate.toLocaleString('en-US', opt);
-
-    // const [date, setDate] = useState([
-    //   {
-    //     startDate: new Date(weekdayCheckinDate),
-    //     endDate: new Date(weekdayCheckoutDate),
-    //     key: 'selection'
-    //   }
-    // ]);
-
-    // useEffect(()=>{
-    //   const newDate = [...date];
-    //   newDate[0].startDate = weekdayCheckinDate;
-    //   newDate[0].endDate = weekdayCheckoutDate;
-      
-    //   setDate(newDate)
-
-    // },[weekdayCheckinDate,weekdayCheckoutDate])
-   
-   
+ 
     const checkInDate = new Date (date[0].startDate) ;
   
     const checkInYear = checkInDate.getFullYear();
@@ -130,14 +82,7 @@ const Search = () => {
 
     const totalNight = checkoutDateValue - checkinDateValue;
    
-  
-
-    const [popup, setPopup] = useState(false);
-    const [newPopup , setNewPopup] = useState (false);
-    const popRef = useRef(null);
-    const [selectedOption, setSelectedOption] = useState(arr_ay);
-    const [room, setRoom] = useState(roomCount);
-    const {t,i18n} = useTranslation();
+    const {t} = useTranslation();
     const options =[];
     for (let i = 0; i < 18; i++) {
      options.push({
@@ -146,10 +91,8 @@ const Search = () => {
     }) 
   }
 
-  const [arrayy,setArrayy] = useState(arr);
-  const [address, setAddress] = useState(city);
-  const newPopRef = useRef(null);
   const [categoriesFilter,setCategoriesFilter] = useState([]);
+  console.log(categoriesFilter)
   const [price,setPrice] = useState (null);
   const [filterData, setFilterData] = useState();
   const [newClick,setNewClick] = useState(false);
@@ -157,78 +100,7 @@ const Search = () => {
   const [hover, setHover] = useState({name : null,condition : false});
   const [load_ing,setLoad_ing] = useState(false);
   const [collectedIds, setCollectedIds] = useState([]);
-  const [checked,setChecked] = useState(false);
-
-
-  const addHandler = () => {
-        if (child < 10) {
-          setChild( prevChild => prevChild +1);
-          setArrayy(prevArrayy => [...prevArrayy, child]);
-        }
-      };
-     
-      const removeHandler = () => {
-        if (child > 0) {
-          setChild ( prevChild => prevChild - 1);
-          const arr = arrayy ;
-          arr.pop()
-          setArrayy (arr)
-          const aar = selectedOption;
-          aar.pop()
-          setSelectedOption(aar)
-        }
-      };
-    
-      const {addAdultsHandler,removeAdultsHandler} = AdultsComponent();
-    
-      const addRoom = () => {
-        if (room < 30 ) {
-          setRoom(prevRoom => prevRoom+1);
-        }
-      }
-    
-      const removeRoom = () => {
-        if (room > 1 ) {
-          setRoom(prevRoom => prevRoom-1 );
-        }
-      }
-      
-     const handleChange = (event, index) => {
-      // Update the selectedOption array
-        const updatedSelectedOption = [...selectedOption];
-        updatedSelectedOption[index] = event.target.value;
-        setSelectedOption(updatedSelectedOption);
-      }
-    
-      const handlePopup = () => {
-          setPopup(!popup)
-          // setNewPopup (false)
-       
-      }
-    
-      const handleNewPopup = () => {
-        console.log('gg')
-        setNewPopup (!newPopup)
-        // setPopup(false)       
-      }
-        
-      useEffect(() => {
-        function handleClickOutside(event) {
-          if (!popRef.current.contains(event.target)) {
-            setPopup(false)
-           
-          }
-        }
-    
-        if (popup) {
-          document.addEventListener('click', handleClickOutside);
-        }
-    
-        return () => {
-          document.removeEventListener('click', handleClickOutside);
-        };
-        
-      },[popup]);
+  // const [checked,setChecked] = useState(false);
 
       const langauge  = localStorage.getItem('i18nextLng');
 
@@ -327,7 +199,7 @@ const Search = () => {
 
     }
 
-    const handleCheckboxChange = (index_one, index_two,id) => {
+    const handleCheckboxChange = (id) => {
       // setFilterData(prevData => {
       //   const newData = [...prevData];
       //   const category = newData[index_one]?.categories?.[index_two];
@@ -363,7 +235,7 @@ console.log(collectedIds)
           checkout_date : formattedCheckoutDate,
           children : child,
           children_ages : selectedOption,
-          children_array : arrayy,
+          // children_array : array,
           city : location,
           currencies : currency,
           dest_id : destid,
@@ -390,7 +262,7 @@ console.log(collectedIds)
         toggle.current=true;
       },[address])
 
-      const searchLink = `/hotelDetail?city=${location}&room=${room}&latitude=${lat}&longitude=${lng}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_quantity=${arrayy}&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
+      const searchLink = `/hotelDetail?city=${location}&room=${room}&latitude=${lat}&longitude=${lng}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
 
       useEffect(()=>{
         window.scrollTo(0,0)
@@ -405,7 +277,7 @@ console.log(collectedIds)
         checkout_date : formattedCheckoutDate,
         children : child,
         children_ages : selectedOption,
-        children_array : arrayy,
+        // children_array : array,
         city : location,
         currencies : currency,
         dest_id : destid,
@@ -565,31 +437,11 @@ console.log(collectedIds)
       {datas.length > 0 && <div className='inset-x-0 max-w-6xl mx-auto p-[2%] flex items-center gap-4 justify-between top-[38px]'>
         <Autocomplete/>
 
-        <Daterange handleNewPopup={handleNewPopup} setNewPopup={setNewPopup} 
-          newPopup={newPopup}  />
+        <Daterange/>
 
-        <div ref={popRef}  className='group cursor-pointer'>
-          <div onClick={handlePopup} className='relative w-[300px] bg-white h-[60px] p-3  border border-gray-400 flex justify-between items-center rounded-lg group-hover:border-blue-500' >
-          <Guests adult={adult} child={child} room={roomCount}/>
-          </div>
-            
-          {popup && 
-          <div className='bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute flex flex-col space-y-5 p-6 z-50 top-24'>
-            
-            <Adult removeNewHandler={removeAdultsHandler} adult={adult} addNewHandler={addAdultsHandler}/>
-            
-            <Child  removeHandler={removeHandler} child={child} addHandler={addHandler} array={arrayy} handleChange={handleChange}
-            selectedOption={selectedOption} options={options}/>
-            
-            <Room room={room} removeRoom={removeRoom} addRoom={addRoom}/>
-            
-            <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>Done</button>
-            </div>
-            }
-        </div>
-        <Link to={searchLink} className='bg-blue-500 text-white text-lg font-semibold rounded-lg px-6 py-4 text-center hover:bg-blue-400'target='_blank'>    
-          {t('button.search')}
-        </Link>  
+        <GuestQuantity/>
+
+        <SearchButton/>
       </div>}
       <div className='max-w-6xl mx-auto px-[2%] py-[1%] flex items-center justify-between'>
         {datas.length > 0 && <div className='font-semibold text-base'>Filter by</div>}
@@ -641,11 +493,11 @@ console.log(collectedIds)
                       type="checkbox"
                       id={category.name}
                       checked={!!filters && filters.some(item => item === category.id)}
-                      onChange={() => handleCheckboxChange(i, index,category.id)}
+                      onChange={() => handleCheckboxChange(category.id)}
                       className="mr-2 appearance-none bg-white w-4 h-4 rounded border border-gray-300 relative hover:border-blue-500 cursor-pointer"
                     />
                     {!!filters && filters.some(item => item === category.id) &&
-                    <span className='absolute left-[2px]' onClick={()=>handleCheckboxChange(i, index,category.id)}>
+                    <span className='absolute left-[2px]' onClick={()=>handleCheckboxChange(category.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="w-3 h-3 text-blue-500 cursor-pointer">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>

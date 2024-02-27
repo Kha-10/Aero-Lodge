@@ -38,7 +38,7 @@ const GuestQuantity = () => {
           </div>
         
         {!!popup && 
-        <div className='text-sm bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute top-[72%] right-[12%] flex flex-col space-y-5 p-6 '>
+        <div className='text-sm bg-white shadow-[-1px_-1px_10px_rgb(0,0,0,0.1)] w-[330px] rounded-lg absolute mt-2 flex flex-col space-y-5 p-6 z-50'>
           
           <Adult/>
           
@@ -47,8 +47,9 @@ const GuestQuantity = () => {
           <Room/>
           
           <button type='button' className='bg-blue-500 px-4 py-2 text-white rounded-md' onClick={handlePopup}>{t('button.done')}</button>
-        </div>}
         </div>
+        }
+    </div>
   )
 }
 

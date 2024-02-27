@@ -38,10 +38,4 @@ const Room = () => {
   )
 }
 
-Room.propTypes= {
-    removeRoom : PropTypes.func.isRequired,
-    room : PropTypes.number.isRequired,
-    addRoom : PropTypes.func.isRequired
-}
-
 export default Room
