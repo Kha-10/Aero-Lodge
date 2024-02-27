@@ -2,7 +2,6 @@ import React from 'react'
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import './App.css';
 import Autocomplete from '../components/shared/Autocompelete/Autocomplete';
 import 'react-date-range/dist/styles.css'; 
@@ -19,6 +18,7 @@ import loadinggg from '../animation.json';
 import useFetch from '../hooks/useFetch';
 import GuestQuantity from '../components/shared/GuestQuantity/GuestQuantity';
 import SearchButton from '../components/shared/searchButton/SearchButton';
+import useBodyOverflow from '../hooks/useBodyOverflow';
 
 const Search = () => {
     const locations = useLocation();
@@ -29,51 +29,18 @@ const Search = () => {
     const roomCount = parseInt(params.get('room'));
     const adultCount = parseInt(params.get('adult'));
     const childCount = parseInt(params.get('children'));
-    console.log(childCount)
     const children_age = params.get('children_ages')
-    console.log(children_age)
-    // const childrenQuantity = params.get('children_quantity');
-    // let arr_ay;
-    // if(children_age) {
-    //    arr_ay = children_age.split(',');
-    // }else arr_ay =[]
-    // let arr;
-    // if(childrenQuantity) {
-    //    arr = childrenQuantity.split(',');
-    // }else arr = []
 
-    const cur = params.get('currency');
     const destType = params.get('dest_type');
 
     const destid = params.get('dest_id');
  
-    const {location,setLocation,toggle,imageurl,date,adult,child,selectedOption,address,array,room} = useApp();
-    // console.log(array)
+    const {location,setLocation,toggle,imageurl,adult,child,selectedOption,address,room,formattedCheckinDate,formattedCheckoutDate} = useApp();
 
     const checkinDate = params.get('checkindate');
     
     const checkoutDate = params.get('checkoutdate');
- 
-    const checkInDate = new Date (date[0].startDate) ;
   
-    const checkInYear = checkInDate.getFullYear();
-  
-    const checkInMonth = (checkInDate.getMonth()+1).toString().padStart(2,0);
-  
-    const checkInDay = checkInDate.getDate().toString().padStart(2,0)
-  
-    const formattedCheckinDate = `${checkInYear}-${checkInMonth}-${checkInDay}`;
-  
-    const checkOutDate = new Date (date[0].endDate);
-  
-    const checkOutYear = checkOutDate.getFullYear();
-  
-    const checkOutMonth = (checkOutDate.getMonth()+1).toString().padStart(2,0);
-  
-    const checkOutDay = checkOutDate.getDate().toString().padStart(2,0);
-  
-    const formattedCheckoutDate = `${checkOutYear}-${checkOutMonth}-${checkOutDay}`;
-
     const getCheckinDate = checkinDate.split('-');
     const checkinDateValue = getCheckinDate[getCheckinDate.length - 1];
 
@@ -81,15 +48,6 @@ const Search = () => {
     const checkoutDateValue = getCheckoutDate[getCheckoutDate.length - 1];
 
     const totalNight = checkoutDateValue - checkinDateValue;
-   
-    const {t} = useTranslation();
-    const options =[];
-    for (let i = 0; i < 18; i++) {
-     options.push({
-      value : `${i}`,
-      label : t('age.label',{count:i})
-    }) 
-  }
 
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   console.log(categoriesFilter)
@@ -100,7 +58,6 @@ const Search = () => {
   const [hover, setHover] = useState({name : null,condition : false});
   const [load_ing,setLoad_ing] = useState(false);
   const [collectedIds, setCollectedIds] = useState([]);
-  // const [checked,setChecked] = useState(false);
 
       const langauge  = localStorage.getItem('i18nextLng');
 
@@ -192,6 +149,8 @@ const Search = () => {
 
       let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType,roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderById,collectedIds);
 
+      useBodyOverflow(loading)
+
       const changeHandler = (value)=> {
       setCategoriesFilter((prevCategories) => {
         return [...prevCategories, value];
@@ -200,29 +159,11 @@ const Search = () => {
     }
 
     const handleCheckboxChange = (id) => {
-      // setFilterData(prevData => {
-      //   const newData = [...prevData];
-      //   const category = newData[index_one]?.categories?.[index_two];
-      //   if (category) {
-      //     category.selected = category.selected === 0 ? 1 : 0;
-      //   }
-      //     return newData;
-      // });
       if(!collectedIds.includes(id)) {
         setCollectedIds(prevCollectedIds => [...prevCollectedIds, id]);
       } else {
         setCollectedIds(prevCollectedIds => prevCollectedIds.filter(item => item !== id));
       }
-
-  
-
-      // setCategoriesFilter((prev) => {
-      //   if (prev.includes(id)) {
-      //     return prev.filter((categoryId) => categoryId !== id);
-      //   } else {
-      //     return [...prev, id];
-      //   }
-      // });
     };    
 console.log(collectedIds)
     
@@ -235,7 +176,6 @@ console.log(collectedIds)
           checkout_date : formattedCheckoutDate,
           children : child,
           children_ages : selectedOption,
-          // children_array : array,
           city : location,
           currencies : currency,
           dest_id : destid,
@@ -277,7 +217,6 @@ console.log(collectedIds)
         checkout_date : formattedCheckoutDate,
         children : child,
         children_ages : selectedOption,
-        // children_array : array,
         city : location,
         currencies : currency,
         dest_id : destid,
@@ -393,20 +332,11 @@ console.log(collectedIds)
       setHover((prevHover) => ({ ...prevHover, name: index, condition: true }));
     };
 
+    console.log(hover)
 
     const handleMouseLeave = () => {
       setHover((prevHover) => ({ ...prevHover, condition: false }));
     }
-   
-    useEffect(() => {
-      document.body.style.overflow = loading ? 'hidden' : 'auto';
-
-      return () => {
-        document.body.style.overflow = 'auto';
-      };
-    }, [loading]);
-    
-   
 
    return (
     <div className='relative w-full min-h-screen bg-gray-100'>

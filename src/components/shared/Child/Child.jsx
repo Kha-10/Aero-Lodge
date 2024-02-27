@@ -7,7 +7,6 @@ import childHandlers from '../../../hooks/useChildren';
 
 const Child = () => {
   const{selectedOption,child,array,options} = useApp();
-  console.log(options)
   const {addChildrenHandler,removeChildrenHandler} = childHandlers();
   const {handleChange} = formHandler();
   

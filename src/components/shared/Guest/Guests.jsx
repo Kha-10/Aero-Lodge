@@ -6,8 +6,6 @@ import useApp from '../../../hooks/useApp';
 const Guests = () => {
 
   const {adult,child,room} = useApp();
-  const guest = adult + child;
-  console.log(guest)
   const {t} = useTranslation();
 
   return (

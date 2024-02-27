@@ -7,7 +7,7 @@ const childHandlers = () => {
   const addChildrenHandler = () => {
     if (child < 10) {
         setChild(prevChild => prevChild + 1);
-        setArray(prevArray => [...prevArray, child]);
+        setArray(prevArray => [...prevArray, child +1]);
       }
   }
   const removeChildrenHandler = () => {
