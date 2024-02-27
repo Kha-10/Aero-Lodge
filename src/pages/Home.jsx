@@ -4,7 +4,6 @@ import Herosection from '../components/Herosection';
 import Autocomplete from '../components/shared/Autocompelete/Autocomplete';
 import Daterange from '../components/shared/DateRange/Daterange';
 import GuestQuantity from '../components/shared/GuestQuantity/GuestQuantity';
-import { useTranslation } from 'react-i18next';
 import useApp from '../hooks/useApp';
 import Advertise from '../components/Advertise';
 import Recent from '../components/Recent';
@@ -12,8 +11,6 @@ import SearchButton from '../components/shared/searchButton/SearchButton';
 import DiscoverPopularStays from '../components/DiscoverPopularStays';
 
 function Home() {
-  
-  const {t} = useTranslation();
   
   const {setHistory} = useApp();
 

@@ -3,14 +3,11 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
 import useApp from '../../../hooks/useApp';
-import { useLocation } from 'react-router-dom';
 import useDebounce from '../../../hooks/useDebounce';
 
 const Autocomplete = () => {
   const [suggestions,setSuggestions] = useState(null);
   const popRef = useRef(null);
-  const loc = useLocation();
-  const path = loc.pathname;
 
   const {setLatitude,setLongitude,setLocation,location,setImageurl,history,toggle,setDestType,setDestid} = useApp();
 
@@ -21,6 +18,8 @@ const Autocomplete = () => {
     }
 
   const langauge = localStorage.getItem('i18nextLng');
+  const historyData = localStorage.getItem('history');
+ 
 
    useEffect(() => {
         if(debouncedValue.length > 2 && !toggle.current) {
@@ -96,8 +95,10 @@ const Autocomplete = () => {
     }
 
     useEffect(() => {
-      if (history && history.recent && history.recent.length > 0) {
-        setLocation(history.recent[0]?.city);
+      if (history) {
+        const parsedHistoryData = JSON.parse(historyData);
+        const city = parsedHistoryData[0].city;
+        setLocation(city);
         toggle.current=true
       }
     }, [history]);

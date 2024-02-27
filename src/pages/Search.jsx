@@ -332,8 +332,6 @@ console.log(collectedIds)
       setHover((prevHover) => ({ ...prevHover, name: index, condition: true }));
     };
 
-    console.log(hover)
-
     const handleMouseLeave = () => {
       setHover((prevHover) => ({ ...prevHover, condition: false }));
     }
