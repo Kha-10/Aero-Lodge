@@ -19,6 +19,7 @@ import useFetch from '../hooks/useFetch';
 import GuestQuantity from '../components/shared/GuestQuantity/GuestQuantity';
 import SearchButton from '../components/shared/searchButton/SearchButton';
 import useBodyOverflow from '../hooks/useBodyOverflow';
+import getTotalNight from '../utils/getTotalNight';
 
 const Search = () => {
     const locations = useLocation();
@@ -34,20 +35,15 @@ const Search = () => {
     const destType = params.get('dest_type');
 
     const destid = params.get('dest_id');
- 
-    const {location,setLocation,toggle,imageurl,adult,child,selectedOption,address,room,formattedCheckinDate,formattedCheckoutDate} = useApp();
 
     const checkinDate = params.get('checkindate');
     
     const checkoutDate = params.get('checkoutdate');
-  
-    const getCheckinDate = checkinDate.split('-');
-    const checkinDateValue = getCheckinDate[getCheckinDate.length - 1];
 
-    const getCheckoutDate = checkoutDate.split('-');
-    const checkoutDateValue = getCheckoutDate[getCheckoutDate.length - 1];
+    // totalNight from getTotalNight function
+    const {totalNight} = getTotalNight(checkinDate,checkoutDate);
 
-    const totalNight = checkoutDateValue - checkinDateValue;
+    const {location,setLocation,toggle,imageurl,adult,child,selectedOption,address,room,formattedCheckinDate,formattedCheckoutDate} = useApp();
 
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   console.log(categoriesFilter)
@@ -70,9 +66,7 @@ const Search = () => {
       let orderByName = orderBy.name;
       let filters = parsedData[0]?.categories_filterIds;
       let image = parsedData[0]?.img;
- 
-
-      
+  
       useEffect(()=> {
         const source = axios.CancelToken.source();
         const filter = async () => {
@@ -660,15 +654,6 @@ console.log(collectedIds)
         </div>
       </div>
       <section>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi, et eum accusamus quae porro itaque quisquam unde praesentium nulla. Earum doloremque corporis reiciendis! Ipsa iste quibusdam labore officia enim laboriosam.
-      Fugiat ad et veritatis voluptatibus, dolor fuga architecto deleniti. Magni repellendus maiores omnis quasi. Sit quia ipsam optio voluptatibus ut, est asperiores corrupti ipsum aliquam blanditiis saepe porro libero culpa!
-      Aperiam consectetur cum aliquam libero dignissimos distinctio nostrum quaerat dicta aliquid eaque, vel dolorum optio obcaecati doloribus porro quod ab harum sunt perspiciatis culpa magni! Soluta exercitationem fugiat accusamus itaque!
-      Et sit repellendus minus dolore ea illo ullam nisi sunt atque impedit. Aspernatur eveniet iure, excepturi similique quo iusto corrupti ex veritatis veniam cupiditate libero blanditiis accusantium debitis. Ut, ratione.
-      Necessitatibus cumque ratione ex obcaecati corrupti, aut reprehenderit rem possimus nulla dolorem debitis officia aliquid ipsa eveniet nihil adipisci hic repudiandae? Doloremque voluptas tempore sapiente temporibus. Modi voluptate esse impedit.
-      Et quos nobis nesciunt minus voluptatem provident laudantium, consectetur sint facilis pariatur. Quidem, doloribus! Molestias velit exercitationem est eveniet amet fugit. Illo aspernatur quaerat aliquid, at accusantium voluptatem eos assumenda.
-      Culpa consequuntur, quo, magnam autem quod natus quibusdam fuga reiciendis quia eveniet excepturi earum totam, officia maxime ad placeat corporis porro. Ipsa exercitationem expedita eum quia deleniti temporibus sit architecto.
-      Quibusdam cupiditate necessitatibus eveniet praesentium odio, quisquam dicta facere perferendis repellat dolores consequatur iste optio, doloremque sunt consectetur perspiciatis tempore officiis rem omnis beatae unde quos obcaecati illo. Sunt, omnis?
-      Optio sapiente tempore assumenda neque consequuntur perferendis similique. Ab molestiae ipsa facere, eveniet est illum eaque dolores, at quibusdam, doloremque natus. Saepe velit aperiam ducimus voluptatum? Magni aut laborum vitae!
-      Reprehenderit veritatis vero iusto, dolorem non quos, sint rerum neque, dignissimos molestias culpa. Deserunt porro fuga a. Ab optio voluptas aperiam maxime et, placeat ratione unde rem enim quod? Quis.
       </section>
     </div>
   )
