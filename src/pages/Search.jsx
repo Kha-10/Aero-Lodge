@@ -47,8 +47,8 @@ const Search = () => {
 
   const [categoriesFilter,setCategoriesFilter] = useState([]);
   console.log(categoriesFilter)
-  const [price,setPrice] = useState (null);
-  const [filterData, setFilterData] = useState();
+  // const [price,setPrice] = useState (null);
+  // const [filterData, setFilterData] = useState();
   const [newClick,setNewClick] = useState(false);
   const [pageNumber,setPageNumber] = useState(0);
   const [hover, setHover] = useState({name : null,condition : false});
@@ -66,82 +66,12 @@ const Search = () => {
       let orderByName = orderBy.name;
       let filters = parsedData[0]?.categories_filterIds;
       let image = parsedData[0]?.img;
-  
-      useEffect(()=> {
-        const source = axios.CancelToken.source();
-        const filter = async () => {
-          let lang = ''; 
-          if(langauge ==='en') {
-             lang = langauge +'-gb'
-          }else {
-            lang = langauge
-          }
-          try {
-            const params = {
-                  adults_number :adultCount,
-                  filter_by_currency:currency,
-                  checkin_date :checkinDate,
-                  dest_id: destid,
-                  dest_type: destType,
-                  checkout_date: checkoutDate,
-                  units: 'metric',
-                  room_number: roomCount,
-                  order_by: orderById,
-                  locale:lang,
-                  // categories_filter_ids : combinedString,
-                  include_adjacency: 'true',
-                  page_number: pageNumber,
-                }
-                if (childCount > 0 || collectedIds.length > 0) {
-                  params.children_number = childCount;
-                  params.children_ages = children_age;
-                
-                  const combinedString = collectedIds.join(',');
-                  console.log('Combined String:', combinedString);
-                
-                  params.categories_filter_ids = combinedString;
-                } 
-                // if (childCount > 0) {
-                //   params.children_number = childCount;
-                //   params.children_ages = children_age;
-                // } 
-                const {data:{filter}} = await axios.get ('http://localhost:8000/filters',{
-                  params : params,
-                  cancelToken: source.token,
-                },
-                )
-              const slicedFilter = filter.slice(2);
-              setPrice(filter[1]);
-              setFilterData(slicedFilter)
-            } 
-            catch (error) {
-              if(axios.isCancel(error)){
-                console.log('Request was canceled2.')
-              }
-              else if (error.response) {
-                console.error('Data:', error.response.data);
-                console.error('Status:', error.response.status);
-                console.error('Headers:', error.response.headers);
-            } else if (error.request) {
-                console.error('Request made but no response received:', error.request);
-            } else {
-                console.error('Error:', error.message);
-            }
-                // Something else went wrong
-                console.error('Error:', error.message);
-            }
-         
-        };
-        filter()
-        return () => {
-          source.cancel();
-          console.log('Aborteddddddd')
-        };
-      },[langauge, currency, destid, destType,adultCount, checkinDate, checkoutDate,orderById,collectedIds,roomCount, pageNumber, childCount, children_age])
 
-      let{fetchData} = useFetch();
+      let{ fetchData,filterItems } = useFetch();
 
       let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType,roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderById,collectedIds);
+
+      let {price,filteredData} = filterItems(langauge, currency, destid, destType,roomCount,checkoutDate, adultCount, checkinDate, childCount, children_age,orderById,collectedIds,pageNumber)
 
       useBodyOverflow(loading)
 
@@ -405,7 +335,7 @@ console.log(collectedIds)
             </div>
           }
            {datas.length > 0 && (
-            !!filterData && filterData.map((filter,i) => (
+            !!filteredData && filteredData.map((filter,i) => (
               <div key={i} className='bg-white p-3 rounded-lg border border-gray-200 space-y-2'>
                 <h3 className='text-sm font-semibold'>{filter.title}</h3>
                 <ul>
