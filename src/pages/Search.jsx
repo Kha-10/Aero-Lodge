@@ -20,6 +20,7 @@ import GuestQuantity from '../components/shared/GuestQuantity/GuestQuantity';
 import SearchButton from '../components/shared/searchButton/SearchButton';
 import useBodyOverflow from '../hooks/useBodyOverflow';
 import getTotalNight from '../utils/getTotalNight';
+import useHistoryLocalStorage from '../hooks/useHistoryLocalStorage';
 
 const Search = () => {
     const locations = useLocation();
@@ -40,95 +41,66 @@ const Search = () => {
     
     const checkoutDate = params.get('checkoutdate');
 
-    // totalNight from getTotalNight function
+    // totalNight from getTotalNight function utils
     const {totalNight} = getTotalNight(checkinDate,checkoutDate);
 
     const {location,setLocation,toggle,imageurl,adult,child,selectedOption,address,room,formattedCheckinDate,formattedCheckoutDate} = useApp();
 
-  const [categoriesFilter,setCategoriesFilter] = useState([]);
-  console.log(categoriesFilter)
-  // const [price,setPrice] = useState (null);
-  // const [filterData, setFilterData] = useState();
-  const [newClick,setNewClick] = useState(false);
-  const [pageNumber,setPageNumber] = useState(0);
-  const [hover, setHover] = useState({name : null,condition : false});
-  const [load_ing,setLoad_ing] = useState(false);
-  const [collectedIds, setCollectedIds] = useState([]);
+    const [categoriesFilter,setCategoriesFilter] = useState([]);
+    console.log(categoriesFilter)
 
-      const langauge  = localStorage.getItem('i18nextLng');
+    const [newClick,setNewClick] = useState(false);
+    const [pageNumber,setPageNumber] = useState(0);
+    const [hover, setHover] = useState({name : null,condition : false});
+    const [load_ing,setLoad_ing] = useState(false);
+    const [collectedIds, setCollectedIds] = useState([]);
 
-      const currency = localStorage.getItem('cur');
+    const langauge  = localStorage.getItem('i18nextLng');
 
-      let orders = localStorage.getItem('history');
-      let parsedData = JSON.parse(orders);
-      let orderBy = parsedData[0]?.order_by;
-      let orderById = orderBy.id;
-      let orderByName = orderBy.name;
-      let filters = parsedData[0]?.categories_filterIds;
-      let image = parsedData[0]?.img;
+    const currency = localStorage.getItem('cur');
 
-      let{ fetchData,filterItems } = useFetch();
+    let orders = localStorage.getItem('history');
+    let parsedData = JSON.parse(orders);
+    let orderBy = parsedData[0]?.order_by;
+    let orderById = orderBy.id;
+    let orderByName = orderBy.name;
+    let filters = parsedData[0]?.categories_filterIds;
+    let image = parsedData[0]?.img;
 
-      let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType,roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderById,collectedIds);
+    let{ fetchData,filterItems } = useFetch();
 
-      let {price,filteredData} = filterItems(langauge, currency, destid, destType,roomCount,checkoutDate, adultCount, checkinDate, childCount, children_age,orderById,collectedIds,pageNumber)
+    let{count,sorts,loading,datas,setDatas} = fetchData(langauge, currency, destid, destType,roomCount, lng, lat, checkoutDate, adultCount, checkinDate, childCount, children_age,orderById,collectedIds);
 
-      useBodyOverflow(loading)
+    let {price,filteredData} = filterItems(langauge, currency, destid, destType,roomCount,checkoutDate, adultCount, checkinDate, childCount, children_age,orderById,collectedIds,pageNumber)
 
-      const changeHandler = (value)=> {
+    useBodyOverflow(loading)
+
+    const changeHandler = (value)=> {
       setCategoriesFilter((prevCategories) => {
         return [...prevCategories, value];
       })
-
     }
 
     const handleCheckboxChange = (id) => {
-      if(!collectedIds.includes(id)) {
-        setCollectedIds(prevCollectedIds => [...prevCollectedIds, id]);
-      } else {
-        setCollectedIds(prevCollectedIds => prevCollectedIds.filter(item => item !== id));
-      }
-    };    
-console.log(collectedIds)
-    
-
-    useEffect (()=> {
-      if(collectedIds.length > 0) {
-        const collectedDatas = {
-          adults : adult,
-          checkin_date : formattedCheckinDate,
-          checkout_date : formattedCheckoutDate,
-          children : child,
-          children_ages : selectedOption,
-          city : location,
-          currencies : currency,
-          dest_id : destid,
-          dest_type : destType,
-          img : image,
-          lat : lat,
-          lng : lng,
-          locale : langauge,
-          order_by : orderBy,
-          room_number : room,
-          categories_filterIds : collectedIds
+        if(!collectedIds.includes(id)) {
+          setCollectedIds(prevCollectedIds => [...prevCollectedIds, id]);
+        } else {
+          setCollectedIds(prevCollectedIds => prevCollectedIds.filter(item => item !== id));
         }
-        const localStorageDatas =localStorage.getItem('history');
-        const newDatas = JSON.parse(localStorageDatas);
-        const filteredItems = newDatas.filter(bb => bb.city !== city);
-        filteredItems.unshift(collectedDatas)
-  
-        localStorage.setItem('history',JSON.stringify(filteredItems));
-      }
-    },[collectedIds])
+      };    
+    console.log(collectedIds)
+    
+    // fetch when collectedIds changes
+    useHistoryLocalStorage(collectedIds,lat,lng,city)
 
-      useEffect(()=>{
-        setLocation(address)
-        toggle.current=true;
-      },[address])
+    // useEffect(()=>{
+    //   setLocation(address)
+    //   toggle.current=true;
+    // },[address])
 
-      const searchLink = `/hotelDetail?city=${location}&room=${room}&latitude=${lat}&longitude=${lng}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
+    const searchLink = `/hotelDetail?city=${location}&room=${room}&latitude=${lat}&longitude=${lng}&locale=${localStorage.getItem('i18nextLng')}&checkoutdate=${formattedCheckoutDate}&checkindate=${formattedCheckinDate}&adult=${adult}&children=${child}${child > 0 ? `&children_ages=${selectedOption}` : ''}&img=${imageurl}`;
 
-      useEffect(()=>{
+    useEffect(()=>{
         window.scrollTo(0,0)
     },[]);
     
