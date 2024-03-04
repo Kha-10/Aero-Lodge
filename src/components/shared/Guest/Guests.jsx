@@ -1,12 +1,27 @@
-import React from 'react'
+import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next';
 import useApp from '../../../hooks/useApp';
 
 const Guests = () => {
 
-  const {adult,child,room} = useApp();
+  const {adult,setAdult,child,setChild,room,setRoom,history} = useApp();
   const {t} = useTranslation();
+  const historyData = localStorage.getItem('history');
+  console.log(history)
+
+  useEffect(() => {
+    if (historyData) {
+      const parsedHistoryData = JSON.parse(historyData);
+      const adultCount = parsedHistoryData[0].adults;
+      setAdult(adultCount);
+      const childCount = parsedHistoryData[0].children;
+      setChild(childCount);
+      const roomCount = parsedHistoryData[0].room_number;
+      setRoom(roomCount);
+    }
+  }, [historyData]);
 
   return (
   <>

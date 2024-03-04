@@ -41,6 +41,14 @@ const Search = () => {
     
     const checkoutDate = params.get('checkoutdate');
 
+    // const pp = params.get('order_by');
+    // const ppObject = JSON.stringify(pp);
+    // console.log(ppObject)
+    const ppString = params.get('order_by'); // This will retrieve the string "[object Object]"
+    const decodedString = decodeURIComponent(ppString); // This will decode the URL encoding, converting it back to "[object Object]"
+    console.log(decodedString);
+
+
     // totalNight from getTotalNight function utils
     const {totalNight} = getTotalNight(checkinDate,checkoutDate);
 
@@ -104,9 +112,8 @@ const Search = () => {
         window.scrollTo(0,0)
     },[]);
     
-    const sortBy = async (name,id) => {
+    const sortBy = (name,id) => {
       const obj = {id :id,name :name}
-
       const combinedDatas = {
         adults : adult,
         checkin_date : formattedCheckinDate,

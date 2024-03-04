@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import formHandler from '../../../hooks/useForm';
@@ -6,11 +7,25 @@ import useApp from '../../../hooks/useApp';
 import childHandlers from '../../../hooks/useChildren';
 
 const Child = () => {
-  const{selectedOption,child,array,options} = useApp();
+  const{selectedOption,setSelectedOption,child,array,setArray,options} = useApp();
+  const historyData = localStorage.getItem('history');
+
+  useEffect(() => {
+    if (historyData) {
+      const parsedHistoryData = JSON.parse(historyData);
+      const option = parsedHistoryData[0].children_ages;
+      setSelectedOption(option);
+      const childArray = parsedHistoryData[0].children_array;
+      setArray(childArray)
+    }
+  }, [historyData]);
+
   const {addChildrenHandler,removeChildrenHandler} = childHandlers();
+
   const {handleChange} = formHandler();
   
   const{t} = useTranslation();
+
   const plus = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
     <path fillRule="evenodd" d="M3.75 12a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75z" clipRule="evenodd" />
   </svg>;

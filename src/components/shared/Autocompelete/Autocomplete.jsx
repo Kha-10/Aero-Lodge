@@ -19,7 +19,6 @@ const Autocomplete = () => {
 
   const langauge = localStorage.getItem('i18nextLng');
   const historyData = localStorage.getItem('history');
- 
 
    useEffect(() => {
         if(debouncedValue.length > 2 && !toggle.current) {
@@ -95,13 +94,13 @@ const Autocomplete = () => {
     }
 
     useEffect(() => {
-      if (history) {
+      if (historyData) {
         const parsedHistoryData = JSON.parse(historyData);
         const city = parsedHistoryData[0].city;
         setLocation(city);
         toggle.current=true
       }
-    }, [history]);
+    }, [historyData]);
 
   return (
     <div className='w-[300px] h-[60px] flex items-center p-3 border bg-white border-gray-400 text-sm rounded-md placeholder-black hover:border-blue-500'>
